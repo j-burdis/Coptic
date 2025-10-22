@@ -37,6 +37,19 @@ gem "bootsnap", require: false
 gem "tailwindcss-rails", "~> 2.7"
 gem "simple_form", github: "heartcombo/simple_form"
 
+gem "activeadmin", "~> 3.3"
+gem "sassc-rails", "~> 2.1"
+
+gem "kaminari", "~> 1.2"
+
+gem "friendly_id", "~> 5.5"
+
+gem "gibbon", "~> 3.5"
+
+gem "pg_search", "~> 2.3"
+
+gem "cloudinary", "~> 2.4"
+
 group :development, :test do
   gem "dotenv-rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

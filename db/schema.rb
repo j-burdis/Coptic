@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_22_075443) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_22_113132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,6 +38,37 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_22_075443) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "artwork_collections", force: :cascade do |t|
+    t.bigint "artwork_id", null: false
+    t.bigint "collection_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["artwork_id", "collection_id"], name: "index_artwork_collections_on_artwork_and_collection", unique: true
+    t.index ["artwork_id"], name: "index_artwork_collections_on_artwork_id"
+    t.index ["collection_id"], name: "index_artwork_collections_on_collection_id"
+  end
+
+  create_table "artwork_exhibitions", force: :cascade do |t|
+    t.bigint "artwork_id", null: false
+    t.bigint "exhibition_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["artwork_id", "exhibition_id"], name: "index_artwork_exhibitions_on_artwork_and_exhibition", unique: true
+    t.index ["artwork_id"], name: "index_artwork_exhibitions_on_artwork_id"
+    t.index ["exhibition_id"], name: "index_artwork_exhibitions_on_exhibition_id"
+  end
+
+  create_table "artwork_relations", force: :cascade do |t|
+    t.bigint "artwork_id", null: false
+    t.integer "related_artwork_id"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["artwork_id", "related_artwork_id"], name: "index_artwork_relations_on_artwork_and_related", unique: true
+    t.index ["artwork_id"], name: "index_artwork_relations_on_artwork_id"
+    t.index ["related_artwork_id"], name: "index_artwork_relations_on_related_artwork_id"
   end
 
   create_table "artworks", force: :cascade do |t|
@@ -134,4 +165,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_22_075443) do
     t.index ["video_type"], name: "index_resources_on_video_type"
     t.index ["year"], name: "index_resources_on_year"
   end
+
+  add_foreign_key "artwork_collections", "artworks"
+  add_foreign_key "artwork_collections", "collections"
+  add_foreign_key "artwork_exhibitions", "artworks"
+  add_foreign_key "artwork_exhibitions", "exhibitions"
+  add_foreign_key "artwork_relations", "artworks"
+  add_foreign_key "artwork_relations", "artworks", column: "related_artwork_id"
 end

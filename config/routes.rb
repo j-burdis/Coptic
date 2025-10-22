@@ -1,4 +1,31 @@
 Rails.application.routes.draw do
+  namespace :indian_collection do
+    get "exhibitions/list"
+    namespace :gallery do
+      get "artworks/index"
+      get "artworks/portrait"
+      get "artworks/elephants"
+      get "artworks/flora_fauna"
+    end
+    get "resources/index"
+    get "resources/show"
+    get "artworks/index"
+    get "artworks/show"
+  end
+  namespace :gallery do
+    get "artworks/index"
+    get "artworks/paintings"
+    get "artworks/prints"
+    get "artworks/design"
+    get "artworks/indian_leaves"
+    get "artworks/indian_waves"
+    get "artworks/quantel_paintbox"
+    get "artworks/memories_of_bombay_mumbai"
+    get "artworks/other"
+    get "artworks/missing_works"
+    get "artworks/destroyed"
+    get "artworks/all"
+  end
   get "subscriptions/new"
   get "subscriptions/create"
   get "search/index"

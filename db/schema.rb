@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_22_073200) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_22_074043) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,5 +65,36 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_22_073200) do
     t.index ["status"], name: "index_artworks_on_status"
     t.index ["subcategory"], name: "index_artworks_on_subcategory"
     t.index ["year"], name: "index_artworks_on_year"
+  end
+
+  create_table "resources", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "slug", null: false
+    t.integer "category", null: false
+    t.string "subcategory"
+    t.integer "year"
+    t.string "author"
+    t.text "summary"
+    t.text "description"
+    t.text "content"
+    t.string "external_url"
+    t.string "cloudinary_public_id"
+    t.string "original_filename"
+    t.string "video_type"
+    t.string "video_id"
+    t.text "embed_code"
+    t.integer "duration_seconds"
+    t.boolean "is_indian_collection", default: false, null: false
+    t.boolean "published", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_resources_on_category"
+    t.index ["is_indian_collection"], name: "index_resources_on_is_indian_collection"
+    t.index ["published"], name: "index_resources_on_published"
+    t.index ["slug"], name: "index_resources_on_slug", unique: true
+    t.index ["subcategory"], name: "index_resources_on_subcategory"
+    t.index ["title"], name: "index_resources_on_title"
+    t.index ["video_type"], name: "index_resources_on_video_type"
+    t.index ["year"], name: "index_resources_on_year"
   end
 end

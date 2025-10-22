@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_22_074043) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_22_074612) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,6 +65,27 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_22_074043) do
     t.index ["status"], name: "index_artworks_on_status"
     t.index ["subcategory"], name: "index_artworks_on_subcategory"
     t.index ["year"], name: "index_artworks_on_year"
+  end
+
+  create_table "exhibitions", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "slug", null: false
+    t.integer "year"
+    t.integer "year_end"
+    t.string "venue"
+    t.string "location"
+    t.text "description"
+    t.integer "exhibition_type", default: 0, null: false
+    t.boolean "is_indian_collection", default: false, null: false
+    t.boolean "published", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exhibition_type"], name: "index_exhibitions_on_exhibition_type"
+    t.index ["is_indian_collection"], name: "index_exhibitions_on_is_indian_collection"
+    t.index ["published"], name: "index_exhibitions_on_published"
+    t.index ["slug"], name: "index_exhibitions_on_slug", unique: true
+    t.index ["title"], name: "index_exhibitions_on_title"
+    t.index ["year"], name: "index_exhibitions_on_year"
   end
 
   create_table "resources", force: :cascade do |t|

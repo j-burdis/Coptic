@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_22_072436) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_22_073200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,5 +38,32 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_22_072436) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "artworks", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "slug", null: false
+    t.integer "year"
+    t.integer "year_end"
+    t.string "medium"
+    t.text "description"
+    t.string "dimensions"
+    t.integer "category", default: 0, null: false
+    t.string "subcategory"
+    t.integer "status", default: 0, null: false
+    t.boolean "published", default: true, null: false
+    t.boolean "is_indian_collection", default: false, null: false
+    t.string "indian_collection_category"
+    t.string "cloudinary_public_id"
+    t.string "original_filename"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_artworks_on_category"
+    t.index ["is_indian_collection"], name: "index_artworks_on_is_indian_collection"
+    t.index ["published"], name: "index_artworks_on_published"
+    t.index ["slug"], name: "index_artworks_on_slug", unique: true
+    t.index ["status"], name: "index_artworks_on_status"
+    t.index ["subcategory"], name: "index_artworks_on_subcategory"
+    t.index ["year"], name: "index_artworks_on_year"
   end
 end

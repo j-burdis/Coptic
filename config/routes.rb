@@ -1,4 +1,23 @@
 Rails.application.routes.draw do
+  get "subscriptions/new"
+  get "subscriptions/create"
+  get "search/index"
+  get "news/index"
+  get "news/show"
+  namespace :resources do
+    get "collections/index"
+    get "collections/show"
+  end
+  get "exhibitions/index"
+  get "exhibitions/show"
+  get "resources/index"
+  get "resources/show"
+  get "resources/films_and_audio"
+  get "resources/texts"
+  get "resources/publications"
+  get "resources/chronology"
+  get "artworks/index"
+  get "artworks/show"
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   root to: "pages#home"

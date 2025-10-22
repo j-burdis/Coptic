@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_22_074612) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_22_075443) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,6 +65,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_22_074612) do
     t.index ["status"], name: "index_artworks_on_status"
     t.index ["subcategory"], name: "index_artworks_on_subcategory"
     t.index ["year"], name: "index_artworks_on_year"
+  end
+
+  create_table "collections", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.string "location"
+    t.string "region"
+    t.text "description"
+    t.string "website"
+    t.boolean "published"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_collections_on_name"
+    t.index ["published"], name: "index_collections_on_published"
+    t.index ["region"], name: "index_collections_on_region"
+    t.index ["slug"], name: "index_collections_on_slug", unique: true
   end
 
   create_table "exhibitions", force: :cascade do |t|

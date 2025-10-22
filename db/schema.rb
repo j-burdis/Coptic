@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_22_113633) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_22_113931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -149,6 +149,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_22_113633) do
     t.index ["published_at"], name: "index_news_items_on_published_at"
     t.index ["slug"], name: "index_news_items_on_slug", unique: true
     t.index ["title"], name: "index_news_items_on_title"
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "slug", null: false
+    t.text "content"
+    t.boolean "published", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["published"], name: "index_pages_on_published"
+    t.index ["slug"], name: "index_pages_on_slug", unique: true
+    t.index ["title"], name: "index_pages_on_title"
   end
 
   create_table "resources", force: :cascade do |t|

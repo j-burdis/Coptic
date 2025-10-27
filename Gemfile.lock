@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/heartcombo/simple_form.git
-  revision: b930f9d2d7b0ae60f2c594b27ea4310f6dc8ec27
+  revision: ac606d70f8dccf03db0109222ebf42c647d7c1c8
   specs:
-    simple_form (5.3.1)
+    simple_form (5.4.0)
       actionpack (>= 7.0)
       activemodel (>= 7.0)
 
@@ -98,7 +98,7 @@ GEM
     ast (2.4.3)
     base64 (0.3.0)
     bcrypt (3.1.20)
-    benchmark (0.4.1)
+    benchmark (0.5.0)
     bigdecimal (3.3.1)
     bindex (0.8.1)
     bootsnap (1.18.6)

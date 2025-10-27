@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :indian_collection do
+    get "pages/index"
+  end
   # Admin
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -49,6 +52,7 @@ Rails.application.routes.draw do
   
   # Main collection - resources
   namespace :resources do
+    get "pages/index"
     get '/', to: 'pages#index', as: :root
 
     get 'films-and-audio', to: 'resources#films_and_audio'

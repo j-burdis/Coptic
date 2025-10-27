@@ -13,11 +13,18 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      colors: {
+        // custom colours here
+      },
+      spacing: {
+        // custom spacing if needed
+      },
     },
   },
   plugins: [
     // require('@tailwindcss/forms'),
     // require('@tailwindcss/typography'),
+    // require('@tailwindcss/aspect-ratio'),
     // require('@tailwindcss/container-queries'),
   ]
 }

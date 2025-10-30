@@ -1,5 +1,5 @@
 @tailwind base;
-/* @tailwind components; */
+@tailwind components;
 @tailwind utilities;
 
 /*
@@ -12,16 +12,15 @@
 
 */
 
-@import "components/buttons";
-@import "components/cards";
-@import "components/navbar";
-@import "components/footer";
-@import "components/forms";
-@import "components/artwork_grid";
-
 @import "layouts/sidebar";
 
 @import "pages/home";
 @import "pages/gallery";
 @import "pages/resources";
 @import "pages/indian_collection";
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}

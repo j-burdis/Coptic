@@ -1,0 +1,48 @@
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/97 backdrop-blur-sm transition-all duration-200 p-4 lg:p-8">
+  <div class="flex items-center justify-between w-full">
+
+    <div class="flex-shrink-0">
+      <%= link_to root_path, title: "Howard Hodgkin", rel: "home" do %>
+        <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "navbar-logo-image" %>
+        <span class="sr-only">Howard Hodgkin</span>
+      <% end %>
+    </div>
+
+    <div class="flex items-center gap-6 xl:gap-8 list-none m-0 p-0">
+
+      <div class="flex items-center">
+        <p>Gallery</p>
+        <%= raw '&nbsp;' %>
+        <i class="fa-solid fa-caret-down"></i>
+      </div>
+
+      <div class="flex items-center">
+        <p>Resources</p>
+        <%= raw '&nbsp;' %>
+        <i class="fa-solid fa-caret-down"></i>
+      </div>
+      
+      <div class="flex items-center">
+        <p>Indian Collection</p>
+        <%= raw '&nbsp;' %>
+        <i class="fa-solid fa-caret-down"></i>
+      </div>
+      
+      <div class="flex items-center">
+        <%= link_to "News", news_index_path %>
+      </div>
+      
+      <div class="flex items-center">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+
+      <div class="flex items-center">
+        <i class="fa-regular fa-envelope"></i>
+      </div>
+
+      <div class="flex items-center">
+        <i class="fa-brands fa-instagram"></i>
+      </div>
+    </div>
+  </div>
+</header>

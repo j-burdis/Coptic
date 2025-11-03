@@ -8,41 +8,132 @@
       <% end %>
     </div>
 
-    <div class="flex items-center gap-6 xl:gap-8 list-none m-0 p-0">
+    <nav class="flex items-center gap-6 xl:gap-8 list-none m-0 p-0">
 
-      <div class="flex items-center">
-        <p>Gallery</p>
-        <%= raw '&nbsp;' %>
-        <i class="fa-solid fa-caret-down"></i>
+      <!-- Gallery Dropdown -->
+      <div class="relative dropdown-container">
+        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity" onclick="toggleDropdown('gallery')">
+          <span>Gallery</span>
+          <%= raw '&nbsp;' %>
+          <i class="fa-solid fa-caret-down"></i>
+        </button>
+        <div id="gallery-dropdown" class="hidden absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50">
+          <%= link_to "Explore", gallery_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Paintings", gallery_paintings_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Prints", gallery_prints_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Indian Leaves", gallery_indian_leaves_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Indian Waves", gallery_indian_waves_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Design", gallery_design_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Other", gallery_other_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Missing Works", gallery_missing_works_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "All Artworks", gallery_all_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <div class="border-t border-gray-200 my-2"></div>
+          <%= link_to "Memories of Bombay / Mumbai", gallery_memories_of_bombay_mumbai_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Quantel Paintbox", gallery_quantel_paintbox_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Destroyed", gallery_destroyed_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+        </div>
       </div>
 
-      <div class="flex items-center">
-        <p>Resources</p>
-        <%= raw '&nbsp;' %>
-        <i class="fa-solid fa-caret-down"></i>
+      <!-- Resources Dropdown -->
+      <div class="relative dropdown-container">
+        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity" onclick="toggleDropdown('resources')">
+          <span>Resources</span>
+          <%= raw '&nbsp;' %>
+          <i class="fa-solid fa-caret-down"></i>
+        </button>
+        <div id="resources-dropdown" class="hidden absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50">
+          <%= link_to "Explore", resources_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Exhibitions", resources_exhibitions_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Films and Audio", resources_films_and_audio_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Texts", resources_texts_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Publications", resources_publications_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Chronology", resources_chronology_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Collections", resources_collections_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+        </div>
       </div>
       
-      <div class="flex items-center">
-        <p>Indian Collection</p>
-        <%= raw '&nbsp;' %>
-        <i class="fa-solid fa-caret-down"></i>
+      <!-- Indian Collection Dropdown -->
+      <div class="relative dropdown-container">
+        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity" onclick="toggleDropdown('indian-collection')">
+          <span>Indian Collection</span>
+          <%= raw '&nbsp;' %>
+          <i class="fa-solid fa-caret-down"></i>
+        </button>
+        <div id="indian-collection-dropdown" class="hidden absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50">
+          <%= link_to "Explore", indian_collection_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+          <%= link_to "Resources", indian_collection_resources_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+        </div>
       </div>
       
+      <!-- News Link -->
       <div class="flex items-center">
-        <%= link_to "News", news_index_path %>
+        <%= link_to "News", news_index_path, class: "hover:opacity-70 transition-opacity" %>
       </div>
       
-      <div class="flex items-center">
+      <!-- Search Icon -->
+      <button class="flex items-center hover:opacity-70 transition-opacity cursor-pointer">
         <i class="fa-solid fa-magnifying-glass"></i>
-      </div>
+      </button>
 
-      <div class="flex items-center">
+      <!-- Mailing List Icon -->
+      <%= link_to subscribe_path, class: "flex items-center hover:opacity-70 transition-opacity" do %>
         <i class="fa-regular fa-envelope"></i>
-      </div>
+      <% end %>
 
-      <div class="flex items-center">
+      <!-- Instagram Icon -->
+      <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "flex items-center hover:opacity-70 transition-opacity" do %>
         <i class="fa-brands fa-instagram"></i>
-      </div>
-    </div>
+      <% end %>
+    </nav>
   </div>
 </header>
+
+<script>
+  let currentDropdown = null;
+
+  function toggleDropdown(dropdownId) {
+    const dropdown = document.getElementById(dropdownId + '-dropdown');
+    
+    // Close current dropdown if clicking the same one
+    if (currentDropdown === dropdown && !dropdown.classList.contains('hidden')) {
+      dropdown.classList.add('hidden');
+      currentDropdown = null;
+      return;
+    }
+    
+    // Close any open dropdown
+    if (currentDropdown) {
+      currentDropdown.classList.add('hidden');
+    }
+    
+    // Open the clicked dropdown
+    dropdown.classList.remove('hidden');
+    currentDropdown = dropdown;
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(event) {
+    const dropdownContainers = document.querySelectorAll('.dropdown-container');
+    let clickedInside = false;
+    
+    dropdownContainers.forEach(container => {
+      if (container.contains(event.target)) {
+        clickedInside = true;
+      }
+    });
+    
+    if (!clickedInside && currentDropdown) {
+      currentDropdown.classList.add('hidden');
+      currentDropdown = null;
+    }
+  });
+
+  // Close dropdown on escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && currentDropdown) {
+      currentDropdown.classList.add('hidden');
+      currentDropdown = null;
+    }
+  });
+</script>

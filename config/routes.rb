@@ -51,25 +51,41 @@ Rails.application.routes.draw do
   get 'artwork/:slug', to: 'artworks#show', as: :artwork
   
   # Main collection - resources
+  # namespace :resources do
+  #   get "pages/index"
+  #   get '/', to: 'pages#index', as: :root
+
+  #   get 'films-and-audio', to: 'resources#films_and_audio'
+
+  #   get 'texts', to: 'resources#texts'
+  #   get 'texts/:subcategory', to: 'resources#texts_subcategory',
+  #       as: :texts_subcategory,
+  #       constraints: { subcategory: /(critical-essays|interviews|selected-reviews|the-artists-words)/ }
+    
+  #   get 'publications', to: 'resources#publications'
+  #   get 'publications/:subcategory', to: 'resources#publications_subcategory',
+  #       as: :publications_subcategory,
+  #       constraints: { subcategory: /(posters-postcards|selected-books|selected-catalogues)/ }
+    
+  #   get 'chronology', to: 'resources#chronology'
+
+  #   get 'collections', to: 'collections#index'    
+  # end
+  get 'resources', to: 'resources#index'
+  get 'resources/films-and-audio', to: 'resources#films_and_audio', as: :resources_films_and_audio
+  get 'resources/texts', to: 'resources#texts', as: :resources_texts
+  get 'resources/texts/:subcategory', to: 'resources#texts_subcategory',
+      as: :resources_texts_subcategory,
+      constraints: { subcategory: /(critical-essays|interviews|selected-reviews|the-artists-words)/ }
+  get 'resources/publications', to: 'resources#publications', as: :resources_publications
+  get 'resources/publications/:subcategory', to: 'resources#publications_subcategory',
+      as: :resources_publications_subcategory,
+      constraints: { subcategory: /(posters-postcards|selected-books|selected-catalogues)/ }
+  get 'resources/chronology', to: 'resources#chronology', as: :resources_chronology
+
+  # Keep collections in namespace since it has its own controller
   namespace :resources do
-    get "pages/index"
-    get '/', to: 'pages#index', as: :root
-
-    get 'films-and-audio', to: 'resources#films_and_audio'
-
-    get 'texts', to: 'resources#texts'
-    get 'texts/:subcategory', to: 'resources#texts_subcategory',
-        as: :texts_subcategory,
-        constraints: { subcategory: /(critical-essays|interviews|selected-reviews|the-artists-words)/ }
-    
-    get 'publications', to: 'resources#publications'
-    get 'publications/:subcategory', to: 'resources#publications_subcategory',
-        as: :publications_subcategory,
-        constraints: { subcategory: /(posters-postcards|selected-books|selected-catalogues)/ }
-    
-    get 'chronology', to: 'resources#chronology'
-
-    get 'collections', to: 'collections#index'    
+    get 'collections', to: 'collections#index'
   end
 
   # Individual resource - cleaner URL outside of namespace
@@ -79,7 +95,7 @@ Rails.application.routes.draw do
   get 'collection/:slug', to: 'collections#show', as: :collection
 
   # Exhibitions
-  get 'exhibitions', to: 'exhibitions#index', as: :exhibitions
+  get '/resources/exhibitions', to: 'exhibitions#index', as: :resources_exhibitions
   
   get 'exhibitions/:exhibition_type', to: 'exhibitions#by_type',
       as: :exhibitions_by_type,

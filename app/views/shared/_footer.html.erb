@@ -1,0 +1,54 @@
+<footer class="mt-auto py-12 lg:py-16 px-4 lg:px-8 bg-white border-t border-gray-200">
+  <div class="max-w-7xl mx-auto">
+    
+    <div class="flex items-center justify-between mb-8 lg:mb-12">
+      <div class="flex-shrink-0">
+        <%= link_to root_path, title: "Howard Hodgkin", rel: "home" do %>
+          <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "h-8 lg:h-10" %>
+          <span class="sr-only">Howard Hodgkin</span>
+        <% end %>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <%= link_to subscribe_path, class: "text-gray-700 hover:text-gray-900 transition-colors", title: "Mailing List" do %>
+          <i class="fa-regular fa-envelope text-xl"></i>
+        <% end %>
+        
+        <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "text-gray-700 hover:text-gray-900 transition-colors", title: "Instagram" do %>
+          <i class="fa-brands fa-instagram text-xl"></i>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Bottom Row: Links Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      
+      <!-- Column 1: Main Links -->
+      <div class="space-y-3">
+        <%= link_to "Gallery", gallery_root_path, class: "block text-gray-700 hover:text-gray-900 transition-colors" %>
+        <%= link_to "Resources", resources_path, class: "block text-gray-700 hover:text-gray-900 transition-colors" %>
+        <%= link_to "Indian Collection", indian_collection_root_path, class: "block text-gray-700 hover:text-gray-900 transition-colors" %>
+        <%= link_to "News", news_index_path, class: "block text-gray-700 hover:text-gray-900 transition-colors" %>
+      </div>
+
+      <!-- Column 2: Contact & Info -->
+      <div class="space-y-3">
+        <%= link_to "Contact", contact_path, class: "block text-gray-700 hover:text-gray-900 transition-colors" %>
+        <%# <%= link_to "Newsletter", newsletter_path, target: "_blank", rel: "noopener noreferrer", class: "block text-gray-700 hover:text-gray-900 transition-colors" %>
+        <%= link_to "Newsletter", subscribe_path, class: "block text-gray-700 hover:text-gray-900 transition-colors" %>
+        <%= link_to "Copyright & Permissions", copyright_permissions_path, class: "block text-gray-700 hover:text-gray-900 transition-colors" %>
+        <%= link_to "Privacy", privacy_path, class: "block text-gray-700 hover:text-gray-900 transition-colors" %>
+      </div>
+
+      <!-- Column 3: Empty for spacing -->
+      <div></div>
+
+    </div>
+
+    <div class="text-gray-600 text-sm">
+      <p class="leading-relaxed">
+        © <%= Date.current.year %> Howard Hodgkin
+      </p>
+    </div>
+  </div>
+</footer>

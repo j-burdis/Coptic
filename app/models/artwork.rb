@@ -1,4 +1,6 @@
 class Artwork < ApplicationRecord
+  attr_accessor :image
+
   has_many :artwork_collections, dependent: :destroy
   has_many :collections, through: :artwork_collections
   has_many :artwork_exhibitions, dependent: :destroy
@@ -54,5 +56,16 @@ class Artwork < ApplicationRecord
 
   def self.ransackable_associations(auth_object = nil)
     ["collections", "exhibitions", "artwork_collections", "artwork_exhibitions"]
+  end
+
+  def thumbnail_url
+    return nil unless cloudinary_public_id.present?
+
+    Cloudinary::Utils.cloudinary_url(
+      cloudinary_public_id,
+      width: 300,
+      height: 300,
+      crop: "fill"
+    )
   end
 end

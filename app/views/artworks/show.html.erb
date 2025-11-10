@@ -1,7 +1,6 @@
 <div class="min-h-screen bg-white">
   <div class="container mx-auto px-4 py-8 lg:py-16">
     
-    <!-- Breadcrumb -->
     <nav class="mb-8 text-sm text-gray-600">
       <%= link_to "Gallery", gallery_root_path, class: "hover:text-black" %>
       <span class="mx-2">/</span>
@@ -12,7 +11,6 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
       
-      <!-- Image -->
       <div class="order-2 lg:order-1">
         <div class="sticky top-24">
           <% if @artwork.cloudinary_public_id.present? %>
@@ -27,7 +25,6 @@
         </div>
       </div>
 
-      <!-- Details -->
       <div class="order-1 lg:order-2">
         <h1 class="text-4xl lg:text-5xl font-bold mb-4"><%= @artwork.title %></h1>
         
@@ -51,14 +48,12 @@
           <% end %>
         </div>
 
-        <!-- Description -->
         <% if @artwork.description.present? %>
           <div class="prose prose-lg max-w-none mb-8">
             <%= simple_format(@artwork.description) %>
           </div>
         <% end %>
 
-        <!-- Collections -->
         <% if @artwork.collections.any? %>
           <div class="mb-8">
             <h2 class="text-xl font-semibold mb-4">Collections</h2>
@@ -78,7 +73,6 @@
           </div>
         <% end %>
 
-        <!-- Exhibitions -->
         <% if @artwork.exhibitions.any? %>
           <div class="mb-8">
             <h2 class="text-xl font-semibold mb-4">Exhibitions</h2>
@@ -101,7 +95,6 @@
           </div>
         <% end %>
 
-        <!-- Back button -->
         <div class="mt-12">
           <%= link_to :back, class: "inline-flex items-center text-gray-600 hover:text-black" do %>
             <i class="fa-solid fa-arrow-left mr-2"></i>

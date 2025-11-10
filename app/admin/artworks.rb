@@ -4,14 +4,7 @@ ActiveAdmin.register Artwork do
 
   permit_params :title, :slug, :year, :year_end, :medium, :description, :dimensions,
                 :category, :subcategory, :status, :published, :is_indian_collection,
-                :indian_collection_category, :image, :cloudinary_public_id, :original_filename  
-  # or
-  # permit_params do
-  #   permitted = [:title, :slug, :year, :year_end, :medium, :description, :dimensions, :category, :subcategory,
-  #   :status, :published, :is_indian_collection, :indian_collection_category, :cloudinary_public_id,:original_filename]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
+                :indian_collection_category, :image, :cloudinary_public_id, :original_filename
 
   form do |f|
     f.inputs "Artwork Details" do
@@ -68,9 +61,9 @@ ActiveAdmin.register Artwork do
 
     def update
       @artwork = Artwork.find(params[:id])
-      # If new image uploaded, delete old one and upload new
+      # if new image uploaded, delete old one and upload new
       if params[:artwork][:image].present?
-        # Delete old image from Cloudinary
+        # delete old image
         if @artwork.cloudinary_public_id.present?
           begin
             Cloudinary::Uploader.destroy(@artwork.cloudinary_public_id)
@@ -78,7 +71,7 @@ ActiveAdmin.register Artwork do
             Rails.logger.error "Failed to delete old image: #{e.message}"
           end
         end
-        # Upload new image
+        # upload new image
         upload = upload_to_cloudinary(params[:artwork][:image])
         @artwork.cloudinary_public_id = upload['public_id']
         @artwork.original_filename = params[:artwork][:image].original_filename

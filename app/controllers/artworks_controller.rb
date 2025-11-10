@@ -2,12 +2,6 @@ class ArtworksController < ApplicationController
   def show
     @artwork = Artwork.published.find_by!(slug: params[:slug])
 
-    # Handle artwork not found
-    # unless @artwork
-    #   redirect_to gallery_root_path, alert: "Artwork not found"
-    #   return
-    # end
-
     # Track which collection this artwork belongs to for breadcrumbs
     @category_path = case @artwork.category
                      when 'paintings' then gallery_paintings_path

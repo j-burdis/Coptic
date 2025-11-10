@@ -50,7 +50,6 @@ gem "gibbon", "~> 3.5"
 gem "pg_search", "~> 2.3"
 
 gem "cloudinary", "~> 2.4"
-gem 'activestorage-cloudinary-service'
 
 group :development, :test do
   gem "dotenv-rails"

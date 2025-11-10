@@ -65,7 +65,42 @@ class Artwork < ApplicationRecord
       cloudinary_public_id,
       width: 300,
       height: 300,
-      crop: "fill"
+      crop: "fill",
+      quality: "auto",
+      fetch_format: "auto"
     )
+  end
+
+  def large_url
+    return nil unless cloudinary_public_id.present?
+
+    Cloudinary::Utils.cloudinary_url(
+      cloudinary_public_id,
+      width: 1200,
+      crop: "limit",
+      quality: "auto",
+      fetch_format: "auto"
+    )
+  end
+
+  def image_url(transformation = {})
+    return nil unless cloudinary_public_id.present?
+
+    default_transformation = {
+      quality: 'auto',
+      fetch_format: 'auto',
+      crop: 'limit'
+    }
+
+    Cloudinary::Utils.cloudinary_url(
+      cloudinary_public_id,
+      default_transformation.merge(transformation)
+    )
+  end
+
+  def year_range
+    return year.to_s unless year_end.present? && year_end != year
+
+    "#{year}-#{year_end}"
   end
 end

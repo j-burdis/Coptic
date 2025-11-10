@@ -16,12 +16,9 @@
       <div class="order-2 lg:order-1">
         <div class="sticky top-24">
           <% if @artwork.cloudinary_public_id.present? %>
-            <%= image_tag(
-                  Cloudinary::Utils.cloudinary_url(@artwork.cloudinary_public_id, width: 1200, crop: "limit"),
-                  alt: @artwork.title,
-                  class: "w-full h-auto shadow-lg"
-                ) %>
-
+            <%= image_tag @artwork.large_url, 
+                alt: @artwork.title,
+                class: "w-full h-auto shadow-lg" %>
           <% else %>
             <div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
               <i class="fa-solid fa-image text-6xl text-gray-300"></i>
@@ -36,7 +33,7 @@
         
         <div class="space-y-3 mb-8 text-lg">
           <% if @artwork.year.present? %>
-            <p class="text-gray-700"><%= @artwork.year %> - <%= @artwork.year_end %></p>
+            <p class="text-gray-700"><%= @artwork.year_range %></p>
           <% end %>
           
           <% if @artwork.medium.present? %>

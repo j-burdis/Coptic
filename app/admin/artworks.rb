@@ -6,6 +6,49 @@ ActiveAdmin.register Artwork do
                 :category, :subcategory, :status, :published, :is_indian_collection,
                 :indian_collection_category, :image, :cloudinary_public_id, :original_filename
 
+  index do
+    selectable_column
+    id_column
+
+    column :image, sortable: false do |artwork|
+      if artwork.cloudinary_public_id.present?
+        image_tag artwork.thumbnail_url, style: 'max-width: 60px; max-height: 60px; object-fit: cover;'
+      else
+        content_tag(:span, '—', class: 'text-gray-400')
+      end
+    end
+
+    column :title, sortable: :title do |artwork|
+      link_to artwork.title, admin_artwork_path(artwork)
+    end
+
+    column :year, sortable: :year
+    column :category, sortable: :category
+
+    column :published, sortable: :published do |artwork|
+      status_tag(artwork.published ? 'Yes' : 'No', class: (artwork.published ? 'yes' : 'no'))
+    end
+
+    column :collection do |artwork|
+      if artwork.is_indian_collection?
+        status_tag 'Indian Collection', class: 'info'
+      else
+        status_tag 'Main Collection', class: 'default'
+      end
+    end
+
+    actions
+  end
+
+  # Filters for sidebar
+  filter :title
+  filter :category, as: :select, collection: Artwork.categories.keys
+  filter :status, as: :select, collection: Artwork.statuses.keys
+  filter :year
+  filter :published
+  filter :is_indian_collection, as: :select, label: 'Collection'
+  filter :created_at
+
   form do |f|
     f.inputs "Artwork Details" do
       f.input :title
@@ -36,6 +79,131 @@ ActiveAdmin.register Artwork do
       f.input :image,
               as: :file,
               hint: 'Upload a new image (JPG, PNG)',
+              input_html: { accept: 'image/*' }
+    end
+
+    f.actions
+  end
+
+  show do
+    columns do
+      column do
+        panel "Image" do
+          if artwork.cloudinary_public_id.present?
+            image_tag artwork.large_url, style: 'max-width: 100%; display: block;'
+          else
+            para 'No image uploaded', class: 'text-gray-500'
+          end
+        end
+
+        panel "Collections" do
+          if artwork.collections.any?
+            table_for artwork.collections do
+              column :name do |collection|
+                link_to collection.name, admin_collection_path(collection)
+              end
+              column :location
+              column :region
+            end
+          else
+            para "No collections associated", class: 'text-gray-500'
+          end
+        end
+
+        panel "Exhibitions" do
+          if artwork.exhibitions.any?
+            table_for artwork.exhibitions do
+              column :title do |exhibition|
+                link_to exhibition.title, admin_exhibition_path(exhibition)
+              end
+              column :year
+              column :venue
+              column :location
+            end
+          else
+            para "No exhibitions associated", class: 'text-gray-500'
+          end
+        end
+
+        panel "Related Artworks" do
+          if artwork.related_to.any?
+            table_for artwork.related_to do
+              column :title do |related|
+                link_to related.title, admin_artwork_path(related)
+              end
+              column :year
+              column :category
+            end
+          else
+            para "No related artworks", class: 'text-gray-500'
+          end
+        end
+      end
+
+      column do
+        panel "Details" do
+          attributes_table_for artwork do
+            row :title
+            row :slug
+            row :year
+            row :year_end
+            row :medium
+            row :description
+            row :dimensions
+            row :category do
+              status_tag artwork.category
+            end
+            row :subcategory
+            row :status do
+              status_tag artwork.status
+            end
+            row :published do
+              status_tag(artwork.published ? 'Yes' : 'No', class: (artwork.published ? 'yes' : 'no'))
+            end
+            row :is_indian_collection do
+              artwork.is_indian_collection? ? 'Yes' : 'No'
+            end
+            row :indian_collection_category
+            row :cloudinary_public_id
+            row :original_filename
+            row :created_at
+            row :updated_at
+          end
+        end
+      end
+    end
+  end
+
+  form do |f|
+    f.inputs "Artwork Details" do
+      f.input :title
+      f.input :slug, hint: 'Leave blank to auto-generate from title'
+      f.input :year
+      f.input :year_end, hint: 'Leave blank if same as year'
+      f.input :medium
+      f.input :description
+      f.input :dimensions
+      f.input :category
+      f.input :subcategory
+      f.input :status
+      f.input :published
+      f.input :is_indian_collection
+      f.input :indian_collection_category
+    end
+
+    f.inputs "Image Upload" do
+      if f.object.cloudinary_public_id.present?
+        li do
+          label 'Current Image'
+          div do
+            image_tag f.object.thumbnail_url, style: 'max-width: 300px; display: block; margin: 10px 0;'
+          end
+        end
+      end
+
+      f.input :image,
+              as: :file,
+              hint: 'Upload a new image (JPG, PNG). This will replace the current image.',
               input_html: { accept: 'image/*' }
     end
 

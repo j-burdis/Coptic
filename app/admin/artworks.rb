@@ -43,8 +43,8 @@ ActiveAdmin.register Artwork do
 
   # sidebar filters
   filter :title
-  filter :category, as: :select, collection: Artwork.categories.keys
-  filter :status, as: :select, collection: Artwork.statuses.keys
+  filter :category, as: :select, collection: -> { Artwork.categories }
+  filter :status, as: :select, collection: -> { Artwork.statuses }
   filter :year
   filter :published
   filter :is_indian_collection, as: :select, label: 'Collection'

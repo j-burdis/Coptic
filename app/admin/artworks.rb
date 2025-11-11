@@ -4,7 +4,8 @@ ActiveAdmin.register Artwork do
 
   permit_params :title, :slug, :year, :year_end, :medium, :description, :dimensions,
                 :category, :subcategory, :status, :published, :is_indian_collection,
-                :indian_collection_category, :image, :cloudinary_public_id, :original_filename
+                :indian_collection_category, :image, :cloudinary_public_id, :original_filename,
+                collection_ids: [], exhibition_ids: []
 
   index do
     selectable_column
@@ -40,7 +41,7 @@ ActiveAdmin.register Artwork do
     actions
   end
 
-  # Filters for sidebar
+  # sidebar filters
   filter :title
   filter :category, as: :select, collection: Artwork.categories.keys
   filter :status, as: :select, collection: Artwork.statuses.keys
@@ -48,42 +49,6 @@ ActiveAdmin.register Artwork do
   filter :published
   filter :is_indian_collection, as: :select, label: 'Collection'
   filter :created_at
-
-  form do |f|
-    f.inputs "Artwork Details" do
-      f.input :title
-      f.input :slug
-      f.input :year
-      f.input :year_end
-      f.input :medium
-      f.input :description
-      f.input :dimensions
-      f.input :category
-      f.input :subcategory
-      f.input :status
-      f.input :published
-      f.input :is_indian_collection
-      f.input :indian_collection_category
-    end
-
-    f.inputs "Image Upload" do
-      if f.object.cloudinary_public_id.present?
-        li do
-          label 'Current Image'
-          div do
-            image_tag f.object.thumbnail_url, style: 'max-width: 300px;'
-          end
-        end
-      end
-
-      f.input :image,
-              as: :file,
-              hint: 'Upload a new image (JPG, PNG)',
-              input_html: { accept: 'image/*' }
-    end
-
-    f.actions
-  end
 
   show do
     columns do
@@ -175,36 +140,81 @@ ActiveAdmin.register Artwork do
   end
 
   form do |f|
-    f.inputs "Artwork Details" do
-      f.input :title
-      f.input :slug, hint: 'Leave blank to auto-generate from title'
-      f.input :year
-      f.input :year_end, hint: 'Leave blank if same as year'
-      f.input :medium
-      f.input :description
-      f.input :dimensions
-      f.input :category
-      f.input :subcategory
-      f.input :status
-      f.input :published
-      f.input :is_indian_collection
-      f.input :indian_collection_category
-    end
+    f.semantic_errors
 
-    f.inputs "Image Upload" do
-      if f.object.cloudinary_public_id.present?
-        li do
-          label 'Current Image'
-          div do
-            image_tag f.object.thumbnail_url, style: 'max-width: 300px; display: block; margin: 10px 0;'
+    columns do
+      column do
+        f.inputs "Image" do
+          if f.object.cloudinary_public_id.present?
+            li do
+              label 'Current Image'
+              div do
+                image_tag f.object.large_url, style: 'max-width: 100%; display: block; margin: 10px 0;'
+              end
+            end
           end
+
+          f.input :image,
+                  as: :file,
+                  hint: 'Upload a new image (JPG, PNG). This will replace the current image.',
+                  input_html: { accept: 'image/*' }
+        end
+
+        f.inputs "Relationships" do
+          f.input :collections, 
+                  as: :check_boxes,
+                  collection: Collection.order(:name),
+                  hint: 'Select collections that hold this artwork'
+
+          f.input :exhibitions, 
+                  as: :check_boxes,
+                  collection: Exhibition.order(year: :desc, title: :asc),
+                  hint: 'Select exhibitions featuring this artwork'
         end
       end
 
-      f.input :image,
-              as: :file,
-              hint: 'Upload a new image (JPG, PNG). This will replace the current image.',
-              input_html: { accept: 'image/*' }
+      column do
+        f.inputs "Basic Information" do
+          f.input :title
+          f.input :slug, hint: 'Leave blank to auto-generate from title'
+          f.input :year
+          f.input :year_end, hint: 'Leave blank if same as year'
+          f.input :published
+        end
+
+        f.inputs "Details" do
+          f.input :medium
+          f.input :dimensions, hint: 'e.g., 100 x 80 cm'
+          f.input :description, as: :text, input_html: { rows: 6 }
+        end
+
+        f.inputs "Categorization" do
+          f.input :category,
+                  as: :select,
+                  collection: Artwork.categories.keys,
+                  include_blank: false
+
+          f.input :subcategory,
+                  as: :select,
+                  collection: Artwork::DESIGN_SUBCATEGORIES,
+                  hint: 'Only required for Design category',
+                  include_blank: true
+
+          f.input :status,
+                  as: :select,
+                  collection: Artwork.statuses.keys,
+                  include_blank: false
+        end
+
+        f.inputs "Indian Collection" do
+          f.input :is_indian_collection
+          f.input :indian_collection_category, 
+                  as: :select,
+                  collection: Artwork::INDIAN_COLLECTION_CATEGORIES,
+                  hint: 'Only for Indian Collection items',
+                  include_blank: true
+        end
+      end
     end
 
     f.actions
@@ -273,7 +283,7 @@ ActiveAdmin.register Artwork do
       params.require(:artwork).permit(
         :title, :slug, :year, :year_end, :medium, :description, :dimensions,
         :category, :subcategory, :status, :published, :is_indian_collection,
-        :indian_collection_category
+        :indian_collection_category, :image, collection_ids: [], exhibition_ids: []
       )
     end
 

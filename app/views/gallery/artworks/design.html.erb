@@ -1,4 +1,189 @@
-<div>
-  <h1 class="font-bold text-4xl">Gallery:: Artworks#design</h1>
-  <p>Find me in app/views/gallery/ artworks/design.html.erb</p>
+<% content_for :title, "Design - Gallery" %>
+
+<div class="min-h-screen bg-white">
+  <div class="container mx-auto px-4 py-8 lg:py-16">
+    
+    <!-- breadcrumbs -->
+    <nav class="mb-8 text-sm text-gray-600">
+      <%= link_to "Home", root_path, class: "hover:text-black" %>
+      <span class="mx-2">/</span>
+      <%= link_to "Gallery", gallery_root_path, class: "hover:text-black" %>
+      <span class="mx-2">/</span>
+      <span class="text-black">Design</span>
+    </nav>
+
+    <% if @show_design_layout %>
+      <!-- design landing page -->
+      <div class="mb-12">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-8">Design</h1>
+        
+        <!-- category page description -->
+        <% if @category_page.present? && @category_page.description.present? %>
+          <div class="mb-8 prose prose-lg max-w-none">
+            <%= simple_format(@category_page.description) %>
+          </div>
+        <% end %>
+        
+        <!-- search banner -->
+        <div class="bg-gray-50 p-8 rounded-lg mb-12">
+          <%= form_with url: gallery_design_path, method: :get, class: "space-y-4" do |f| %>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-semibold mb-2">Search by keyword</label>
+                <%= f.text_field :s, 
+                    value: params[:s], 
+                    placeholder: "Search design works...",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-semibold mb-2">Filter by decade</label>
+                <%= f.select :dates, 
+                    options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
+                    {},
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+              </div>
+            </div>
+            
+            <div class="flex gap-4">
+              <%= f.submit "Search", class: "bg-black text-white py-3 px-8 rounded-md hover:bg-gray-800 transition-colors cursor-pointer" %>
+              
+              <% if params[:s].present? || params[:dates].present? %>
+                <%= link_to "Clear", gallery_design_path, class: "py-3 px-8 border border-gray-300 rounded-md hover:border-black transition-colors" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- design categories grid -->
+        <div>
+          <h2 class="text-2xl font-semibold mb-6">Browse by Category</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <% @design_subcategories.each do |subcategory| %>
+              <% 
+                count = Artwork.published.main_collection.design.where(subcategory: subcategory).count
+                subcategory_page = @design_subcategory_pages[subcategory] if @design_subcategory_pages.present?
+              %>
+              
+              <%= link_to gallery_design_subcategory_path(subcategory: subcategory), 
+                  class: "group block border border-gray-200 hover:border-black transition-colors overflow-hidden" do %>
+                
+                <% if subcategory_page&.cloudinary_public_id.present? %>
+                  <div class="aspect-video overflow-hidden">
+                    <%= image_tag subcategory_page.thumbnail_url, 
+                        alt: subcategory_page.title,
+                        class: "w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" %>
+                  </div>
+                <% end %>
+                
+                <div class="p-4">
+                  <h3 class="font-semibold mb-1 group-hover:underline">
+                    <%= subcategory_page&.title || subcategory.titleize %>
+                  </h3>
+                  
+                  <% if subcategory_page&.description.present? %>
+                    <p class="text-sm text-gray-600 mb-2 line-clamp-2"><%= truncate(subcategory_page.description, length: 80) %></p>
+                  <% end %>
+                  
+                  <p class="text-sm text-gray-500"><%= count %> <%= 'work'.pluralize(count) %></p>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+    <% else %>
+      <!-- filtered results view -->
+      <div class="lg:flex lg:gap-8">
+        
+        <!-- sidebar filters -->
+        <aside class="lg:w-64 mb-8 lg:mb-0">
+          <div class="sticky top-24">
+            <h2 class="text-xl font-semibold mb-4">Filter</h2>
+            
+            <%= form_with url: gallery_design_path, method: :get, class: "space-y-6" do |f| %>
+              
+              <!-- design subcategories -->
+              <div>
+                <h3 class="font-semibold mb-3">Categories</h3>
+                <div class="space-y-2 max-h-96 overflow-y-auto">
+                  <%= link_to "All Designs", 
+                      gallery_design_path, 
+                      class: "block text-sm #{@active_subcategory.blank? ? 'font-semibold text-black' : 'text-gray-600 hover:text-black'}" %>
+                  
+                  <% @design_subcategories.each do |subcategory| %>
+                    <%= link_to subcategory.titleize, 
+                        gallery_design_subcategory_path(subcategory: subcategory), 
+                        class: "block text-sm #{@active_subcategory == subcategory ? 'font-semibold text-black' : 'text-gray-600 hover:text-black'}" %>
+                  <% end %>
+                </div>
+              </div>
+
+              <!-- keyword search -->
+              <div>
+                <label class="block text-sm font-semibold mb-2">Search</label>
+                <%= f.text_field :s, 
+                    value: params[:s], 
+                    placeholder: "Search artworks...",
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+              </div>
+
+              <!-- date filter -->
+              <div>
+                <label class="block text-sm font-semibold mb-2">Date</label>
+                <%= f.select :dates, 
+                    options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
+                    {},
+                    class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent",
+                    onchange: "this.form.submit()" %>
+              </div>
+
+              <%= f.submit "Search", class: "w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors cursor-pointer" %>
+              
+              <% if params[:s].present? || params[:dates].present? %>
+                <%= link_to "Clear filters", gallery_design_path, class: "block text-center text-sm text-gray-600 hover:text-black" %>
+              <% end %>
+            <% end %>
+          </div>
+        </aside>
+
+        <!-- artworks grid -->
+        <main class="flex-1">
+          <div class="mb-6 flex items-center justify-between">
+            <h1 class="text-3xl lg:text-4xl font-bold">
+              Design
+              <% if @active_subcategory.present? %>
+                <span class="text-gray-600"> / <%= @active_subcategory.titleize %></span>
+              <% end %>
+            </h1>
+            <p class="text-gray-600"><%= @artworks.total_count %> works</p>
+          </div>
+
+          <% if @artworks.any? %>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <% @artworks.each do |artwork| %>
+                <%= render partial: 'shared/artwork_card', locals: { artwork: artwork } %>
+              <% end %>
+            </div>
+
+            <!-- pagination -->
+            <% if @artworks.total_pages > 1 %>
+              <div class="flex justify-center">
+                <%= paginate @artworks %>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="text-center py-16">
+              <i class="fa-solid fa-image text-6xl text-gray-300 mb-4"></i>
+              <p class="text-xl text-gray-600">No artworks found</p>
+              <% if params[:s].present? || params[:dates].present? %>
+                <%= link_to "Clear filters", gallery_design_path, class: "inline-block mt-4 text-black hover:underline" %>
+              <% end %>
+            </div>
+          <% end %>
+        </main>
+      </div>
+    <% end %>
+  </div>
 </div>

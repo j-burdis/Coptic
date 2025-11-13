@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_22_205814) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_12_221809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -96,6 +96,23 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_22_205814) do
     t.index ["status"], name: "index_artworks_on_status"
     t.index ["subcategory"], name: "index_artworks_on_subcategory"
     t.index ["year"], name: "index_artworks_on_year"
+  end
+
+  create_table "category_pages", force: :cascade do |t|
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.string "cloudinary_public_id"
+    t.string "original_filename"
+    t.integer "page_type", default: 0, null: false
+    t.integer "position", default: 0
+    t.boolean "published", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_type"], name: "index_category_pages_on_page_type"
+    t.index ["position"], name: "index_category_pages_on_position"
+    t.index ["published"], name: "index_category_pages_on_published"
+    t.index ["slug"], name: "index_category_pages_on_slug", unique: true
   end
 
   create_table "collections", force: :cascade do |t|

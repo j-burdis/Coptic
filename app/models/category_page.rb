@@ -7,7 +7,7 @@ class CategoryPage < ApplicationRecord
     special_collection: 2
   }
 
-  # Map slugs to their corresponding artwork categories/scopes
+  # map slugs to their corresponding artwork categories/scopes
   GALLERY_CATEGORIES = {
     'paintings' => { title: 'Paintings', scope: :paintings },
     'prints' => { title: 'Prints', scope: :prints },
@@ -41,17 +41,35 @@ class CategoryPage < ApplicationRecord
     []
   end
 
-  # Get artwork count for this category
+  # app/models/category_page.rb
+  def path
+    case slug
+    when 'paintings' then Rails.application.routes.url_helpers.gallery_paintings_path
+    when 'prints' then Rails.application.routes.url_helpers.gallery_prints_path
+    when 'design' then Rails.application.routes.url_helpers.gallery_design_path
+    when 'indian-leaves' then Rails.application.routes.url_helpers.gallery_indian_leaves_path
+    when 'indian-waves' then Rails.application.routes.url_helpers.gallery_indian_waves_path
+    when 'quantel-paintbox' then Rails.application.routes.url_helpers.gallery_quantel_paintbox_path
+    when 'memories-of-bombay-mumbai' then Rails.application.routes.url_helpers.gallery_memories_of_bombay_mumbai_path
+    when 'other' then Rails.application.routes.url_helpers.gallery_other_path
+    when 'missing-works' then Rails.application.routes.url_helpers.gallery_missing_works_path
+    when 'destroyed' then Rails.application.routes.url_helpers.gallery_destroyed_path
+    when 'all' then Rails.application.routes.url_helpers.gallery_all_path
+    else Rails.application.routes.url_helpers.gallery_root_path
+    end
+  end
+
+  # get artwork count for category
   def artwork_count
     return 0 unless slug.present?
 
     scope = if gallery_category?
-      GALLERY_CATEGORIES.dig(slug, :scope)
-    elsif special_collection?
-      SPECIAL_COLLECTIONS.dig(slug, :scope)
-    elsif design_subcategory?
-      return Artwork.published.main_collection.design.where(subcategory: slug).count
-    end
+              GALLERY_CATEGORIES.dig(slug, :scope)
+            elsif special_collection?
+              SPECIAL_COLLECTIONS.dig(slug, :scope)
+            elsif design_subcategory?
+              return Artwork.published.main_collection.design.where(subcategory: slug).count
+            end
 
     return 0 unless scope
 

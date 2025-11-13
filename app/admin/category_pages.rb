@@ -33,7 +33,7 @@ ActiveAdmin.register CategoryPage do
     column :position, sortable: :position
 
     column :published, sortable: :published do |category_page|
-      status_tag(category_page.published ? 'Yes' : 'No', 
+      status_tag(category_page.published ? 'Yes' : 'No',
                  class: (category_page.published ? 'yes' : 'no'))
     end
 
@@ -169,12 +169,12 @@ ActiveAdmin.register CategoryPage do
     def create
       @category_page = CategoryPage.new(category_page_params)
 
-      # Generate slug if not provided
+      # generate slug if not provided
       if @category_page.slug.blank? && @category_page.title.present?
         @category_page.slug = @category_page.title.parameterize
       end
 
-      # Handle image upload
+      # handle image upload
       if params[:category_page][:image].present?
         upload = upload_to_cloudinary(params[:category_page][:image])
         @category_page.cloudinary_public_id = upload['public_id']
@@ -192,9 +192,9 @@ ActiveAdmin.register CategoryPage do
     def update
       @category_page = CategoryPage.find(params[:id])
 
-      # Handle image upload
+      # handle image upload
       if params[:category_page][:image].present?
-        # Delete old image
+        # delete old image
         if @category_page.cloudinary_public_id.present?
           begin
             Cloudinary::Uploader.destroy(@category_page.cloudinary_public_id)
@@ -203,7 +203,7 @@ ActiveAdmin.register CategoryPage do
           end
         end
 
-        # Upload new image
+        # upload new image
         upload = upload_to_cloudinary(params[:category_page][:image])
         @category_page.cloudinary_public_id = upload['public_id']
         @category_page.original_filename = params[:category_page][:image].original_filename
@@ -220,7 +220,7 @@ ActiveAdmin.register CategoryPage do
     def destroy
       @category_page = CategoryPage.find(params[:id])
 
-      # Delete image from Cloudinary
+      # delete image from Cloudinary
       if @category_page.cloudinary_public_id.present?
         begin
           Cloudinary::Uploader.destroy(@category_page.cloudinary_public_id)

@@ -12,12 +12,12 @@ module Gallery
                                         .gallery_category
                                         .ordered
 
-      # Load special collections
+      # load special collections
       @special_collections = CategoryPage.published
                                          .special_collection
                                          .ordered
 
-      # Fallback: if no category pages exist, show defaults
+      # fallback: if no category pages exist, show defaults
       if @gallery_categories.empty?
         @categories = {
           paintings: Artwork.published.main_collection.paintings.count,

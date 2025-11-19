@@ -1,89 +1,89 @@
-<header class="fixed top-0 left-0 right-0 z-50 bg-white/97 backdrop-blur-sm transition-all duration-200 p-4 lg:p-8">
+<header class="fixed top-0 left-0 right-0 z-50 bg-white p-8">
   <div class="flex items-center justify-between w-full">
 
-    <div class="flex-shrink-0">
+    <div class="flex-shrink-0 px-4">
       <%= link_to root_path, title: "Howard Hodgkin", rel: "home" do %>
-        <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "navbar-logo-image" %>
+        <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "w-64" %>
         <span class="sr-only">Howard Hodgkin</span>
       <% end %>
     </div>
 
     <!-- Desktop Navigation -->
-    <nav class="hidden lg:flex items-center gap-6 xl:gap-8 list-none m-0 p-0">
+    <nav class="hidden lg:flex items-center list-none m-0 px-4 py-0">
 
       <!-- Gallery Dropdown -->
       <div class="relative dropdown-container">
-        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity" onclick="toggleDropdown('gallery')">
-          <span>Gallery</span>
+        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity px-4 py-3" onclick="toggleDropdown('gallery')">
+          <span class="text-lg">Gallery</span>
           <%= raw '&nbsp;' %>
           <i class="fa-solid fa-caret-down"></i>
         </button>
-        <div id="gallery-dropdown" class="hidden absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50">
-          <%= link_to "Explore", gallery_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Paintings", gallery_paintings_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Prints", gallery_prints_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Indian Leaves", gallery_indian_leaves_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Indian Waves", gallery_indian_waves_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Design", gallery_design_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Other", gallery_other_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Missing Works", gallery_missing_works_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "All Artworks", gallery_all_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <div class="border-t border-gray-200 my-2"></div>
-          <%= link_to "Memories of Bombay / Mumbai", gallery_memories_of_bombay_mumbai_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Quantel Paintbox", gallery_quantel_paintbox_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Destroyed", gallery_destroyed_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+        <div id="gallery-dropdown" class="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
+          <%= link_to "Explore", gallery_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Paintings", gallery_paintings_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Prints", gallery_prints_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Indian Leaves", gallery_indian_leaves_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Indian Waves", gallery_indian_waves_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Design", gallery_design_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Other", gallery_other_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Missing Works", gallery_missing_works_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "All Artworks", gallery_all_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%# <div class="border-t border-gray-200 my-2"></div> %>
+          <%#= link_to "Memories of Bombay / Mumbai", gallery_memories_of_bombay_mumbai_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%#= link_to "Quantel Paintbox", gallery_quantel_paintbox_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%#= link_to "Destroyed", gallery_destroyed_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
         </div>
       </div>
 
       <!-- Resources Dropdown -->
       <div class="relative dropdown-container">
-        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity" onclick="toggleDropdown('resources')">
-          <span>Resources</span>
+        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity px-4 py-3" onclick="toggleDropdown('resources')">
+          <span class="text-lg">Resources</span>
           <%= raw '&nbsp;' %>
           <i class="fa-solid fa-caret-down"></i>
         </button>
-        <div id="resources-dropdown" class="hidden absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50">
-          <%= link_to "Explore", resources_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Exhibitions", resources_exhibitions_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Films and Audio", resources_films_and_audio_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Texts", resources_texts_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Publications", resources_publications_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Chronology", resources_chronology_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Collections", resources_collections_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+        <div id="resources-dropdown" class="hidden absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
+          <%= link_to "Explore", resources_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Exhibitions", resources_exhibitions_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Films and Audio", resources_films_and_audio_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Texts", resources_texts_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Publications", resources_publications_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Chronology", resources_chronology_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Collections", resources_collections_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
         </div>
       </div>
       
       <!-- Indian Collection Dropdown -->
       <div class="relative dropdown-container">
-        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity" onclick="toggleDropdown('indian-collection')">
-          <span>Indian Collection</span>
+        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity px-4 py-3" onclick="toggleDropdown('indian-collection')">
+          <span class="text-lg">Indian Collection</span>
           <%= raw '&nbsp;' %>
           <i class="fa-solid fa-caret-down"></i>
         </button>
-        <div id="indian-collection-dropdown" class="hidden absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50">
-          <%= link_to "Explore", indian_collection_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
-          <%= link_to "Resources", indian_collection_resources_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors" %>
+        <div id="indian-collection-dropdown" class="hidden absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
+          <%= link_to "Explore", indian_collection_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          <%= link_to "Resources", indian_collection_resources_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
         </div>
       </div>
       
       <!-- News Link -->
       <div class="flex items-center">
-        <%= link_to "News", news_index_path, class: "hover:opacity-70 transition-opacity" %>
+        <%= link_to "News", news_index_path, class: "hover:opacity-70 transition-opacity text-lg px-4 py-3" %>
       </div>
       
       <!-- Search Icon -->
       <button class="flex items-center hover:opacity-70 transition-opacity cursor-pointer">
-        <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="fa-solid fa-magnifying-glass text-xl px-4 py-3"></i>
       </button>
 
       <!-- Mailing List Icon -->
-      <%= link_to subscribe_path, class: "flex items-center hover:opacity-70 transition-opacity" do %>
+      <%= link_to subscribe_path, class: "flex items-center hover:opacity-70 transition-opacity text-2xl px-4 py-3" do %>
         <i class="fa-regular fa-envelope"></i>
       <% end %>
 
       <!-- Instagram Icon -->
-      <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "flex items-center hover:opacity-70 transition-opacity" do %>
+      <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "flex items-center hover:opacity-70 transition-opacity text-2xl px-4 py-3" do %>
         <i class="fa-brands fa-instagram"></i>
       <% end %>
     </nav>
@@ -181,17 +181,40 @@
     const dropdown = document.getElementById(dropdownId + '-dropdown');
     
     if (currentDropdown === dropdown && !dropdown.classList.contains('hidden')) {
-      dropdown.classList.add('hidden');
+      // dropdown.classList.add('hidden');
+      closeDropdown(dropdown);
       currentDropdown = null;
       return;
     }
     
     if (currentDropdown) {
-      currentDropdown.classList.add('hidden');
+      closeDropdown(currentDropdown);
+      // currentDropdown.classList.add('hidden');
     }
-    
-    dropdown.classList.remove('hidden');
+
+    openDropdown(dropdown);
     currentDropdown = dropdown;
+  }
+    
+    // dropdown.classList.remove('hidden');
+    // currentDropdown = dropdown;
+
+  function openDropdown(dropdown) {
+    dropdown.classList.remove('hidden');
+    // Force a reflow to ensure the transition works
+    dropdown.offsetHeight;
+    dropdown.classList.remove('opacity-0', 'max-h-0');
+    dropdown.classList.add('opacity-100', 'max-h-[1000px]');
+  }
+
+  function closeDropdown(dropdown) {
+    dropdown.classList.remove('opacity-100', 'max-h-[1000px]');
+    dropdown.classList.add('opacity-0', 'max-h-0');
+    
+    // Wait for animation to complete before hiding
+    setTimeout(() => {
+      dropdown.classList.add('hidden');
+    }, 500); // Match the duration-300 in Tailwind
   }
 
   function toggleMobileMenu() {

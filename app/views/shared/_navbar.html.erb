@@ -9,16 +9,16 @@
     </div>
 
     <!-- Desktop Navigation -->
-    <nav class="hidden lg:flex items-center list-none m-0 px-4 py-0">
+    <nav class="hidden lg:flex items-center list-none m-0 px-4 py-0" data-controller="dropdown">
 
       <!-- Gallery Dropdown -->
       <div class="relative dropdown-container">
-        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity px-4 py-3" onclick="toggleDropdown('gallery')">
+        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity px-4 py-3" data-action="click->dropdown#toggle">
           <span class="text-lg">Gallery</span>
           <%= raw '&nbsp;' %>
           <i class="fa-solid fa-caret-down"></i>
         </button>
-        <div id="gallery-dropdown" class="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
+        <div id="gallery-dropdown" class="absolute top-full left-0 mt-2 bg-gray-50 py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
           <%= link_to "Explore", gallery_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
           <%= link_to "Paintings", gallery_paintings_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
           <%= link_to "Prints", gallery_prints_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
@@ -37,12 +37,12 @@
 
       <!-- Resources Dropdown -->
       <div class="relative dropdown-container">
-        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity px-4 py-3" onclick="toggleDropdown('resources')">
+        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity px-4 py-3" data-action="click->dropdown#toggle">
           <span class="text-lg">Resources</span>
           <%= raw '&nbsp;' %>
           <i class="fa-solid fa-caret-down"></i>
         </button>
-        <div id="resources-dropdown" class="hidden absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
+        <div id="resources-dropdown" class="hidden absolute top-full left-0 mt-2 bg-gray-50 py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
           <%= link_to "Explore", resources_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
           <%= link_to "Exhibitions", resources_exhibitions_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
           <%= link_to "Films and Audio", resources_films_and_audio_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
@@ -55,12 +55,12 @@
       
       <!-- Indian Collection Dropdown -->
       <div class="relative dropdown-container">
-        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity px-4 py-3" onclick="toggleDropdown('indian-collection')">
+        <button class="flex items-center cursor-pointer hover:opacity-70 transition-opacity px-4 py-3" data-action="click->dropdown#toggle">
           <span class="text-lg">Indian Collection</span>
           <%= raw '&nbsp;' %>
           <i class="fa-solid fa-caret-down"></i>
         </button>
-        <div id="indian-collection-dropdown" class="hidden absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
+        <div id="indian-collection-dropdown" class="hidden absolute top-full left-0 mt-2 bg-gray-50 py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
           <%= link_to "Explore", indian_collection_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
           <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
           <%= link_to "Resources", indian_collection_resources_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
@@ -173,91 +173,3 @@
     </nav>
   </div>
 </div>
-
-<script>
-  let currentDropdown = null;
-
-  function toggleDropdown(dropdownId) {
-    const dropdown = document.getElementById(dropdownId + '-dropdown');
-    
-    if (currentDropdown === dropdown && !dropdown.classList.contains('hidden')) {
-      // dropdown.classList.add('hidden');
-      closeDropdown(dropdown);
-      currentDropdown = null;
-      return;
-    }
-    
-    if (currentDropdown) {
-      closeDropdown(currentDropdown);
-      // currentDropdown.classList.add('hidden');
-    }
-
-    openDropdown(dropdown);
-    currentDropdown = dropdown;
-  }
-    
-    // dropdown.classList.remove('hidden');
-    // currentDropdown = dropdown;
-
-  function openDropdown(dropdown) {
-    dropdown.classList.remove('hidden');
-    // Force a reflow to ensure the transition works
-    dropdown.offsetHeight;
-    dropdown.classList.remove('opacity-0', 'max-h-0');
-    dropdown.classList.add('opacity-100', 'max-h-[1000px]');
-  }
-
-  function closeDropdown(dropdown) {
-    dropdown.classList.remove('opacity-100', 'max-h-[1000px]');
-    dropdown.classList.add('opacity-0', 'max-h-0');
-    
-    // Wait for animation to complete before hiding
-    setTimeout(() => {
-      dropdown.classList.add('hidden');
-    }, 500); // Match the duration-300 in Tailwind
-  }
-
-  function toggleMobileMenu() {
-    const overlay = document.getElementById('mobile-menu');
-    const sidebar = document.getElementById('mobile-sidebar');
-    
-    overlay.classList.toggle('hidden');
-    sidebar.classList.toggle('translate-x-full');
-    
-    // Prevent body scroll when menu is open
-    document.body.classList.toggle('overflow-hidden');
-  }
-
-  // Close dropdown when clicking outside
-  document.addEventListener('click', function(event) {
-    const dropdownContainers = document.querySelectorAll('.dropdown-container');
-    let clickedInside = false;
-    
-    dropdownContainers.forEach(container => {
-      if (container.contains(event.target)) {
-        clickedInside = true;
-      }
-    });
-    
-    if (!clickedInside && currentDropdown) {
-      currentDropdown.classList.add('hidden');
-      currentDropdown = null;
-    }
-  });
-
-  // Close dropdown on escape key
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      if (currentDropdown) {
-        currentDropdown.classList.add('hidden');
-        currentDropdown = null;
-      }
-      
-      // Close mobile menu
-      const sidebar = document.getElementById('mobile-sidebar');
-      if (!sidebar.classList.contains('translate-x-full')) {
-        toggleMobileMenu();
-      }
-    }
-  });
-</script>

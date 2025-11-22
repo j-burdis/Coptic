@@ -1,175 +1,184 @@
-<header class="fixed top-0 left-0 right-0 z-50 bg-white p-8">
-  <div class="flex items-center justify-between w-full">
+<div data-controller="dropdown">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white p-8">
+    <div class="flex items-center justify-between w-full">
 
-    <div class="flex-shrink-0 px-4">
-      <%= link_to root_path, title: "Howard Hodgkin", rel: "home" do %>
-        <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "w-64" %>
-        <span class="sr-only">Howard Hodgkin</span>
-      <% end %>
-    </div>
+      <div class="flex-shrink-0 px-4">
+        <%= link_to root_path, title: "Howard Hodgkin", rel: "home" do %>
+          <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "w-64" %>
+          <span class="sr-only">Howard Hodgkin</span>
+        <% end %>
+      </div>
 
-    <!-- Desktop Navigation -->
-    <nav class="hidden lg:flex items-center list-none m-0 px-4 py-0" data-controller="dropdown">
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center list-none m-0 px-4 py-0">
 
-      <!-- Gallery Dropdown -->
-      <div class="relative dropdown-container">
-        <button class="flex items-center cursor-pointer hover:text-blue-800 transition-opacity px-4 py-3" data-action="click->dropdown#toggle">
-          <span class="text-lg">Gallery</span>
-          <%= raw '&nbsp;' %>
-          <i class="fa-solid fa-caret-down"></i>
-        </button>
-        <div id="gallery-dropdown" class="absolute top-full left-0 mt-2 bg-gray-50 py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
-          <%= link_to "Explore", gallery_root_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Paintings", gallery_paintings_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Prints", gallery_prints_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Indian Leaves", gallery_indian_leaves_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Indian Waves", gallery_indian_waves_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Design", gallery_design_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Other", gallery_other_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Missing Works", gallery_missing_works_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "All Artworks", gallery_all_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
-          <%# <div class="border-t border-gray-200 my-2"></div> %>
-          <%#= link_to "Memories of Bombay / Mumbai", gallery_memories_of_bombay_mumbai_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
-          <%#= link_to "Quantel Paintbox", gallery_quantel_paintbox_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
-          <%#= link_to "Destroyed", gallery_destroyed_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+        <!-- Gallery Dropdown -->
+        <div class="relative dropdown-container">
+          <button class="flex items-center cursor-pointer hover:text-blue-800 transition-opacity px-4 py-3" data-action="click->dropdown#toggle">
+            <span class="text-lg">Gallery</span>
+            <%= raw '&nbsp;' %>
+            <i class="fa-solid fa-caret-down"></i>
+          </button>
+          <div id="gallery-dropdown" class="absolute top-full left-0 mt-2 bg-gray-50 py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
+            <%= link_to "Explore", gallery_root_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Paintings", gallery_paintings_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Prints", gallery_prints_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Indian Leaves", gallery_indian_leaves_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Indian Waves", gallery_indian_waves_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Design", gallery_design_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Other", gallery_other_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Missing Works", gallery_missing_works_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "All Artworks", gallery_all_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
+            <%# <div class="border-t border-gray-200 my-2"></div> %>
+            <%#= link_to "Memories of Bombay / Mumbai", gallery_memories_of_bombay_mumbai_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+            <%#= link_to "Quantel Paintbox", gallery_quantel_paintbox_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+            <%#= link_to "Destroyed", gallery_destroyed_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
+          </div>
         </div>
-      </div>
 
-      <!-- Resources Dropdown -->
-      <div class="relative dropdown-container">
-        <button class="flex items-center cursor-pointer hover:text-blue-800 transition-opacity px-4 py-3" data-action="click->dropdown#toggle">
-          <span class="text-lg">Resources</span>
-          <%= raw '&nbsp;' %>
-          <i class="fa-solid fa-caret-down"></i>
-        </button>
-        <div id="resources-dropdown" class="hidden absolute top-full left-0 mt-2 bg-gray-50 py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
-          <%= link_to "Explore", resources_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Exhibitions", resources_exhibitions_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Films and Audio", resources_films_and_audio_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Texts", resources_texts_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Publications", resources_publications_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Chronology", resources_chronology_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Collections", resources_collections_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+        <!-- Resources Dropdown -->
+        <div class="relative dropdown-container">
+          <button class="flex items-center cursor-pointer hover:text-blue-800 transition-opacity px-4 py-3" data-action="click->dropdown#toggle">
+            <span class="text-lg">Resources</span>
+            <%= raw '&nbsp;' %>
+            <i class="fa-solid fa-caret-down"></i>
+          </button>
+          <div id="resources-dropdown" class="hidden absolute top-full left-0 mt-2 bg-gray-50 py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
+            <%= link_to "Explore", resources_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Exhibitions", resources_exhibitions_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Films and Audio", resources_films_and_audio_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Texts", resources_texts_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Publications", resources_publications_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Chronology", resources_chronology_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Collections", resources_collections_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+          </div>
         </div>
-      </div>
-      
-      <!-- Indian Collection Dropdown -->
-      <div class="relative dropdown-container">
-        <button class="flex items-center cursor-pointer hover:text-blue-800 transition-opacity px-4 py-3" data-action="click->dropdown#toggle">
-          <span class="text-lg">Indian Collection</span>
-          <%= raw '&nbsp;' %>
-          <i class="fa-solid fa-caret-down"></i>
-        </button>
-        <div id="indian-collection-dropdown" class="hidden absolute top-full left-0 mt-2 bg-gray-50 py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
-          <%= link_to "Explore", indian_collection_root_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
-          <%= link_to "Resources", indian_collection_resources_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+        
+        <!-- Indian Collection Dropdown -->
+        <div class="relative dropdown-container">
+          <button class="flex items-center cursor-pointer hover:text-blue-800 transition-opacity px-4 py-3" data-action="click->dropdown#toggle">
+            <span class="text-lg">Indian Collection</span>
+            <%= raw '&nbsp;' %>
+            <i class="fa-solid fa-caret-down"></i>
+          </button>
+          <div id="indian-collection-dropdown" class="hidden absolute top-full left-0 mt-2 bg-gray-50 py-2 min-w-[220px] z-50 overflow-hidden transition-all duration-500 ease-in-out opacity-0 max-h-0">
+            <%= link_to "Explore", indian_collection_root_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+            <%= link_to "Resources", indian_collection_resources_path, class: "block px-4 py-2 hover:text-blue-800 transition-colors text-lg" %>
+          </div>
         </div>
-      </div>
-      
-      <!-- News Link -->
-      <div class="flex items-center">
-        <%= link_to "News", news_index_path, class: "hover:text-blue-800 transition-opacity text-lg px-4 py-3" %>
-      </div>
-      
-      <!-- Search Icon -->
-      <button class="flex items-center hover:text-blue-800 transition-opacity cursor-pointer">
-        <i class="fa-solid fa-magnifying-glass text-xl px-4 py-3"></i>
-      </button>
-
-      <!-- Mailing List Icon -->
-      <%= link_to subscribe_path, class: "flex items-center hover:text-blue-800 transition-opacity text-2xl px-4 py-3" do %>
-        <i class="fa-regular fa-envelope"></i>
-      <% end %>
-
-      <!-- Instagram Icon -->
-      <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "flex items-center hover:text-blue-800 transition-opacity text-2xl px-4 py-3" do %>
-        <i class="fa-brands fa-instagram"></i>
-      <% end %>
-    </nav>
-
-    <!-- Mobile Menu Button -->
-    <button class="lg:hidden flex items-center hover:text-blue-800 transition-opacity" onclick="toggleMobileMenu()">
-      <i class="fa-solid fa-bars text-2xl"></i>
-    </button>
-  </div>
-</header>
-
-<!-- Mobile Menu Overlay -->
-<div id="mobile-menu" class="fixed inset-0 bg-black/50 z-40 hidden" onclick="toggleMobileMenu()"></div>
-
-<!-- Mobile Menu Sidebar -->
-<div id="mobile-sidebar" class="fixed top-0 right-0 bottom-0 w-80 bg-white z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto">
-  <div class="p-6">
-    <!-- Close Button -->
-    <button onclick="toggleMobileMenu()" class="absolute top-4 right-4 text-2xl hover:text-blue-800 transition-opacity">
-      <i class="fa-solid fa-times"></i>
-    </button>
-
-    <nav class="mt-12 space-y-6">
-      <!-- Gallery Section -->
-      <div>
-        <div class="text-lg font-medium mb-3">Gallery</div>
-        <div class="ml-4 space-y-2">
-          <%= link_to "Explore", gallery_root_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Paintings", gallery_paintings_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Prints", gallery_prints_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Indian Leaves", gallery_indian_leaves_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Indian Waves", gallery_indian_waves_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Design", gallery_design_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Other", gallery_other_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Missing Works", gallery_missing_works_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "All Artworks", gallery_all_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <div class="border-t border-gray-200 my-2"></div>
-          <%= link_to "Memories of Bombay / Mumbai", gallery_memories_of_bombay_mumbai_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Quantel Paintbox", gallery_quantel_paintbox_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Destroyed", gallery_destroyed_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+        
+        <!-- News Link -->
+        <div class="flex items-center">
+          <%= link_to "News", news_index_path, class: "hover:text-blue-800 transition-opacity text-lg px-4 py-3" %>
         </div>
-      </div>
-
-      <!-- Resources Section -->
-      <div>
-        <div class="text-lg font-medium mb-3">Resources</div>
-        <div class="ml-4 space-y-2">
-          <%= link_to "Explore", resources_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Exhibitions", resources_exhibitions_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Films and Audio", resources_films_and_audio_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Texts", resources_texts_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Publications", resources_publications_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Chronology", resources_chronology_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Collections", resources_collections_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-        </div>
-      </div>
-
-      <!-- Indian Collection Section -->
-      <div>
-        <div class="text-lg font-medium mb-3">Indian Collection</div>
-        <div class="ml-4 space-y-2">
-          <%= link_to "Explore", indian_collection_root_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          <%= link_to "Resources", indian_collection_resources_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-        </div>
-      </div>
-
-      <!-- News -->
-      <div>
-        <%= link_to "News", news_index_path, class: "block text-lg font-medium hover:text-blue-800 transition-opacity" %>
-      </div>
-
-      <!-- Icons Section -->
-      <div class="pt-6 border-t border-gray-200 flex items-center gap-6">
-        <button class="flex items-center hover:text-blue-800 transition-opacity cursor-pointer text-xl">
-          <i class="fa-solid fa-magnifying-glass"></i>
+        
+        <!-- Search Icon -->
+        <button class="flex items-center hover:text-blue-800 transition-opacity cursor-pointer">
+          <i class="fa-solid fa-magnifying-glass text-xl px-4 py-3"></i>
         </button>
 
-        <%= link_to subscribe_path, class: "flex items-center hover:text-blue-800 transition-opacity text-xl" do %>
+        <!-- Mailing List Icon -->
+        <%= link_to subscribe_path, class: "flex items-center hover:text-blue-800 transition-opacity text-2xl px-4 py-3" do %>
           <i class="fa-regular fa-envelope"></i>
         <% end %>
 
-        <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "flex items-center hover:text-blue-800 transition-opacity text-xl" do %>
+        <!-- Instagram Icon -->
+        <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "flex items-center hover:text-blue-800 transition-opacity text-2xl px-4 py-3" do %>
           <i class="fa-brands fa-instagram"></i>
         <% end %>
-      </div>
-    </nav>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button class="lg:hidden flex items-center hover:text-blue-800 transition-opacity"
+              data-action="click->dropdown#toggleMobile">
+        <i class="fa-solid fa-bars text-2xl"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu" 
+      class="fixed inset-0 bg-black/50 z-40 hidden" 
+      data-dropdown-target="mobileOverlay"
+      data-action="click->dropdown#closeMobile"></div>
+
+  <!-- Mobile Menu Sidebar -->
+  <div id="mobile-sidebar"
+      class="fixed top-0 right-0 bottom-0 w-80 bg-white z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto"
+      data-dropdown-target="mobileSidebar">
+    <div class="p-6">
+      <!-- Close Button -->
+      <button class="absolute top-4 right-4 text-2xl hover:text-blue-800 transition-opacity"
+              data-action="click->dropdown#toggleMobile">
+        <i class="fa-solid fa-times"></i>
+      </button>
+
+      <nav class="mt-12 space-y-6">
+        <!-- Gallery Section -->
+        <div>
+          <div class="text-lg font-medium mb-3">Gallery</div>
+          <div class="ml-4 space-y-2">
+            <%= link_to "Explore", gallery_root_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Paintings", gallery_paintings_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Prints", gallery_prints_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Indian Leaves", gallery_indian_leaves_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Indian Waves", gallery_indian_waves_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Design", gallery_design_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Other", gallery_other_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Missing Works", gallery_missing_works_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "All Artworks", gallery_all_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <div class="border-t border-gray-200 my-2"></div>
+            <%= link_to "Memories of Bombay / Mumbai", gallery_memories_of_bombay_mumbai_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Quantel Paintbox", gallery_quantel_paintbox_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Destroyed", gallery_destroyed_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+          </div>
+        </div>
+
+        <!-- Resources Section -->
+        <div>
+          <div class="text-lg font-medium mb-3">Resources</div>
+          <div class="ml-4 space-y-2">
+            <%= link_to "Explore", resources_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Exhibitions", resources_exhibitions_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Films and Audio", resources_films_and_audio_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Texts", resources_texts_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Publications", resources_publications_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Chronology", resources_chronology_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Collections", resources_collections_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+          </div>
+        </div>
+
+        <!-- Indian Collection Section -->
+        <div>
+          <div class="text-lg font-medium mb-3">Indian Collection</div>
+          <div class="ml-4 space-y-2">
+            <%= link_to "Explore", indian_collection_root_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+            <%= link_to "Resources", indian_collection_resources_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
+          </div>
+        </div>
+
+        <!-- News -->
+        <div>
+          <%= link_to "News", news_index_path, class: "block text-lg font-medium hover:text-blue-800 transition-opacity" %>
+        </div>
+
+        <!-- Icons Section -->
+        <div class="pt-6 border-t border-gray-200 flex items-center gap-6">
+          <button class="flex items-center hover:text-blue-800 transition-opacity cursor-pointer text-xl">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+
+          <%= link_to subscribe_path, class: "flex items-center hover:text-blue-800 transition-opacity text-xl" do %>
+            <i class="fa-regular fa-envelope"></i>
+          <% end %>
+
+          <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "flex items-center hover:text-blue-800 transition-opacity text-xl" do %>
+            <i class="fa-brands fa-instagram"></i>
+          <% end %>
+        </div>
+      </nav>
+    </div>
   </div>
 </div>

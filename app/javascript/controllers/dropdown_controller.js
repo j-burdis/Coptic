@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["menu"]
+  static targets = ["mobileOverlay", "mobileSidebar"]
   static values = { duration: { type: Number, default: 500 } }
 
   connect() {
@@ -13,6 +13,7 @@ export default class extends Controller {
     this.removeGlobalListeners()
   }
 
+  // Desktop dropdown toggle
   toggle(event) {
     event.stopPropagation()
     const menu = event.currentTarget.nextElementSibling
@@ -29,6 +30,24 @@ export default class extends Controller {
 
     this.open(menu)
     this.currentDropdown = menu
+  }
+
+  // Mobile menu toggle
+  toggleMobile(event) {
+    event?.preventDefault()
+    
+    if (this.hasMobileOverlayTarget && this.hasMobileSidebarTarget) {
+      this.mobileOverlayTarget.classList.toggle('hidden')
+      this.mobileSidebarTarget.classList.toggle('translate-x-full')
+      document.body.classList.toggle('overflow-hidden')
+    }
+  }
+
+  // Close mobile menu when clicking overlay
+  closeMobile(event) {
+    if (event.target === this.mobileOverlayTarget) {
+      this.toggleMobile()
+    }
   }
 
   open(menu) {
@@ -55,9 +74,18 @@ export default class extends Controller {
   }
 
   closeOnEscape(event) {
-    if (event.key === 'Escape' && this.currentDropdown) {
-      this.close(this.currentDropdown)
-      this.currentDropdown = null
+    if (event.key === 'Escape') {
+      // Close desktop dropdown
+      if (this.currentDropdown) {
+        this.close(this.currentDropdown)
+        this.currentDropdown = null
+      }
+      
+      // Close mobile menu if open
+      if (this.hasMobileSidebarTarget && 
+          !this.mobileSidebarTarget.classList.contains('translate-x-full')) {
+        this.toggleMobile()
+      }
     }
   }
 

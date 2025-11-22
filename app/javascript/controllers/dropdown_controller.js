@@ -32,24 +32,6 @@ export default class extends Controller {
     this.currentDropdown = menu
   }
 
-  // Mobile menu toggle
-  toggleMobile(event) {
-    event?.preventDefault()
-    
-    if (this.hasMobileOverlayTarget && this.hasMobileSidebarTarget) {
-      this.mobileOverlayTarget.classList.toggle('hidden')
-      this.mobileSidebarTarget.classList.toggle('translate-x-full')
-      document.body.classList.toggle('overflow-hidden')
-    }
-  }
-
-  // Close mobile menu when clicking overlay
-  closeMobile(event) {
-    if (event.target === this.mobileOverlayTarget) {
-      this.toggleMobile()
-    }
-  }
-
   open(menu) {
     menu.classList.remove('hidden')
     menu.offsetHeight // Force reflow

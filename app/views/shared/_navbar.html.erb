@@ -1,5 +1,5 @@
-<div data-controller="mobile-menu">
-  <header class="fixed top-0 left-0 right-0 z-50 bg-white p-8" data-controller="dropdown">
+<div>
+  <header class="fixed top-0 left-0 right-0 bg-white p-8" data-controller="dropdown" style="z-index: 60;">
     <div class="flex items-center justify-between w-full">
 
       <div class="flex-shrink-0 px-4">
@@ -29,10 +29,6 @@
             <%= link_to "Other", gallery_other_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
             <%= link_to "Missing Works", gallery_missing_works_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
             <%= link_to "All Artworks", gallery_all_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
-            <%# <div class="border-t border-gray-200 my-2"></div> %>
-            <%#= link_to "Memories of Bombay / Mumbai", gallery_memories_of_bombay_mumbai_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
-            <%#= link_to "Quantel Paintbox", gallery_quantel_paintbox_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
-            <%#= link_to "Destroyed", gallery_destroyed_path, class: "block px-4 py-2 hover:bg-gray-100 transition-colors text-lg" %>
           </div>
         </div>
 
@@ -96,88 +92,4 @@
       </button>
     </div>
   </header>
-
-  <!-- Mobile Menu Overlay -->
-  <div class="fixed inset-0 bg-black/50 z-40 hidden" 
-      data-mobile-menu-target="overlay"
-      data-action="click->mobile-menu#close"></div>
-
-  <!-- Mobile Menu Sidebar -->
-  <div id="mobile-sidebar"
-      class="fixed top-0 right-0 bottom-0 w-80 bg-white z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto"
-      data-mobile-menu-target="sidebar">
-    <div class="p-6">
-      <!-- Close Button -->
-      <button class="absolute top-4 right-4 text-2xl hover:text-blue-800 transition-opacity"
-              data-action="click->mobile-menu#toggle">
-        <i class="fa-solid fa-times"></i>
-      </button>
-
-      <nav class="mt-12 space-y-6">
-        <!-- Gallery Section -->
-        <div>
-          <div class="text-lg font-medium mb-3">Gallery</div>
-          <div class="ml-4 space-y-2">
-            <%= link_to "Explore", gallery_root_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Paintings", gallery_paintings_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Prints", gallery_prints_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Indian Leaves", gallery_indian_leaves_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Indian Waves", gallery_indian_waves_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Design", gallery_design_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Other", gallery_other_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Missing Works", gallery_missing_works_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "All Artworks", gallery_all_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <div class="border-t border-gray-200 my-2"></div>
-            <%= link_to "Memories of Bombay / Mumbai", gallery_memories_of_bombay_mumbai_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Quantel Paintbox", gallery_quantel_paintbox_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Destroyed", gallery_destroyed_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          </div>
-        </div>
-
-        <!-- Resources Section -->
-        <div>
-          <div class="text-lg font-medium mb-3">Resources</div>
-          <div class="ml-4 space-y-2">
-            <%= link_to "Explore", resources_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Exhibitions", resources_exhibitions_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Films and Audio", resources_films_and_audio_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Texts", resources_texts_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Publications", resources_publications_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Chronology", resources_chronology_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Collections", resources_collections_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          </div>
-        </div>
-
-        <!-- Indian Collection Section -->
-        <div>
-          <div class="text-lg font-medium mb-3">Indian Collection</div>
-          <div class="ml-4 space-y-2">
-            <%= link_to "Explore", indian_collection_root_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-            <%= link_to "Resources", indian_collection_resources_path, class: "block py-1 hover:text-blue-800 transition-opacity" %>
-          </div>
-        </div>
-
-        <!-- News -->
-        <div>
-          <%= link_to "News", news_index_path, class: "block text-lg font-medium hover:text-blue-800 transition-opacity" %>
-        </div>
-
-        <!-- Icons Section -->
-        <div class="pt-6 border-t border-gray-200 flex items-center gap-6">
-          <button class="flex items-center hover:text-blue-800 transition-opacity cursor-pointer text-xl">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-
-          <%= link_to subscribe_path, class: "flex items-center hover:text-blue-800 transition-opacity text-xl" do %>
-            <i class="fa-regular fa-envelope"></i>
-          <% end %>
-
-          <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "flex items-center hover:text-blue-800 transition-opacity text-xl" do %>
-            <i class="fa-brands fa-instagram"></i>
-          <% end %>
-        </div>
-      </nav>
-    </div>
-  </div>
 </div>

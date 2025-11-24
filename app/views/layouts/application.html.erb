@@ -19,18 +19,21 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="min-h-[120vh] flex flex-col overflow-x-hidden">
-    <%= render 'shared/navbar' %>
-    <%= render 'shared/flash_messages' %>
-    
-    <main class="flex-1 w-full overflow-x-hidden">
-      <%# flex-grow pt-24 md:pt-32 %>
-      <%#  %>
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-20 lg:mt-24 max-w-full">
-        <%= yield %>
-      </div>
-    </main>
+  <body class="min-h-[120vh] flex flex-col overflow-x-hidden" data-controller="mobile-menu">
+    <!-- Wrapper for sliding page content -->
+    <div id="page-wrapper" class="min-h-screen flex flex-col transition-transform duration-300 ease-in-out" data-mobile-menu-target="pageWrapper">
+      <%= render 'shared/navbar' %>
+      <%= render 'shared/flash_messages' %>
+      
+      <main class="flex-1 w-full overflow-x-hidden">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-20 lg:mt-24 max-w-full">
+          <%= yield %>
+        </div>
+      </main>
 
-    <%= render 'shared/footer' %>
+      <%= render 'shared/footer' %>
+    </div>
+
+    <%= render 'shared/mobile_menu' %>
   </body>
 </html>

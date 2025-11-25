@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="overflow-x-hidden">
   <head>
     <title><%= content_for(:title) || "Coptic" %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,13 +19,13 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="flex flex-col overflow-x-hidden" data-controller="mobile-menu">
+  <body class="min-h-[100] flex flex-col overflow-x-hidden bg-white relative" data-controller="mobile-menu">
     <!-- Wrapper for sliding page content -->
-    <div id="page-wrapper" class="min-h-screen flex flex-col transition-transform duration-300 ease-in-out" data-mobile-menu-target="pageWrapper">
+    <div id="page-wrapper" class="min-h-screen flex flex-col transition-transform duration-300 ease-in-out w-full bg-white relative" data-mobile-menu-target="pageWrapper">
       <%= render 'shared/navbar' %>
       <%= render 'shared/flash_messages' %>
       
-      <main class="flex-1 w-full overflow-x-hidden">
+      <main class="flex-1 w-full bg-white" style="padding-bottom: calc(100vh - 312px)">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-20 lg:mt-24 max-w-full">
           <%= yield %>
         </div>

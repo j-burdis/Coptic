@@ -1,5 +1,5 @@
 <% if flash.any? %>
-  <div class="fixed top-20 right-4 z-50 space-y-2">
+  <div class="fixed top-24 right-4 z-[70] space-y-2">
     <% flash.each do |type, message| %>
       <div class="<%= flash_class(type) %> px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 animate-slide-in max-w-md">
         <i class="<%= flash_icon(type) %>"></i>

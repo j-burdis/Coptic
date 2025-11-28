@@ -1,10 +1,12 @@
 <% if flash.any? %>
-  <div class="fixed top-24 right-4 z-[70] space-y-2">
+  <div class="fixed top-20 right-4 z-[70] space-y-2">
     <% flash.each do |type, message| %>
-      <div class="<%= flash_class(type) %> px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 animate-slide-in max-w-md">
+      <div class="<%= flash_class(type) %> px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 animate-slide-in max-w-md transition-opacity duration-300" 
+           data-controller="flash"
+           data-flash-timeout-value="5000">
         <i class="<%= flash_icon(type) %>"></i>
         <span><%= message %></span>
-        <button onclick="this.parentElement.remove()" class="ml-auto hover:opacity-70">
+        <button data-action="click->flash#dismiss" class="ml-auto hover:opacity-70">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>

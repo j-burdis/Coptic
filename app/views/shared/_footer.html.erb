@@ -1,8 +1,8 @@
 <footer class="bg-[#e6e6e6] border-t border-gray-200">
-  <div class="p-8">
+  <div class="p-6 lg:p-8">
     
     <div class="flex items-center justify-between mb-4">
-      <div class="flex-shrink-0 px-4">
+      <div class="flex-shrink-0 pr-4">
         <%= link_to root_path, title: "Howard Hodgkin", rel: "home" do %>
           <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "w-64" %>
           <span class="sr-only">Howard Hodgkin</span>
@@ -10,7 +10,7 @@
       </div>
 
       <div class="flex items-center px-4">
-        <%= link_to subscribe_path, class: "text-gray-700 hover:text-blue-800 transition-colors py-3 px-4", title: "Mailing List" do %>
+        <%= link_to subscribe_path, class: "text-gray-700 hover:text-blue-800 transition-colors py-3 px-2 lg:px-4", title: "Mailing List" do %>
           <i class="fa-regular fa-envelope text-2xl"></i>
         <% end %>
         
@@ -21,8 +21,8 @@
     </div>
 
     <!-- Bottom Row: Links Grid -->
-    <div class="px-4">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:max-w-xl">
+    <div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-72 md:max-w-xl">
         
         <!-- Column 1: Main Links -->
         <div class="space-y-3">
@@ -37,7 +37,7 @@
           <%= link_to "Contact", contact_path, class: "block text-gray-700 hover:text-blue-800 transition-colors py-1 px-2" %>
           <%# <%= link_to "Newsletter", newsletter_path, target: "_blank", rel: "noopener noreferrer", class: "block text-gray-700 hover:text-blue-800 transition-colors py-1 px-2" %>
           <%= link_to "Newsletter", subscribe_path, class: "block text-gray-700 hover:text-blue-800 transition-colors py-1 px-2" %>
-          <%= link_to "Copyright & Permissions", copyright_permissions_path, class: "block text-gray-700 hover:text-blue-800 transition-colors py-1 px-2" %>
+          <%= link_to "Copyright & Permissions", copyright_permissions_path, class: "block text-gray-700 hover:text-blue-800 transition-colors py-1 px-2 whitespace-nowrap" %>
           <%= link_to "Privacy", privacy_path, class: "block text-gray-700 hover:text-blue-800 transition-colors py-1 px-2" %>
         </div>
 
@@ -47,7 +47,7 @@
       </div>
     </div>  
 
-    <div class="text-gray-600 text-sm mt-4 px-6">
+    <div class="text-gray-600 text-sm mt-4 px-2">
       <p class="leading-relaxed">
         © <%= Date.current.year %> Howard Hodgkin
       </p>

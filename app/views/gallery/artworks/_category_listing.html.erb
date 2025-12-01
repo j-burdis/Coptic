@@ -98,7 +98,7 @@
     </div>
 
     <% if @artworks.present? && @artworks.count > 0 %>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
         <% @artworks.each do |artwork| %>
           <%= render partial: 'shared/artwork_card', locals: { artwork: artwork } %>
         <% end %>

@@ -5,7 +5,7 @@
   
   <% if @gallery_categories.present? %>
     <!-- display category pages -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <% @gallery_categories.each do |category_page| %>
         <%= link_to category_page.path, class: "group block border border-gray-200 hover:border-black transition-colors overflow-hidden" do %>
           <% if category_page.cloudinary_public_id.present? %>
@@ -30,7 +30,7 @@
     </div>
   <% else %>
     <!-- default display fallback -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <%= link_to gallery_paintings_path, class: "group block p-6 border border-gray-200 hover:border-black transition-colors" do %>
         <h3 class="text-xl font-semibold mb-2 group-hover:underline">Paintings</h3>
         <p class="text-gray-600"><%= @categories[:paintings] %> works</p>
@@ -79,7 +79,7 @@
   
   <% if @special_collections.present? %>
     <!-- special collection pages (all, missing, destroyed) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <% @special_collections.each do |category_page| %>
         
         
@@ -106,7 +106,7 @@
     </div>
   <% else %>
     <!-- default display fallback -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <%= link_to gallery_missing_works_path, class: "group block p-6 border border-gray-200 hover:border-black transition-colors" do %>
         <h3 class="text-xl font-semibold mb-2 group-hover:underline">Missing Works</h3>
         <p class="text-gray-600"><%= @special_collections_fallback[:missing_works] %> works</p>

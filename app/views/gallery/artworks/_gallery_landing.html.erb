@@ -1,8 +1,10 @@
-<h1 class="text-4xl lg:text-5xl font-bold mb-12">Gallery</h1>
+<div class="mb-16 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+  <%# Quote %>
 
-<div class="mb-16">
-  <h2 class="text-2xl font-semibold mb-6">Collections</h2>
-  
+  <%# Search function %>
+</div>
+
+<div class="mb-16">  
   <% if @gallery_categories.present? %>
     <!-- display category pages -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

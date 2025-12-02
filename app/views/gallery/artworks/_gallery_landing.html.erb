@@ -1,7 +1,71 @@
 <div class="mb-16 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-  <%# Quote %>
+  <div>
+    <blockquote class="pl-6 py-2">
+      <p class="text-xl lg:text-2xl text-gray-700 italic mb-4">
+        "A lot of people... are afraid of pictures which have visible emotions in them. They feel calmer in front of pictures which are placid"
+      </p>
+      <cite class="text-gray-600 not-italic font-semibold">— Howard Hodgkin</cite>
+    </blockquote>
+  </div>
 
-  <%# Search function %>
+    <div>
+    <%= form_with url: gallery_all_path, method: :get do |f| %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Keyword Search (top left) -->
+        <div>
+          <%= f.text_field :s, 
+              placeholder: "Search by keyword",
+              class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+        </div>
+
+        <!-- Date Filter (top right) -->
+        <div>
+          <%= f.select :dates, 
+              options_for_select([
+                ["All dates", ""],
+                ["2020-2025", "2020-2025"],
+                ["2010-2019", "2010-2019"],
+                ["2000-2009", "2000-2009"],
+                ["1990-1999", "1990-1999"],
+                ["1980-1989", "1980-1989"],
+                ["1970-1979", "1970-1979"],
+                ["1960-1969", "1960-1969"],
+                ["1950-1959", "1950-1959"],
+                ["1940-1949", "1940-1949"]
+              ]),
+              {},
+              class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+        </div>
+
+        <!-- Type Filter (bottom left) -->
+        <div>
+          <%= f.select :type,
+              options_for_select([
+                ["All types", gallery_all_path],
+                ["Paintings", gallery_paintings_path],
+                ["Prints", gallery_prints_path],
+                ["Indian Leaves", gallery_indian_leaves_path],
+                ["Indian Waves", gallery_indian_waves_path],
+                ["Design", gallery_design_path],
+                ["Other", gallery_other_path],
+                ["Missing Works", gallery_missing_works_path],
+                ["Destroyed", gallery_destroyed_path],
+                ["Memories of Bombay / Mumbai", gallery_memories_of_bombay_mumbai_path],
+                ["Quantel Paintbox", gallery_quantel_paintbox_path]
+              ]),
+              {},
+              class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent",
+              onchange: "if(this.value && this.value.startsWith('/')) window.location.href = this.value;" %>
+        </div>
+
+        <!-- Submit Button (bottom right) -->
+        <div>
+          <%= f.submit "Search", 
+              class: "w-full bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800 transition-colors cursor-pointer font-semibold" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
 
 <div class="mb-16">  

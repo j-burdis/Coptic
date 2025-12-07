@@ -89,9 +89,31 @@
             <% if category_page.description.present? %>
               <p class="text-gray-500 hover:text-blue-400 mb-3 text-pretty"><%= category_page.description %></p>
             <% end %>
-            
-            <%#<p class="text-sm text-gray-500"><%= category_page.artwork_count % works</p>%>
           </div>
+        <% end %>
+      <% end %>
+      
+      <!-- Missing works -->
+      <% if @special_collections.present? %>
+        <% missing_works = @special_collections.find { |cat| cat.title == "Missing Works" } %>
+        <% if missing_works.present? %>
+          <%= link_to missing_works.path, class: "group block hover:text-blue-800" do %>
+            <% if missing_works.cloudinary_public_id.present? %>
+              <div class="aspect-[3/2] overflow-hidden">
+                <%= image_tag missing_works.thumbnail_url, 
+                    alt: missing_works.title,
+                    class: "w-full h-full bg-cover bg-center" %>
+              </div>
+            <% end %>
+            
+            <div>
+              <h3 class="text-xl font-semibold mt-4 mb-2"><%= missing_works.title %></h3>
+              
+              <% if missing_works.description.present? %>
+                <p class="text-gray-500 hover:text-blue-400 mb-3 text-pretty"><%= missing_works.description %></p>
+              <% end %>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
     </div>
@@ -137,56 +159,12 @@
         <h3 class="text-xl font-semibold mt-4 mb-2">Other</h3>
         <p class="text-gray-600"><%= @categories[:other] %> works</p>
       <% end %>
-    </div>
-  <% end %>
-</div>
-
-<div class="mb-16"> <!-- special collections (if present) -->
-  <h2 class="text-2xl font-semibold mb-6">Special Collections</h2>
-  
-  <% if @special_collections.present? %>
-    <!-- special collection pages (all, missing, destroyed) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      <% @special_collections.each do |category_page| %>
-        
-        <%= link_to category_page.path, class: "group block hover:text-blue-800" do %>
-          <% if category_page.cloudinary_public_id.present? %>
-            <div class="aspect-[3/2] overflow-hidden">
-              <%= image_tag category_page.thumbnail_url, 
-                  alt: category_page.title,
-                  class: "w-full h-full bg-cover bg-center" %>
-            </div>
-          <% end %>
-          
-          <div>
-            <h3 class="text-xl font-semibold mt-4 mb-2"><%= category_page.title %></h3>
-            
-            <% if category_page.description.present? %>
-              <p class="text-gray-500 hover:text-blue-400 mb-3 text-pretty"><%= category_page.description %></p>
-            <% end %>
-            
-            <%#<p class="text-sm text-gray-500"><%= category_page.artwork_count % works</p>%>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-  <% else %>
-    <!-- default display fallback -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      
+      <!-- Missing works fallback -->
       <%= link_to gallery_missing_works_path, class: "group block hover:text-blue-800" do %>
         <h3 class="text-xl font-semibold mt-4 mb-2">Missing Works</h3>
         <p class="text-gray-600"><%= @special_collections_fallback[:missing_works] %> works</p>
-      <% end %>
-
-      <%= link_to gallery_destroyed_path, class: "group block hover:text-blue-800" do %>
-        <h3 class="text-xl font-semibold mt-4 mb-2">Destroyed</h3>
-        <p class="text-gray-600"><%= @special_collections_fallback[:destroyed] %> works</p>
-      <% end %>
-
-      <%= link_to gallery_all_path, class: "group block hover:text-blue-800" do %>
-        <h3 class="text-xl font-semibold mt-4 mb-2">All Artworks</h3>
-        <p class="text-gray-600">View all</p>
-      <% end %>
+      <% end %> 
     </div>
   <% end %>
 </div>

@@ -76,10 +76,10 @@
       <% @gallery_categories.each do |category_page| %>
         <%= link_to category_page.path, class: "group block hover:text-blue-800" do %>
           <% if category_page.cloudinary_public_id.present? %>
-            <div class="aspect-[4/3] overflow-hidden">
+            <div class="aspect-[3/2] overflow-hidden">
               <%= image_tag category_page.thumbnail_url, 
                   alt: category_page.title,
-                  class: "w-full h-full object-cover" %>
+                  class: "w-full h-full bg-cover bg-center" %>
             </div>
           <% end %>
           
@@ -87,7 +87,7 @@
             <h3 class="text-xl font-semibold mt-4 mb-2"><%= category_page.title %></h3>
             
             <% if category_page.description.present? %>
-              <p class="text-gray-600 mb-3 text-inherit text-pretty"><%= category_page.description %></p>
+              <p class="text-gray-500 hover:text-blue-400 mb-3 text-pretty"><%= category_page.description %></p>
             <% end %>
             
             <%#<p class="text-sm text-gray-500"><%= category_page.artwork_count % works</p>%>
@@ -151,10 +151,10 @@
         
         <%= link_to category_page.path, class: "group block hover:text-blue-800" do %>
           <% if category_page.cloudinary_public_id.present? %>
-            <div class="aspect-[4/3] overflow-hidden">
+            <div class="aspect-[3/2] overflow-hidden">
               <%= image_tag category_page.thumbnail_url, 
                   alt: category_page.title,
-                  class: "w-full h-full object-cover" %>
+                  class: "w-full h-full bg-cover bg-center" %>
             </div>
           <% end %>
           
@@ -162,7 +162,7 @@
             <h3 class="text-xl font-semibold mt-4 mb-2"><%= category_page.title %></h3>
             
             <% if category_page.description.present? %>
-              <p class="text-gray-600 mb-3 text-inherit text-pretty"><%= category_page.description %></p>
+              <p class="text-gray-500 hover:text-blue-400 mb-3 text-pretty"><%= category_page.description %></p>
             <% end %>
             
             <%#<p class="text-sm text-gray-500"><%= category_page.artwork_count % works</p>%>

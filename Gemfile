@@ -43,7 +43,7 @@ gem "sassc-rails", "~> 2.1"
 
 gem "kaminari", "~> 1.2"
 
-gem "friendly_id", "~> 5.5"
+gem "friendly_id", "~> 5.6"
 
 gem "gibbon", "~> 3.5"
 

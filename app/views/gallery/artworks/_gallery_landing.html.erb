@@ -1,8 +1,8 @@
 <!-- Search and filter-->
-<div class="mb-16 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+<div class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
   <div>
     <blockquote class="pl-6 py-2">
-      <p class="text-xl lg:text-2xl text-gray-700 italic mb-4">
+      <p class="text-xl lg:text-2xl text-gray-700 italic mb-4 text-pretty">
         "A lot of people... are afraid of pictures which have visible emotions in them. They feel calmer in front of pictures which are placid"
       </p>
       <cite class="text-gray-600 not-italic font-semibold">— Howard Hodgkin</cite>
@@ -11,7 +11,7 @@
 
   <div>
     <%= form_with url: gallery_all_path, method: :get do |f| %>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Keyword Search (top left) -->
         <div>
           <%= f.text_field :s, 
@@ -87,7 +87,7 @@
             <h3 class="text-xl font-semibold mt-4 mb-2"><%= category_page.title %></h3>
             
             <% if category_page.description.present? %>
-              <p class="text-gray-500 hover:text-blue-400 mb-3 text-pretty"><%= category_page.description %></p>
+              <p class="text-gray-500 group-hover:text-blue-400 mb-3 text-pretty"><%= category_page.description %></p>
             <% end %>
           </div>
         <% end %>
@@ -110,7 +110,7 @@
               <h3 class="text-xl font-semibold mt-4 mb-2"><%= missing_works.title %></h3>
               
               <% if missing_works.description.present? %>
-                <p class="text-gray-500 hover:text-blue-400 mb-3 text-pretty"><%= missing_works.description %></p>
+                <p class="text-gray-500 group-hover:text-blue-400 mb-3 text-pretty"><%= missing_works.description %></p>
               <% end %>
             </div>
           <% end %>

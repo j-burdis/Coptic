@@ -1,39 +1,135 @@
-<!-- category/collection page with filters -->
-
-<!-- hero banner (if category page exists) -->
-<% if @category_page.present? && @category_page.cloudinary_public_id.present? %>
-  <div class="mb-8 -mx-4 lg:-mx-0">
-    <div class="relative h-64 lg:h-80 overflow-hidden">
-      <%= image_tag @category_page.hero_url, 
-          alt: @category_page.title,
-          class: "w-full h-full object-cover" %>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-      <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
-        <h1 class="text-4xl lg:text-5xl font-bold mb-2"><%= @category_page.title %></h1>
-        <% if @category_page.description.present? %>
-          <p class="text-lg max-w-3xl"><%= truncate(@category_page.description, length: 200) %></p>
-        <% end %>
-      </div>
-    </div>
-  </div>
-<% end %>
-
-<!-- intro text (if category page exists but no hero image) -->
-<% if @category_page.present? && @category_page.description.present? && @category_page.cloudinary_public_id.blank? %>
-  <div class="mb-8 p-6 bg-gray-50 rounded-lg">
-    <h1 class="text-3xl lg:text-4xl font-bold mb-4"><%= @category_page.title %></h1>
-    <div class="prose prose-lg max-w-none">
-      <%= simple_format(@category_page.description) %>
-    </div>
-  </div>
-<% end %>
+<!-- category navigation bar -->
+<div class="mb-8 hidden sm:flex sm:justify-center">
+  <nav>
+    <ul class="flex flex-wrap items-center justify-center gap-1 text-sm">
+      <li><%= link_to "Gallery ›", gallery_root_path, class: "text-gray-400 hover:text-blue-800 px-2 py-1" %></li>
+      
+      <!-- Paintings -->
+      <% paintings = @gallery_categories&.find { |cat| cat.title == "Paintings" } %>
+      <% if paintings.present? || defined?(gallery_paintings_path) %>
+        <li>
+          <%= link_to paintings&.path || gallery_paintings_path, 
+              class: "px-3 py-1 #{(paintings && request.path == paintings.path) || request.path == gallery_paintings_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Paintings
+          <% end %>
+        </li>
+      <% end %>
+      
+      <!-- Prints -->
+      <% prints = @gallery_categories&.find { |cat| cat.title == "Prints" } %>
+      <% if prints.present? || defined?(gallery_prints_path) %>
+        <li>
+          <%= link_to prints&.path || gallery_prints_path, 
+              class: "px-3 py-1 #{(prints && request.path == prints.path) || request.path == gallery_prints_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Prints
+          <% end %>
+        </li>
+      <% end %>
+      
+      <!-- Indian Leaves -->
+      <% indian_leaves = @gallery_categories&.find { |cat| cat.title == "Indian Leaves" } %>
+      <% if indian_leaves.present? || defined?(gallery_indian_leaves_path) %>
+        <li>
+          <%= link_to indian_leaves&.path || gallery_indian_leaves_path, 
+              class: "px-3 py-1 #{(indian_leaves && request.path == indian_leaves.path) || request.path == gallery_indian_leaves_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Indian Leaves
+          <% end %>
+        </li>
+      <% end %>
+      
+      <!-- Indian Waves -->
+      <% indian_waves = @gallery_categories&.find { |cat| cat.title == "Indian Waves" } %>
+      <% if indian_waves.present? || defined?(gallery_indian_waves_path) %>
+        <li>
+          <%= link_to indian_waves&.path || gallery_indian_waves_path, 
+              class: "px-3 py-1 #{(indian_waves && request.path == indian_waves.path) || request.path == gallery_indian_waves_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Indian Waves
+          <% end %>
+        </li>
+      <% end %>
+      
+      <!-- Design -->
+      <% design = @gallery_categories&.find { |cat| cat.title == "Design" } %>
+      <% if design.present? || defined?(gallery_design_path) %>
+        <li>
+          <%= link_to design&.path || gallery_design_path, 
+              class: "px-3 py-1 #{(design && request.path == design.path) || request.path == gallery_design_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Design
+          <% end %>
+        </li>
+      <% end %>
+      
+      <!-- Other -->
+      <% other = @gallery_categories&.find { |cat| cat.title == "Other" } %>
+      <% if other.present? || defined?(gallery_other_path) %>
+        <li>
+          <%= link_to other&.path || gallery_other_path, 
+              class: "px-3 py-1 #{(other && request.path == other.path) || request.path == gallery_other_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Other
+          <% end %>
+        </li>
+      <% end %>
+      
+      <!-- Missing Works -->
+      <% missing_works = @special_collections&.find { |cat| cat.title == "Missing Works" } %>
+      <% if missing_works.present? || defined?(gallery_missing_works_path) %>
+        <li>
+          <%= link_to missing_works&.path || gallery_missing_works_path, 
+              class: "px-3 py-1 #{(missing_works && request.path == missing_works.path) || request.path == gallery_missing_works_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Missing Works
+          <% end %>
+        </li>
+      <% end %>
+      
+      <!-- Destroyed -->
+      <% destroyed = @special_collections&.find { |cat| cat.title == "Destroyed" } %>
+      <% if destroyed.present? || defined?(gallery_destroyed_path) %>
+        <li>
+          <%= link_to destroyed&.path || gallery_destroyed_path, 
+              class: "px-3 py-1 #{(destroyed && request.path == destroyed.path) || request.path == gallery_destroyed_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Destroyed
+          <% end %>
+        </li>
+      <% end %>
+      
+      <!-- Memories of Bombay / Mumbai -->
+      <% memories = @gallery_categories&.find { |cat| cat.title == "Memories of Bombay / Mumbai" } %>
+      <% if memories.present? || defined?(gallery_memories_of_bombay_mumbai_path) %>
+        <li>
+          <%= link_to memories&.path || gallery_memories_of_bombay_mumbai_path, 
+              class: "px-3 py-1 #{(memories && request.path == memories.path) || request.path == gallery_memories_of_bombay_mumbai_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Memories of Bombay / Mumbai
+          <% end %>
+        </li>
+      <% end %>
+      
+      <!-- Quantel Paintbox -->
+      <% quantel = @gallery_categories&.find { |cat| cat.title == "Quantel Paintbox" } %>
+      <% if quantel.present? || defined?(gallery_quantel_paintbox_path) %>
+        <li>
+          <%= link_to quantel&.path || gallery_quantel_paintbox_path, 
+              class: "px-3 py-1 #{(quantel && request.path == quantel.path) || request.path == gallery_quantel_paintbox_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Quantel Paintbox
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</div>
 
 <div class="lg:flex lg:gap-8">
   
   <!-- sidebar filters -->
-  <aside class="lg:w-64 mb-8 lg:mb-0">
+  <aside class="lg:w-64 mb-8 lg:mb-0 p-4 bg-[#e6e6e6]">
     <div class="sticky top-24">
-      <h2 class="text-xl font-semibold mb-4">Filter</h2>
+      <% if @category_page.present? %>
+        <h1 class="text-xl font-semibold mb-4"><%= @category_page.title %></h1>
+        <% if @category_page.description.present? %>
+          <p class="text-sm mb-6"><%= @category_page.description %></p>
+        <% end %>
+      <% else %>
+        <h1 class="text-2xl font-semibold mb-6"><%= @category_title %></h1>
+      <% end %>
       
       <%= form_with url: request.path, method: :get, class: "space-y-6" do |f| %>
         
@@ -55,23 +151,25 @@
           </div>
         <% end %>
 
+        <% if params[:s].present? || params[:dates].present? %>
+          <%= link_to "Clear filters", request.path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
+        <% end %>
+
         <!-- keyword search -->
         <div>
-          <label class="block text-sm font-semibold mb-2">Search</label>
           <%= f.text_field :s, 
               value: params[:s], 
-              placeholder: "Search artworks...",
-              class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+              placeholder: "Keyword",
+              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]" %>
         </div>
 
         <!-- date filter -->
         <% if @show_date_filter %>
           <div>
-            <label class="block text-sm font-semibold mb-2">Date</label>
             <%= f.select :dates, 
                 options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
                 {},
-                class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent",
+                class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
                 onchange: "this.form.submit()" %>
           </div>
         <% elsif @fixed_year.present? %>
@@ -81,24 +179,15 @@
           </div>
         <% end %>
 
-        <%= f.submit "Search", class: "w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors cursor-pointer" %>
-        
-        <% if params[:s].present? || params[:dates].present? %>
-          <%= link_to "Clear filters", request.path, class: "block text-center text-sm text-gray-600 hover:text-black" %>
-        <% end %>
+        <%#= f.submit "Search", class: "w-full bg-black text-white py-2 px-4 hover:bg-gray-800 transition-colors cursor-pointer" %>
       <% end %>
     </div>
   </aside>
 
   <!-- artworks grid -->
   <main class="flex-1">
-    <div class="mb-6 flex items-center justify-between">
-      <h1 class="text-3xl lg:text-4xl font-bold"><%= @category_title %></h1>
-      <p class="text-gray-600"><%= @artworks.total_count %> works</p>
-    </div>
-
     <% if @artworks.present? && @artworks.count > 0 %>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+      <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
         <% @artworks.each do |artwork| %>
           <%= render partial: 'shared/artwork_card', locals: { artwork: artwork } %>
         <% end %>

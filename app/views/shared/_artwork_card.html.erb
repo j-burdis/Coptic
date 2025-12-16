@@ -3,7 +3,7 @@
     <% if artwork.cloudinary_public_id.present? %>
       <%= image_tag artwork.thumbnail_url, 
           alt: artwork.title,
-          class: "w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" %>
+          class: "w-full h-full object-cover" %>
     <% else %>
       <div class="w-full h-full flex items-center justify-center">
         <i class="fa-solid fa-image text-4xl text-gray-300"></i>
@@ -12,14 +12,14 @@
   </div>
   
   <div class="space-y-1">
-    <h3 class="font-semibold text-lg group-hover:underline"><%= artwork.title %></h3>
+    <h3 class="font-semibold text-lg group-hover:text-blue-800"><%= artwork.title %></h3>
     
     <% if artwork.year.present? %>
-      <p class="text-sm text-gray-600"><%= artwork.year_range %></p>
+      <p class="text-sm group-hover:text-blue-400"><%= artwork.year_range %></p>
     <% end %>
     
     <% if artwork.medium.present? %>
-      <p class="text-sm text-gray-500"><%= truncate(artwork.medium, length: 60) %></p>
+      <p class="text-sm group-hover:text-blue-400"><%= truncate(artwork.medium, length: 60) %></p>
     <% end %>
   </div>
 <% end %>

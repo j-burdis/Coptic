@@ -150,12 +150,12 @@
 <div class="lg:flex lg:gap-8">
   
   <!-- sidebar filters -->
-  <aside class="lg:w-64 mb-8 lg:mb-0 p-4 bg-[#e6e6e6]">
+  <aside class="lg:w-80 mb-8 p-6 bg-[#e6e6e6]">
     <div class="sticky top-24">
       <% if @category_page.present? %>
-        <h1 class="text-xl font-semibold mb-4"><%= @category_page.title %></h1>
+        <h1 class="text-2xl font-semibold mb-4"><%= @category_page.title %></h1>
         <% if @category_page.description.present? %>
-          <p class="text-sm mb-6"><%= @category_page.description %></p>
+          <p class="text-md text-pretty mb-6"><%= @category_page.description %></p>
         <% end %>
       <% else %>
         <h1 class="text-2xl font-semibold mb-6"><%= @category_title %></h1>
@@ -183,6 +183,8 @@
 
         <% if params[:s].present? || params[:dates].present? %>
           <%= link_to "Clear filters", request.path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
+        <% else %>
+          <span class="text-gray-600">Filters</span>
         <% end %>
 
         <!-- keyword search -->
@@ -215,7 +217,7 @@
   </aside>
 
   <!-- artworks grid -->
-  <main class="flex-1">
+  <div class="flex-1">
     <% if @artworks.present? && @artworks.count > 0 %>
       <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
         <% @artworks.each do |artwork| %>
@@ -238,5 +240,5 @@
         <% end %>
       </div>
     <% end %>
-  </main>
+  </div>
 </div>

@@ -1,11 +1,11 @@
 <%= link_to artwork_path(artwork.slug), class: "group block" do %>
-  <div class="relative aspect-square mb-3 bg-gray-100 overflow-hidden">
+  <div class="relative mb-3 bg-gray-100 overflow-hidden">
     <% if artwork.cloudinary_public_id.present? %>
       <%= image_tag artwork.thumbnail_url, 
           alt: artwork.title,
-          class: "w-full h-full object-cover" %>
+          class: "object-cover" %>
     <% else %>
-      <div class="w-full h-full flex items-center justify-center">
+      <div class="aspect-square w-full flex items-center justify-center">
         <i class="fa-solid fa-image text-4xl text-gray-300"></i>
       </div>
     <% end %>

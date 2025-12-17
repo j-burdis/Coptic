@@ -12,7 +12,7 @@
       <% end %>
     </nav>
 
-    <% if @gallery_categories.present? || @categories.present? %>
+    <% if @show_landing %>
       <%= render 'gallery_landing' %>
     <% else %>
       <%= render 'category_listing' %>

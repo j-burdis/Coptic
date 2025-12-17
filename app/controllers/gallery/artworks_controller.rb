@@ -6,7 +6,16 @@ module Gallery
       :missing_works, :destroyed, :design, :design_subcategory, :all
     ]
 
+    before_action :load_category_pages, only: [
+      :paintings, :prints, :indian_leaves, :indian_waves, 
+      :quantel_paintbox, :memories_of_bombay_mumbai, :other,
+      :missing_works, :destroyed, :design, :design_subcategory, :all
+    ]
+
     def index
+      # Set flag to show landing page
+      @show_landing = true
+
       # load pages for gallery categories
       @gallery_categories = CategoryPage.published
                                         .gallery_category
@@ -186,6 +195,12 @@ module Gallery
 
     def set_base_query
       @artworks = Artwork.published.main_collection.order(year: :desc, title: :asc)
+    end
+
+    def load_category_pages
+      # Load all category pages for navigation
+      @gallery_categories = CategoryPage.published.gallery_category.ordered
+      @special_collections = CategoryPage.published.special_collection.ordered
     end
 
     def apply_search_and_date_filters

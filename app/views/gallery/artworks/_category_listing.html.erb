@@ -1,7 +1,7 @@
 <!-- category navigation bar -->
 <div class="mb-8 hidden sm:flex sm:justify-center">
   <nav>
-    <ul class="flex flex-wrap items-center justify-center gap-1 text-sm">
+    <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm">
       <li><%= link_to "Gallery ›", gallery_root_path, class: "text-gray-400 hover:text-blue-800 px-2 py-1" %></li>
       
       <!-- Paintings -->
@@ -9,8 +9,11 @@
       <% if paintings.present? || defined?(gallery_paintings_path) %>
         <li>
           <%= link_to paintings&.path || gallery_paintings_path, 
-              class: "px-3 py-1 #{(paintings && request.path == paintings.path) || request.path == gallery_paintings_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{(paintings && request.path == paintings.path) || request.path == gallery_paintings_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Paintings
+            <% if paintings.present? %>
+              <span>(<%= paintings.artwork_count %>)</span>
+            <% end %>
           <% end %>
         </li>
       <% end %>
@@ -20,8 +23,11 @@
       <% if prints.present? || defined?(gallery_prints_path) %>
         <li>
           <%= link_to prints&.path || gallery_prints_path, 
-              class: "px-3 py-1 #{(prints && request.path == prints.path) || request.path == gallery_prints_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{(prints && request.path == prints.path) || request.path == gallery_prints_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Prints
+            <% if prints.present? %>
+              <span>(<%= prints.artwork_count %>)</span>
+            <% end %>
           <% end %>
         </li>
       <% end %>
@@ -31,8 +37,11 @@
       <% if indian_leaves.present? || defined?(gallery_indian_leaves_path) %>
         <li>
           <%= link_to indian_leaves&.path || gallery_indian_leaves_path, 
-              class: "px-3 py-1 #{(indian_leaves && request.path == indian_leaves.path) || request.path == gallery_indian_leaves_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{(indian_leaves && request.path == indian_leaves.path) || request.path == gallery_indian_leaves_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Indian Leaves
+            <% if indian_leaves.present? %>
+              <span>(<%= indian_leaves.artwork_count %>)</span>
+            <% end %>
           <% end %>
         </li>
       <% end %>
@@ -42,8 +51,11 @@
       <% if indian_waves.present? || defined?(gallery_indian_waves_path) %>
         <li>
           <%= link_to indian_waves&.path || gallery_indian_waves_path, 
-              class: "px-3 py-1 #{(indian_waves && request.path == indian_waves.path) || request.path == gallery_indian_waves_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{(indian_waves && request.path == indian_waves.path) || request.path == gallery_indian_waves_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Indian Waves
+            <% if indian_waves.present? %>
+              <span>(<%= indian_waves.artwork_count %>)</span>
+            <% end %>
           <% end %>
         </li>
       <% end %>
@@ -53,8 +65,11 @@
       <% if design.present? || defined?(gallery_design_path) %>
         <li>
           <%= link_to design&.path || gallery_design_path, 
-              class: "px-3 py-1 #{(design && request.path == design.path) || request.path == gallery_design_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{(design && request.path == design.path) || request.path == gallery_design_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Design
+            <% if design.present? %>
+              <span>(<%= design.artwork_count %>)</span>
+            <% end %>
           <% end %>
         </li>
       <% end %>
@@ -64,8 +79,11 @@
       <% if other.present? || defined?(gallery_other_path) %>
         <li>
           <%= link_to other&.path || gallery_other_path, 
-              class: "px-3 py-1 #{(other && request.path == other.path) || request.path == gallery_other_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{(other && request.path == other.path) || request.path == gallery_other_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Other
+            <% if other.present? %>
+              <span>(<%= other.artwork_count %>)</span>
+            <% end %>
           <% end %>
         </li>
       <% end %>
@@ -75,8 +93,11 @@
       <% if missing_works.present? || defined?(gallery_missing_works_path) %>
         <li>
           <%= link_to missing_works&.path || gallery_missing_works_path, 
-              class: "px-3 py-1 #{(missing_works && request.path == missing_works.path) || request.path == gallery_missing_works_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{(missing_works && request.path == missing_works.path) || request.path == gallery_missing_works_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Missing Works
+            <% if missing_works.present? %>
+              <span>(<%= missing_works.artwork_count %>)</span>
+            <% end %>
           <% end %>
         </li>
       <% end %>
@@ -86,8 +107,11 @@
       <% if destroyed.present? || defined?(gallery_destroyed_path) %>
         <li>
           <%= link_to destroyed&.path || gallery_destroyed_path, 
-              class: "px-3 py-1 #{(destroyed && request.path == destroyed.path) || request.path == gallery_destroyed_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{(destroyed && request.path == destroyed.path) || request.path == gallery_destroyed_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Destroyed
+            <% if destroyed.present? %>
+              <span>(<%= destroyed.artwork_count %>)</span>
+            <% end %>
           <% end %>
         </li>
       <% end %>
@@ -97,8 +121,11 @@
       <% if memories.present? || defined?(gallery_memories_of_bombay_mumbai_path) %>
         <li>
           <%= link_to memories&.path || gallery_memories_of_bombay_mumbai_path, 
-              class: "px-3 py-1 #{(memories && request.path == memories.path) || request.path == gallery_memories_of_bombay_mumbai_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{(memories && request.path == memories.path) || request.path == gallery_memories_of_bombay_mumbai_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Memories of Bombay / Mumbai
+            <% if memories.present? %>
+              <span>(<%= memories.artwork_count %>)</span>
+            <% end %>
           <% end %>
         </li>
       <% end %>
@@ -108,8 +135,11 @@
       <% if quantel.present? || defined?(gallery_quantel_paintbox_path) %>
         <li>
           <%= link_to quantel&.path || gallery_quantel_paintbox_path, 
-              class: "px-3 py-1 #{(quantel && request.path == quantel.path) || request.path == gallery_quantel_paintbox_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{(quantel && request.path == quantel.path) || request.path == gallery_quantel_paintbox_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Quantel Paintbox
+            <% if quantel.present? %>
+              <span>(<%= quantel.artwork_count %>)</span>
+            <% end %>
           <% end %>
         </li>
       <% end %>

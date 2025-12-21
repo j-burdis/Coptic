@@ -1,22 +1,15 @@
 <div class="min-h-screen bg-white">
   <div class="container mx-auto px-4 py-8 lg:py-16">
-    
-    <nav class="mb-8 text-sm text-gray-600">
-      <%= link_to "Gallery", gallery_root_path, class: "hover:text-black" %>
-      <span class="mx-2">/</span>
-      <%= link_to @artwork.category.titleize, gallery_paintings_path, class: "hover:text-black" %>
-      <span class="mx-2">/</span>
-      <span class="text-black"><%= @artwork.title %></span>
-    </nav>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+    <div class="lg:flex lg:gap-32">
       
-      <div class="order-2 lg:order-1">
+      <!-- Left Column: Image -->
+      <div class="lg:w-1/2 mb-8 lg:mb-0">
         <div class="sticky top-24">
           <% if @artwork.cloudinary_public_id.present? %>
             <%= image_tag @artwork.large_url, 
                 alt: @artwork.title,
-                class: "w-full h-auto shadow-lg" %>
+                class: "w-full h-auto" %>
           <% else %>
             <div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
               <i class="fa-solid fa-image text-6xl text-gray-300"></i>
@@ -25,80 +18,107 @@
         </div>
       </div>
 
-      <div class="order-1 lg:order-2">
-        <h1 class="text-4xl lg:text-5xl font-bold mb-4"><%= @artwork.title %></h1>
-        
-        <div class="space-y-3 mb-8 text-lg">
-          <% if @artwork.year.present? %>
-            <p class="text-gray-700"><%= @artwork.year_range %></p>
-          <% end %>
+      <!-- Right Column: Details -->
+      <div class="lg:w-1/2">
+        <!-- Breadcrumbs -->
+        <nav class="mb-4">
+          <ul class="flex items-center text-sm text-gray-600 space-x-2">
+            <li><%= link_to "Gallery", gallery_root_path, class: "hover:text-blue-800" %></li>
+            <li><span class="text-gray-400">›</span></li>
+            <li><%= link_to @artwork.category.titleize, category_path_for(@artwork.category), class: "hover:text-blue-800" %></li>
+          </ul>
+        </nav>
+
+        <div class="max-w-xl">
+          <h1 class="text-3xl lg:text-4xl font-normal mb-6"><%= @artwork.title %></h1>
           
-          <% if @artwork.medium.present? %>
-            <p class="text-gray-700"><%= @artwork.medium %></p>
-          <% end %>
-          
-          <% if @artwork.dimensions.present? %>
-            <p class="text-gray-600"><%= @artwork.dimensions %></p>
-          <% end %>
+          <div class="space-y-2 mb-8 text-base leading-relaxed">
+            <% if @artwork.year.present? %>
+              <p class="text-gray-900"><%= @artwork.year_range %></p>
+            <% end %>
+            
+            <% if @artwork.dimensions.present? %>
+              <p class="text-gray-900"><%= @artwork.dimensions %></p>
+            <% end %>
+            
+            <% if @artwork.medium.present? %>
+              <p class="text-gray-900"><%= @artwork.medium %></p>
+            <% end %>
 
-          <% if @artwork.status != "active" %>
-            <p class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 rounded-md">
-              <%= @artwork.status.titleize %>
-            </p>
-          <% end %>
-        </div>
-
-        <% if @artwork.description.present? %>
-          <div class="prose prose-lg max-w-none mb-8">
-            <%= simple_format(@artwork.description) %>
+            <% if @artwork.status != "active" %>
+              <p class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 rounded-md text-sm mt-2">
+                <%= @artwork.status.titleize %>
+              </p>
+            <% end %>
           </div>
-        <% end %>
 
-        <% if @artwork.collections.any? %>
-          <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4">Collections</h2>
-            <ul class="space-y-2">
-              <% @artwork.collections.each do |collection| %>
-                <li>
-                  <%= link_to collection_path(collection.slug), 
-                      class: "text-black hover:underline" do %>
-                    <strong><%= collection.name %></strong>
-                    <% if collection.location.present? %>
-                      <span class="text-gray-600"> — <%= collection.location %></span>
-                    <% end %>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
+          <% if @artwork.description.present? %>
+            <div class="prose max-w-none mb-12 text-gray-700 leading-relaxed">
+              <%= simple_format(@artwork.description) %>
+            </div>
+          <% end %>
 
-        <% if @artwork.exhibitions.any? %>
-          <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4">Exhibitions</h2>
-            <ul class="space-y-2">
-              <% @artwork.exhibitions.order(year: :desc).each do |exhibition| %>
-                <li>
-                  <%= link_to exhibition_path(exhibition.slug), 
-                      class: "text-black hover:underline" do %>
-                    <strong><%= exhibition.title %></strong>
-                    <% if exhibition.year.present? %>
-                      <span class="text-gray-600"> (<%= exhibition.year %>)</span>
+          <% if @artwork.collections.any? %>
+            <div class="mb-12">
+              <h2 class="text-lg font-semibold mb-4">Collections</h2>
+              <ul class="space-y-3">
+                <% @artwork.collections.each do |collection| %>
+                  <li class="text-gray-700">
+                    <%= link_to collection_path(collection.slug), 
+                        class: "hover:text-black" do %>
+                      <span class="font-medium"><%= collection.name %></span>
+                      <% if collection.location.present? %>
+                        <br>
+                        <span class="text-sm text-gray-600"><%= collection.location %></span>
+                      <% end %>
                     <% end %>
-                    <% if exhibition.venue.present? %>
-                      <span class="text-gray-600"> — <%= exhibition.venue %></span>
-                    <% end %>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
 
-        <div class="mt-12">
-          <%= link_to :back, class: "inline-flex items-center text-gray-600 hover:text-black" do %>
-            <i class="fa-solid fa-arrow-left mr-2"></i>
-            Back to Gallery
+          <% if @artwork.exhibitions.any? %>
+            <div class="mb-12">
+              <h2 class="text-lg font-semibold mb-6">Exhibitions</h2>
+              <div class="space-y-8">
+                <% @artwork.exhibitions.order(year: :desc).each do |exhibition| %>
+                  <div class="border-b border-gray-200 pb-6 last:border-0">
+                    <%= link_to exhibition_path(exhibition.slug), 
+                        class: "block group" do %>
+                      <% if exhibition.image.present? %>
+                        <div class="aspect-[4/3] bg-gray-100 mb-4 overflow-hidden">
+                          <%= image_tag exhibition.image, 
+                              alt: exhibition.title,
+                              class: "w-full h-full object-cover group-hover:opacity-90 transition-opacity" %>
+                        </div>
+                      <% end %>
+                      
+                      <h3 class="font-medium text-gray-900 group-hover:text-black mb-2">
+                        <% if exhibition.venue.present? %>
+                          <%= exhibition.venue %>
+                        <% end %>
+                        <%= exhibition.title %>
+                      </h3>
+                      
+                      <p class="text-sm text-gray-600">
+                        <% if exhibition.location.present? %>
+                          <%= exhibition.location %>
+                        <% end %>
+                        <% if exhibition.location.present? && exhibition.dates.present? %>
+                          <br>
+                        <% end %>
+                        <% if exhibition.dates.present? %>
+                          <%= exhibition.dates %>
+                        <% elsif exhibition.year.present? %>
+                          <%= exhibition.year %>
+                        <% end %>
+                      </p>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
           <% end %>
         </div>
       </div>

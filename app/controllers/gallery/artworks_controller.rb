@@ -131,7 +131,7 @@ module Gallery
       @artworks = @artworks.status_destroyed.page(params[:page]).per(12)
       @category_title = "Destroyed"
       @show_date_filter = false
-      @fixed_year = "1961 or 1962"
+      @fixed_year = "1961-1962"
       @status_filter = "destroyed"
       render :index
     end
@@ -219,7 +219,10 @@ module Gallery
         when /(\d{4})-(\d{4})/ # decade range
           start_year = $1.to_i
           end_year = $2.to_i
-          @artworks = @artworks.where("year >= ? AND year <= ?", start_year, end_year)
+          @artworks = @artworks.where(
+            "(year >= ? AND year <= ?) OR (year_end >= ? AND year_end <= ?) OR (year <= ? AND year_end >= ?)",
+            start_year, end_year, start_year, end_year, start_year, end_year
+          )
         when /(\d{4})/ # single year
           year = $1.to_i
           @artworks = @artworks.where(year: year)

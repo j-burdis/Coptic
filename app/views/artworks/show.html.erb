@@ -4,8 +4,8 @@
     <div class="lg:flex lg:gap-32">
       
       <!-- Left Column: Image -->
-      <div class="lg:w-2/3 mb-8 lg:mb-0">
-        <div class="sticky top-24 lg:w-2/3">
+      <div class="lg:w-3/5 mb-8 lg:mb-0">
+        <div class="sticky top-24 lg:w-4/5">
           <% if @artwork.cloudinary_public_id.present? %>
             <%= image_tag @artwork.large_url, 
                 alt: @artwork.title,
@@ -19,7 +19,7 @@
       </div>
 
       <!-- Right Column: Details -->
-      <div class="lg:w-1/3">
+      <div class="lg:w-2/5">
         <!-- Breadcrumbs -->
         <nav class="mb-4">
           <ul class="flex items-center text-sm text-gray-600 space-x-2">

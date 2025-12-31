@@ -1,7 +1,7 @@
 <%= link_to artwork_path(artwork.slug), class: "group block" do %>
   <div class="relative mb-3 bg-gray-100 overflow-hidden">
     <% if artwork.cloudinary_public_id.present? %>
-      <%= image_tag artwork.thumbnail_url, 
+      <%= image_tag artwork.large_url, 
           alt: artwork.title,
           class: "object-cover" %>
     <% else %>
@@ -18,8 +18,8 @@
       <p class="text-sm group-hover:text-blue-400"><%= artwork.year_range %></p>
     <% end %>
     
-    <% if artwork.medium.present? %>
-      <p class="text-sm group-hover:text-blue-400"><%= truncate(artwork.medium, length: 60) %></p>
-    <% end %>
+    <%# if artwork.medium.present? %>
+      <%# <p class="text-sm group-hover:text-blue-400"><%= truncate(artwork.medium, length: 60) </p> %>
+    <%# end %>
   </div>
 <% end %>

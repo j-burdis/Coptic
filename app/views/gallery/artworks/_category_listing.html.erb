@@ -218,8 +218,29 @@
 
   <!-- artworks grid -->
   <div class="flex-1">
+    <!-- search/filter summary -->
+    <% if params[:s].present? || params[:dates].present? %>
+      <div class="mb-4">
+        <% if params[:s].present? %>
+          <h2 class="text-xl font-semibold">
+            "<%= params[:s] %>"
+            <span class="text-gray-600 font-normal">
+              (<%= @artworks.total_count %>)
+            </span>
+          </h2>
+        <% elsif params[:dates].present? %>
+          <h2 class="text-xl font-semibold">
+            <%= params[:dates] %>
+            <span class="text-gray-600 font-normal">
+              (<%= @artworks.total_count %>)
+            </span>
+          </h2>
+        <% end %>
+      </div>
+    <% end %>
+
     <% if @artworks.present? && @artworks.count > 0 %>
-      <div class="items-end grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+      <div class="items-end grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
         <% @artworks.each do |artwork| %>
           <%= render partial: 'shared/artwork_card', locals: { artwork: artwork } %>
         <% end %>

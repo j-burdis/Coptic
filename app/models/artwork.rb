@@ -101,6 +101,6 @@ class Artwork < ApplicationRecord
   def year_range
     return year.to_s unless year_end.present? && year_end != year
 
-    "#{year}-#{year_end}"
+    "#{year} - #{year_end}"
   end
 end

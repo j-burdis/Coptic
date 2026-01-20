@@ -184,6 +184,9 @@ module Gallery
     end
 
     def all
+      handle_search_redirect
+      return if performed?
+
       @category_title = "All Artworks"
       @show_date_filter = true
       apply_search_and_date_filters
@@ -192,6 +195,35 @@ module Gallery
     end
 
     private
+
+    def handle_search_redirect
+      # return unless params[:type].present? && params[:type] != "all"
+
+      return if params[:type].blank?
+      return if params[:type] == "all"
+
+      path_map = {
+        "paintings" => gallery_paintings_path,
+        "prints" => gallery_prints_path,
+        "indian_leaves" => gallery_indian_leaves_path,
+        "indian_waves" => gallery_indian_waves_path,
+        "design" => gallery_design_path,
+        "other" => gallery_other_path,
+        "missing_works" => gallery_missing_works_path,
+        "destroyed" => gallery_destroyed_path,
+        "memories_of_bombay_mumbai" => gallery_memories_of_bombay_mumbai_path,
+        "quantel_paintbox" => gallery_quantel_paintbox_path
+      }
+
+      if path_map[params[:type]]
+        search_params = {}
+        search_params[:s] = params[:s] if params[:s].present?
+        search_params[:dates] = params[:dates] if params[:dates].present?
+        search_params[:page] = params[:page] if params[:page].present?
+
+        redirect_to path_map[params[:type]] + (search_params.any? ? "?#{search_params.to_query}" : "")
+      end
+    end
 
     def set_base_query
       @artworks = Artwork.published.main_collection.order(year: :desc, title: :asc)

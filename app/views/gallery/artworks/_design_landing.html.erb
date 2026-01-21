@@ -68,7 +68,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <% @design_subcategory_pages.each do |subcategory_page| %>
           <% if subcategory_page.present? %>
-            <%= link_to subcategory_page.path, class: "group block hover:text-blue-800" do %>
+            <%#= link_to subcategory_page.path, class: "group block hover:text-blue-800" do %>
+            <%= link_to gallery_design_subcategory_path(subcategory: subcategory_page.slug), class: "group block hover:text-blue-800" do %>
               <% if subcategory_page.cloudinary_public_id.present? %>
                 <div class="aspect-[3/2] overflow-hidden">
                   <%= image_tag subcategory_page.thumbnail_url, 

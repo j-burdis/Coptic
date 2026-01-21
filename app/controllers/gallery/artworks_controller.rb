@@ -149,7 +149,6 @@ module Gallery
       @design_subcategory_pages = CategoryPage.published
                                               .design_subcategory
                                               .ordered
-                                              .index_by(&:slug)
 
       # if subcategory/search is active, show regular layout with filters
       if params[:subcategory].present? || params[:s].present? || params[:dates].present?
@@ -158,7 +157,7 @@ module Gallery
         if params[:subcategory].present?
           @artworks = @artworks.where(subcategory: params[:subcategory])
           @active_subcategory = params[:subcategory]
-          @subcategory_page = @design_subcategory_pages[params[:subcategory]]
+          # @subcategory_page = @design_subcategory_pages[params[:subcategory]]
         end
 
         # apply search and date filters

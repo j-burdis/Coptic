@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_12_221809) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_21_211443) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -109,10 +109,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_12_221809) do
     t.boolean "published", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "year"
     t.index ["page_type"], name: "index_category_pages_on_page_type"
     t.index ["position"], name: "index_category_pages_on_position"
     t.index ["published"], name: "index_category_pages_on_published"
     t.index ["slug"], name: "index_category_pages_on_slug", unique: true
+    t.index ["year"], name: "index_category_pages_on_year"
   end
 
   create_table "collections", force: :cascade do |t|

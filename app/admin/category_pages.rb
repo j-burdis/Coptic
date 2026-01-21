@@ -1,7 +1,7 @@
 ActiveAdmin.register CategoryPage do
   menu priority: 3, label: "Category Pages"
 
-  permit_params :slug, :title, :description, :page_type, :position, :published, 
+  permit_params :slug, :title, :description, :page_type, :position, :published, :year,
                 :image, :cloudinary_public_id, :original_filename
 
   index do
@@ -32,6 +32,8 @@ ActiveAdmin.register CategoryPage do
 
     column :position, sortable: :position
 
+    column :year, sortable: :year
+
     column :published, sortable: :published do |category_page|
       status_tag(category_page.published ? 'Yes' : 'No',
                  class: (category_page.published ? 'yes' : 'no'))
@@ -43,6 +45,7 @@ ActiveAdmin.register CategoryPage do
   filter :title
   filter :slug
   filter :page_type, as: :select, collection: -> { CategoryPage.page_types }
+  # filter :year
   filter :published
   filter :created_at
 
@@ -96,6 +99,7 @@ ActiveAdmin.register CategoryPage do
               simple_format(category_page.description) if category_page.description.present?
             end
             row :position
+            row :year
             row :published do
               status_tag(category_page.published ? 'Yes' : 'No',
                         class: (category_page.published ? 'yes' : 'no'))
@@ -149,6 +153,9 @@ ActiveAdmin.register CategoryPage do
 
           f.input :position,
                   hint: 'Lower numbers appear first. Use for custom ordering.'
+
+          f.input :year,
+                  hint: 'Optional - primarily for design subcategories'
 
           f.input :published
         end
@@ -238,7 +245,7 @@ ActiveAdmin.register CategoryPage do
 
     def category_page_params
       params.require(:category_page).permit(
-        :title, :slug, :description, :page_type, :position, :published
+        :title, :slug, :description, :page_type, :position, :published, :year
       )
     end
 

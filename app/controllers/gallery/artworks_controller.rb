@@ -148,7 +148,7 @@ module Gallery
       # load subcategory pages
       @design_subcategory_pages = CategoryPage.published
                                               .design_subcategory
-                                              .ordered
+                                              .order(Arel.sql('year DESC NULLS LAST'), title: :asc)
 
       # if subcategory/search is active, show regular layout with filters
       if params[:subcategory].present? || params[:s].present? || params[:dates].present?

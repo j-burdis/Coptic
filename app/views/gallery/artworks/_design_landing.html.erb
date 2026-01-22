@@ -79,10 +79,13 @@
               <% end %>
               
               <div>
-                <h3 class="text-xl font-semibold mt-4 mb-2"><%= subcategory_page.title %></h3>
+                <h3 class="text-xl font-semibold mt-4 mb-2">
+                  <%= subcategory_page.title %>
+                  <span class="text-xl font-semibold text-gray-500 group-hover:text-blue-400 mt-4 mb-2"><%= subcategory_page.year%> </span>
+                </h3>
                 
                 <% if subcategory_page.description.present? %>
-                  <p class="text-gray-500 group-hover:text-blue-400 mb-3 text-pretty"><%= subcategory_page.description %></p>
+                  <p class="mb-3 text-pretty"><%= subcategory_page.description %></p>
                 <% end %>
               </div>
             <% end %>

@@ -167,48 +167,47 @@
         <% if @design_subcategories.present? %>
           <div>
             <h3 class="font-semibold mb-3">Categories</h3>
-            <div class="space-y-2">
-              <%= link_to "All Designs", 
-                  gallery_design_path, 
-                  class: "block text-sm #{@active_subcategory.blank? ? 'font-semibold text-black' : 'text-gray-600 hover:text-black'}" %>
-              
-              <% @design_subcategories.each do |subcategory| %>
-                <%= link_to subcategory.titleize, 
-                    gallery_design_subcategory_path(subcategory: subcategory), 
-                    class: "block text-sm #{@active_subcategory == subcategory ? 'font-semibold text-black' : 'text-gray-600 hover:text-black'}" %>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-
-        <% if params[:s].present? || params[:dates].present? %>
-          <%= link_to "Clear filters", request.path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
-        <% else %>
-          <span class="text-gray-600">Filters</span>
-        <% end %>
-
-        <!-- keyword search -->
-        <div>
-          <%= f.text_field :s, 
-              value: params[:s], 
-              placeholder: "Keyword",
-              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]" %>
-        </div>
-
-        <!-- date filter -->
-        <% if @show_date_filter %>
-          <div>
-            <%= f.select :dates, 
-                options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
-                {},
+            <%= select_tag :subcategory,
+                options_for_select(
+                  [["All Designs", gallery_design_path]] + 
+                  @design_subcategories.map { |sub| [sub.titleize, gallery_design_subcategory_path(subcategory: sub)] },
+                  @active_subcategory.present? ? gallery_design_subcategory_path(subcategory: @active_subcategory) : gallery_design_path
+                ),
                 class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
-                onchange: "this.form.submit()" %>
+                onchange: "window.location.href = this.value;" %>
           </div>
-        <% elsif @fixed_year.present? %>
+        <% end %>
+
+        <% unless @hide_search_filter %>
+          <% if params[:s].present? || params[:dates].present? %>
+            <%= link_to "Clear filters", request.path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
+          <% else %>
+            <span class="text-gray-600">Filters</span>
+          <% end %>
+
+          <!-- keyword search -->
           <div>
-            <label class="block text-sm font-semibold mb-2">Date</label>
-            <p class="text-gray-600"><%= @fixed_year %></p>
+            <%= f.text_field :s, 
+                value: params[:s], 
+                placeholder: "Keyword",
+                class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]" %>
           </div>
+
+          <!-- date filter -->
+          <% if @show_date_filter %>
+            <div>
+              <%= f.select :dates, 
+                  options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
+                  {},
+                  class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+                  onchange: "this.form.submit()" %>
+            </div>
+          <% elsif @fixed_year.present? %>
+            <div>
+              <label class="block text-sm font-semibold mb-2">Date</label>
+              <p class="text-gray-600"><%= @fixed_year %></p>
+            </div>
+          <% end %>
         <% end %>
 
         <%#= f.submit "Search", class: "w-full bg-black text-white py-2 px-4 hover:bg-gray-800 transition-colors cursor-pointer" %>

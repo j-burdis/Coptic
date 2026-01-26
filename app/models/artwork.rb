@@ -29,7 +29,7 @@ class Artwork < ApplicationRecord
     'artplate', 'bbc-billboard-project', 'british-council-hq', 
     'broadgate-centre', 'designers-guild', 'evermore', 
     'exhibition-models', 'glyndebourne-festival', 'high-gate-ponds',
-    'imax-cinema', 'kolam', 'laylaandmajnun', 'lomonosov-plate',
+    'imax-cinema', 'kolam', 'layla-and-majnun', 'lomonosov-plate',
     'mozart-dances', 'new-worlds-stamp', 'night-music', 'olympic-games',
     'piano', 'pulcinella', 'rhymes-with-silver', 'savitri',
     'the-nutcracker', 'the-way-we-live-now-susan-sontag', 'van-cliburn'

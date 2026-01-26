@@ -174,7 +174,8 @@ module Gallery
       @category_page = CategoryPage.published.design_subcategory.find_by(slug: params[:subcategory])
       @artworks = @artworks.design.where(subcategory: params[:subcategory])
       @category_title = "Design - #{params[:subcategory].titleize}"
-      @show_date_filter = true
+      @show_date_filter = false
+      @hide_search_filter = true
       @design_subcategories = Artwork::DESIGN_SUBCATEGORIES
       @active_subcategory = params[:subcategory]
       apply_search_and_date_filters

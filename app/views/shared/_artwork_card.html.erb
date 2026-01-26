@@ -1,5 +1,5 @@
 <%= link_to artwork_path(artwork.slug), class: "group block" do %>
-  <div class="relative mb-3 bg-gray-100 overflow-hidden">
+  <div class="relative mb-3 bg-white overflow-hidden">
     <% if artwork.cloudinary_public_id.present? %>
       <%= image_tag artwork.large_url, 
           alt: artwork.title,

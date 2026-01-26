@@ -45,9 +45,10 @@
           <div>
             <%= f.select :subcategory,
                 options_for_select([
-                  ["All design types", ""]
-                ] + @design_subcategories.map { |sub| [sub.titleize, sub] }, params[:subcategory]),
+                  ["Design", ""]], "design"),
+                # + @design_subcategories.map { |sub| [sub.titleize, sub] }, params[:subcategory]),
                 {},
+                disabled: true,
                 class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
           </div>
 

@@ -165,8 +165,9 @@
         
         <!-- design subcategories (only for design pages) -->
         <% if @design_subcategories.present? %>
-          <div>
-            <h3 class="font-semibold mb-3">Categories</h3>
+          <div class="space-y-6">
+            <span class="text-gray-600">Filter</span>
+            <%# <h3 class="font-semibold mb-3">Categories</h3> %>
             <%= select_tag :subcategory,
                 options_for_select(
                   [["All Designs", gallery_design_path]] + 
@@ -182,7 +183,7 @@
           <% if params[:s].present? || params[:dates].present? %>
             <%= link_to "Clear filters", request.path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
           <% else %>
-            <span class="text-gray-600">Filters</span>
+            <span class="text-gray-600">Filter</span>
           <% end %>
 
           <!-- keyword search -->
@@ -222,7 +223,7 @@
       <div class="mb-4">
         <% if params[:s].present? %>
           <h2 class="text-xl font-semibold">
-            "<%= params[:s] %>"
+            Results for "<%= params[:s] %>"
             <span class="text-gray-600 font-normal">
               (<%= @artworks.total_count %>)
             </span>

@@ -153,6 +153,7 @@ module Gallery
       # if subcategory/search is active, show regular layout with filters
       if params[:subcategory].present? || params[:s].present? || params[:dates].present?
         @show_design_layout = false
+        @hide_search_filter = true
 
         if params[:subcategory].present?
           @artworks = @artworks.where(subcategory: params[:subcategory])

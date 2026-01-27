@@ -2,8 +2,7 @@ class Quote < ApplicationRecord
   validates :text, :author, :page_location, presence: true
 
   def self.ransackable_attributes(auth_object = nil)
-    ["id", "author", "title", "text","source", "page_location",
-     "position", "published", "created_at", "updated_at"]
+    ["title", "page_location", "author", "published"]
   end
 
   def self.ransackable_associations(auth_object = nil)

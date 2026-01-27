@@ -1,0 +1,22 @@
+<% 
+  # set defaults 
+  artwork ||= @artwork
+%>
+
+<div class="mb-12">
+  <h2 class="text-lg font-semibold mb-4">Collections</h2>
+  <ul class="space-y-3">
+    <% artwork.collections.each do |collection| %>
+      <li class="text-gray-700">
+        <%= link_to collection_path(collection.slug), 
+            class: "hover:text-black" do %>
+          <span class="font-medium"><%= collection.name %></span>
+          <% if collection.location.present? %>
+            <br>
+            <span class="text-sm text-gray-600"><%= collection.location %></span>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

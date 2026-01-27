@@ -1,0 +1,45 @@
+<%
+  # set defaults
+  artwork ||= @artwork
+%>
+
+<div class="mb-12">
+  <h2 class="text-lg font-semibold mb-6">Exhibitions</h2>
+  <div class="space-y-8">
+    <% @artwork.exhibitions.order(year: :desc).each do |exhibition| %>
+      <div class="border-b border-gray-200 pb-6 last:border-0">
+        <%= link_to exhibition_path(exhibition.slug), 
+            class: "block group" do %>
+          <% if exhibition.image.present? %>
+            <div class="aspect-[4/3] bg-gray-100 mb-4 overflow-hidden">
+              <%= image_tag exhibition.image, 
+                  alt: exhibition.title,
+                  class: "w-full h-full object-cover group-hover:opacity-90 transition-opacity" %>
+            </div>
+          <% end %>
+          
+          <h3 class="font-medium text-gray-900 group-hover:text-black mb-2">
+            <% if exhibition.venue.present? %>
+              <%= exhibition.venue %>
+            <% end %>
+            <%= exhibition.title %>
+          </h3>
+          
+          <p class="text-sm text-gray-600">
+            <% if exhibition.location.present? %>
+              <%= exhibition.location %>
+            <% end %>
+            <% if exhibition.location.present? && exhibition.dates.present? %>
+              <br>
+            <% end %>
+            <% if exhibition.dates.present? %>
+              <%= exhibition.dates %>
+            <% elsif exhibition.year.present? %>
+              <%= exhibition.year %>
+            <% end %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+<%
+  # set defaults
+  category_page ||= @category_page
+  category_title ||= @category_title
+  design_subcategories ||= @design_subcategories
+  active_subcategory ||= @active_subcategory
+  hide_search_filter ||= @hide_search_filter
+  show_date_filter ||= @show_date_filter
+  fixed_year ||= @fixed_year
+%>
+
+<aside class="lg:w-80 mb-8 p-6 bg-[#e6e6e6]">
+  <div class="sticky top-24">
+    <% if category_page.present? %>
+      <h1 class="text-2xl font-semibold mb-4"><%= category_page.title %></h1>
+      <% if category_page.description.present? %>
+        <p class="text-md text-pretty mb-6"><%= category_page.description %></p>
+      <% end %>
+    <% else %>
+      <h1 class="text-2xl font-semibold mb-6"><%= category_title %></h1>
+    <% end %>
+    
+    <%= form_with url: request.path, method: :get, class: "space-y-6" do |f| %>
+      
+      <!-- design subcategories (only for design pages) -->
+      <% if design_subcategories.present? %>
+        <div class="space-y-6">
+          <span class="text-gray-600">Filter</span>
+          <%= select_tag :subcategory,
+              options_for_select(
+                [["All Designs", gallery_design_path]] + 
+                design_subcategories.map { |sub| [sub.titleize, gallery_design_subcategory_path(subcategory: sub)] },
+                @active_subcategory.present? ? gallery_design_subcategory_path(subcategory: active_subcategory) : gallery_design_path
+              ),
+              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+              onchange: "window.location.href = this.value;" %>
+        </div>
+      <% end %>
+
+      <% unless hide_search_filter %>
+        <% if params[:s].present? || params[:dates].present? %>
+          <%= link_to "Clear filters", request.path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
+        <% else %>
+          <span class="text-gray-600">Filter</span>
+        <% end %>
+
+        <!-- keyword search -->
+        <div>
+          <%= f.text_field :s, 
+              value: params[:s], 
+              placeholder: "Keyword",
+              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]" %>
+        </div>
+
+        <!-- date filter -->
+        <% if show_date_filter %>
+          <div>
+            <%= f.select :dates, 
+                options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
+                {},
+                class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+                onchange: "this.form.submit()" %>
+          </div>
+        <% elsif fixed_year.present? %>
+          <div>
+            <label class="block text-sm font-semibold mb-2">Date</label>
+            <p class="text-gray-600"><%= fixed_year %></p>
+          </div>
+        <% end %>
+      <% end %>
+
+      <%#= f.submit "Search", class: "w-full bg-black text-white py-2 px-4 hover:bg-gray-800 transition-colors cursor-pointer" %>
+    <% end %>
+  </div>
+</aside>

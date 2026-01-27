@@ -1,0 +1,50 @@
+<%
+  # set defaults
+  artworks ||= @artworks
+%>
+
+<div class="flex-1">
+  <!-- search/filter summary -->
+  <% if params[:s].present? || params[:dates].present? %>
+    <div class="mb-4">
+      <% if params[:s].present? %>
+        <h2 class="text-xl font-semibold">
+          Results for "<%= params[:s] %>"
+          <span class="text-gray-600 font-normal">
+            (<%= artworks.total_count %>)
+          </span>
+        </h2>
+      <% elsif params[:dates].present? %>
+        <h2 class="text-xl font-semibold">
+          <%= params[:dates] %>
+          <span class="text-gray-600 font-normal">
+            (<%= artworks.total_count %>)
+          </span>
+        </h2>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if artworks.present? && artworks.count > 0 %>
+    <div class="items-end grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+      <% artworks.each do |artwork| %>
+        <%= render partial: 'shared/artwork_card', locals: { artwork: artwork } %>
+      <% end %>
+    </div>
+
+    <!-- pagination -->
+    <% if artworks.total_pages > 1 %>
+      <div class="flex justify-center">
+        <%= paginate artworks, theme: 'twitter-bootstrap-4' %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="text-center py-16">
+      <i class="fa-solid fa-image text-6xl text-gray-300 mb-4"></i>
+      <p class="text-xl text-gray-600">No artworks found</p>
+      <% if params[:s].present? || params[:dates].present? %>
+        <%= link_to "Clear filters", request.path, class: "inline-block mt-4 text-black hover:underline" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

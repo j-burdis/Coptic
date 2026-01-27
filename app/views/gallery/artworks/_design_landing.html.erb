@@ -1,109 +1,19 @@
 <div class="mb-12">
-  <!-- Search and filter-->
   <div class="mt-1 mb-12 grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-    <div>
-      <blockquote class="py-2">
-        <p class="text-lg lg:text-2xl text-gray-700 italic mb-4 text-pretty">
-          "Before anything else they are images that must contain the potential for further transformation."
-        </p>
-        <cite class="text-gray-600 text-md lg:text-lg not-italic font-semibold">John-Paul Stonard on the distinction between Hodgkin's paintings and his theatre designs</cite>
-        <p class="text-gray-600 text-sm lg:text-md">Howard Hodgkin: Stage Designs, Anthony d'Offay 2002.</p>
-      </blockquote>
-    </div>
-
-    <div>
-      <%= form_with url: gallery_design_path, method: :get do |f| %>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Keyword Search -->
-          <div>
-            <%= f.text_field :s,
-                value: params[:s],
-                placeholder: "Search by keyword",
-                class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
-          </div>
-
-          <!-- Date Filter -->
-          <div>
-            <%= f.select :dates, 
-                options_for_select([
-                  ["All dates", ""],
-                  ["2020-2025", "2020-2025"],
-                  ["2010-2019", "2010-2019"],
-                  ["2000-2009", "2000-2009"],
-                  ["1990-1999", "1990-1999"],
-                  ["1980-1989", "1980-1989"],
-                  ["1970-1979", "1970-1979"],
-                  ["1960-1969", "1960-1969"],
-                  ["1950-1959", "1950-1959"],
-                  ["1940-1949", "1940-1949"]
-                ], params[:dates]),
-                {},
-                class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
-          </div>
-
-          <!-- Type Filter (Design only) -->
-          <div>
-            <%= f.select :subcategory,
-                options_for_select([
-                  ["Design", ""]], "design"),
-                # + @design_subcategories.map { |sub| [sub.titleize, sub] }, params[:subcategory]),
-                {},
-                disabled: true,
-                class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
-          </div>
-
-          <!-- Submit Button -->
-          <div>
-            <%= f.submit "Search", 
-                class: "w-full bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800 transition-colors cursor-pointer font-semibold" %>
-          </div>
-        </div>
-      <% end %>
-    </div>
+    <%= render 'search_form',
+        form_url: gallery_design_path,
+        show_type_filter: false,
+        show_subcategory_filter: true,
+        quote: {
+          text: "Before anything else they are images that must contain the potential for further transformation.",
+          author: "John-Paul Stonard on the distinction between Hodgkin's paintings and his theatre designs",
+          source: "Howard Hodgkin: Stage Designs, Anthony d'Offay 2002.",
+          size: "text-md lg:text-lg"
+        } %>
   </div>
 
-  <!-- design categories grid -->
-  <div class="mb-16">
-    <% if @design_subcategory_pages.present? && @design_subcategory_pages.any? %>
-      <!-- display subcategory pages -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <% @design_subcategory_pages.each do |subcategory_page| %>
-          <% if subcategory_page.present? %>
-            <%#= link_to subcategory_page.path, class: "group block hover:text-blue-800" do %>
-            <%= link_to gallery_design_subcategory_path(subcategory: subcategory_page.slug), class: "group block hover:text-blue-800" do %>
-              <% if subcategory_page.cloudinary_public_id.present? %>
-                <div class="aspect-[3/2] overflow-hidden">
-                  <%= image_tag subcategory_page.thumbnail_url, 
-                      alt: subcategory_page.title,
-                      class: "w-full h-full bg-cover bg-center" %>
-                </div>
-              <% end %>
-              
-              <div>
-                <h3 class="text-xl font-semibold mt-4 mb-2">
-                  <%= subcategory_page.title %>
-                  <span class="text-xl font-semibold text-gray-500 group-hover:text-blue-400 mt-4 mb-2"><%= subcategory_page.year%> </span>
-                </h3>
-                
-                <% if subcategory_page.description.present? %>
-                  <p class="mb-3 text-pretty"><%= subcategory_page.description %></p>
-                <% end %>
-              </div>
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
-    <% else %>
-      <!-- default display fallback -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <% @design_subcategories.each do |subcategory| %>
-          <% count = Artwork.published.main_collection.design.where(subcategory: subcategory).count %>
-          <%= link_to gallery_design_subcategory_path(subcategory: subcategory), class: "group block hover:text-blue-800" do %>
-            <h3 class="text-xl font-semibold mt-4 mb-2"><%= subcategory.titleize %></h3>
-            <p class="text-gray-600"><%= count %> <%= 'work'.pluralize(count) %></p>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
+  <%= render 'subcategory_grid',
+      subcategories: @design_subcategory_pages,
+      fallback_subcategories: @design_subcategories,
+      show_year: true %>
 </div>

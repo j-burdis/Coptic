@@ -1,0 +1,96 @@
+<%
+  # set defaults
+  form_url ||= gallery_all_path
+  show_type_filter = local_assigns.fetch(:show_type_filter, true)
+  show_subcategory_filter = local_assigns.fetch(:show_subcategory_filter, false)
+  quote ||= nil
+  design_subcategories ||= []
+%>
+
+<div>
+  <% if quote.present? %>
+    <blockquote class="py-2">
+      <p class="text-lg lg:text-2xl text-gray-700 italic mb-4 text-pretty">
+        "<%= quote[:text] %>"
+      </p>
+      <cite class="text-gray-600 <%= quote[:size] || 'text-md lg:text-lg' %> not-italic font-semibold">
+        <%= quote[:author] %>
+      </cite>
+      <% if quote[:source].present? %>
+        <p class="text-gray-600 text-sm lg:text-md"><%= quote[:source] %></p>
+      <% end %>
+    </blockquote>
+  <% end %>
+</div>
+
+<div>
+  <%= form_with url: form_url, method: :get do |f| %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- keyword search -->
+      <div>
+        <%= f.text_field :s,
+            value: params[:s],
+            placeholder: "Search by keyword",
+            class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+      </div>
+
+      <!-- date filter -->
+      <div>
+        <%= f.select :dates, 
+            options_for_select([
+              ["All dates", ""],
+              ["2020-2025", "2020-2025"],
+              ["2010-2019", "2010-2019"],
+              ["2000-2009", "2000-2009"],
+              ["1990-1999", "1990-1999"],
+              ["1980-1989", "1980-1989"],
+              ["1970-1979", "1970-1979"],
+              ["1960-1969", "1960-1969"],
+              ["1950-1959", "1950-1959"],
+              ["1940-1949", "1940-1949"]
+            ], params[:dates]),
+            {},
+            class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+      </div>
+
+      <!-- type filter (for gallery landing) -->
+      <% if show_type_filter %>
+        <div>
+          <%= f.select :type,
+              options_for_select([
+                ["All types", "all"],
+                ["Paintings", "paintings"],
+                ["Prints", "prints"],
+                ["Indian Leaves", "indian_leaves"],
+                ["Indian Waves", "indian_waves"],
+                ["Design", "design"],
+                ["Other", "other"],
+                ["Missing Works", "missing_works"],
+                ["Destroyed", "destroyed"],
+                ["Memories of Bombay / Mumbai", "memories_of_bombay_mumbai"],
+                ["Quantel Paintbox", "quantel_paintbox"]
+              ], params[:type]),
+              {},
+              class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+        </div>
+      <% end %>
+
+      <!-- subcategory filter (for design landing) -->
+      <% if show_subcategory_filter %>
+        <div>
+          <%= f.select :subcategory,
+              options_for_select([["Design", ""]], "design"),
+              {},
+              disabled: true,
+              class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+        </div>
+      <% end %>
+
+      <!-- submit button -->
+      <div>
+        <%= f.submit "Search", 
+            class: "w-full bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800 transition-colors cursor-pointer font-semibold" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,66 @@
+<%
+  # set defaults
+  categories ||= []
+  special_collections ||= []
+  fallback_categories ||= {}
+  show_missing_works = local_assigns.fetch(:show_missing_works, true)
+%>
+
+<% if categories.present? %>
+  <!-- display category pages -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <% categories.each do |category_page| %>
+      <%= link_to category_page.path, class: "group block hover:text-blue-800" do %>
+        <% if category_page.cloudinary_public_id.present? %>
+          <div class="aspect-[3/2] overflow-hidden">
+            <%= image_tag category_page.thumbnail_url, 
+                alt: category_page.title,
+                class: "w-full h-full bg-cover bg-center" %>
+          </div>
+        <% end %>
+        
+        <div>
+          <h3 class="text-xl font-semibold mt-4 mb-2"><%= category_page.title %></h3>
+          
+          <% if category_page.description.present? %>
+            <p class="text-gray-500 group-hover:text-blue-400 mb-3 text-pretty"><%= category_page.description %></p>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+    
+    <!-- missing works (optional) -->
+    <% if show_missing_works && special_collections.present? %>
+      <% missing_works = special_collections.find { |cat| cat.title == "Missing Works" } %>
+      <% if missing_works.present? %>
+        <%= link_to missing_works.path, class: "group block hover:text-blue-800" do %>
+          <% if missing_works.cloudinary_public_id.present? %>
+            <div class="aspect-[3/2] overflow-hidden">
+              <%= image_tag missing_works.thumbnail_url, 
+                  alt: missing_works.title,
+                  class: "w-full h-full bg-cover bg-center" %>
+            </div>
+          <% end %>
+          
+          <div>
+            <h3 class="text-xl font-semibold mt-4 mb-2"><%= missing_works.title %></h3>
+            
+            <% if missing_works.description.present? %>
+              <p class="text-gray-500 group-hover:text-blue-400 mb-3 text-pretty"><%= missing_works.description %></p>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% elsif fallback_categories.present? %>
+  <!-- fallback display when no category pages exist -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <% fallback_categories.each do |key, count| %>
+      <%= link_to send("gallery_#{key}_path"), class: "group block hover:text-blue-800" do %>
+        <h3 class="text-xl font-semibold mt-4 mb-2"><%= key.to_s.titleize %></h3>
+        <p class="text-gray-600"><%= count %> works</p>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

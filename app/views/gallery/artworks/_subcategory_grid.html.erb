@@ -1,0 +1,49 @@
+<%
+  # set defaults
+  subcategories ||= []
+  fallback_subcategories ||= []
+  show_year = local_assigns.fetch(:show_year, true)
+%>
+
+<% if subcategories.present? && subcategories.any? %>
+  <!-- display subcategory pages -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <% subcategories.each do |subcategory_page| %>
+      <% if subcategory_page.present? %>
+        <%= link_to gallery_design_subcategory_path(subcategory: subcategory_page.slug), class: "group block hover:text-blue-800" do %>
+          <% if subcategory_page.cloudinary_public_id.present? %>
+            <div class="aspect-[3/2] overflow-hidden">
+              <%= image_tag subcategory_page.thumbnail_url, 
+                  alt: subcategory_page.title,
+                  class: "w-full h-full bg-cover bg-center" %>
+            </div>
+          <% end %>
+          
+          <div>
+            <h3 class="text-xl font-semibold mt-4 mb-2">
+              <%= subcategory_page.title %>
+              <% if show_year && subcategory_page.year.present? %>
+                <span class="text-xl font-semibold text-gray-500 group-hover:text-blue-400"><%= subcategory_page.year %></span>
+              <% end %>
+            </h3>
+            
+            <% if subcategory_page.description.present? %>
+              <p class="mb-3 text-pretty"><%= subcategory_page.description %></p>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% elsif fallback_subcategories.present? %>
+  <!-- fallback display -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <% fallback_subcategories.each do |subcategory| %>
+      <% count = Artwork.published.main_collection.design.where(subcategory: subcategory).count %>
+      <%= link_to gallery_design_subcategory_path(subcategory: subcategory), class: "group block hover:text-blue-800" do %>
+        <h3 class="text-xl font-semibold mt-4 mb-2"><%= subcategory.titleize %></h3>
+        <p class="text-gray-600"><%= count %> <%= 'work'.pluralize(count) %></p>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

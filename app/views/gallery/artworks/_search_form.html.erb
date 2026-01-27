@@ -11,13 +11,13 @@
   <% if quote.present? %>
     <blockquote class="py-2">
       <p class="text-lg lg:text-2xl text-gray-700 italic mb-4 text-pretty">
-        "<%= quote[:text] %>"
+        "<%= quote.text %>"
       </p>
-      <cite class="text-gray-600 <%= quote[:size] || 'text-md lg:text-lg' %> not-italic font-semibold">
-        <%= quote[:author] %>
+      <cite class="text-gray-600 text-md lg:text-lg not-italic font-semibold">
+        <%= quote.author %>
       </cite>
-      <% if quote[:source].present? %>
-        <p class="text-gray-600 text-sm lg:text-md"><%= quote[:source] %></p>
+      <% if quote.source.present? %>
+        <p class="text-gray-600 text-sm lg:text-md"><%= quote.source %></p>
       <% end %>
     </blockquote>
   <% end %>

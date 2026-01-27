@@ -26,6 +26,8 @@ module Gallery
                                          .special_collection
                                          .ordered
 
+      @gallery_quote = Quote.gallery_landing.published.first
+
       # fallback: if no category pages exist, show defaults
       if @gallery_categories.empty?
         @categories = {
@@ -149,6 +151,8 @@ module Gallery
       @design_subcategory_pages = CategoryPage.published
                                               .design_subcategory
                                               .order(Arel.sql('year DESC NULLS LAST'), title: :asc)
+
+      @design_quote = Quote.design_landing.published.first
 
       # if subcategory/search is active, show regular layout with filters
       if params[:subcategory].present? || params[:s].present? || params[:dates].present?

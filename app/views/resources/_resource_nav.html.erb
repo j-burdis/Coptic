@@ -1,0 +1,91 @@
+<div class="mb-8 hidden sm:flex sm:justify-center">
+  <nav>
+    <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm">
+      <li><%= link_to "Resources ›", resources_path, class: "text-gray-400 hover:text-blue-800 px-2 py-1" %></li>
+      
+      <!-- exhibitions -->
+      <% exhibitions = @resource_categories&.find { |cat| cat.slug == "exhibitions" } %>
+      <% if exhibitions.present? || defined?(resources_exhibitions_path) %>
+        <li>
+          <%= link_to exhibitions&.path || resources_exhibitions_path, 
+              class: "p-1 #{(exhibitions && request.path == exhibitions.path) || request.path == resources_exhibitions_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Exhibitions
+            <% if exhibitions.present? %>
+              <span>(<%= exhibitions.artwork_count %>)</span>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+
+      <!-- films & audio -->
+      <% films_and_audio = @resource_categories&.find { |cat| cat.slug == "films-and-audio" } %>
+      <% if films_and_audio.present? || defined?(resources_films_and_audio_path) %>
+        <li>
+          <%= link_to films_and_audio&.path || resources_films_and_audio_path, 
+              class: "p-1 #{(films_and_audio && request.path == films_and_audio.path) || request.path == resources_films_and_audio_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Films & Audio
+            <% if films_and_audio.present? %>
+              <span>(<%= films_and_audio.artwork_count %>)</span>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+
+      <!-- texts -->
+      <% texts = @resource_categories&.find { |cat| cat.slug == "texts" } %>
+      <% if texts.present? || defined?(resources_texts_path) %>
+        <li>
+          <%= link_to texts&.path || resources_texts_path, 
+              class: "p-1 #{(texts && request.path == texts.path) || request.path == resources_texts_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Texts
+            <% if texts.present? %>
+              <span>(<%= texts.artwork_count %>)</span>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+
+      <!-- publications -->
+      <% publications = @resource_categories&.find { |cat| cat.slug == "publications" } %>
+      <% if publications.present? || defined?(resources_publications_path) %>
+        <li>
+          <%= link_to publications&.path || resources_publications_path, 
+              class: "p-1 #{(publications && request.path == publications.path) || request.path == resources_publications_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Publications
+            <% if publications.present? %>
+              <span>(<%= publications.artwork_count %>)</span>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+
+      <!-- chronology -->
+      <% chronology = @resource_categories&.find { |cat| cat.slug == "chronology" } %>
+      <% if chronology.present? || defined?(resources_chronology_path) %>
+        <li>
+          <%= link_to chronology&.path || resources_chronology_path, 
+              class: "p-1 #{(chronology && request.path == chronology.path) || request.path == resources_chronology_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Chronology
+            <% if chronology.present? %>
+              <span>(<%= chronology.artwork_count %>)</span>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+
+      <!-- collections -->
+      <% collections = @resource_categories&.find { |cat| cat.slug == "collections" } %>
+      <% if collections.present? || defined?(resources_collections_path) %>
+        <li>
+          <%= link_to collections&.path || resources_collections_path, 
+              class: "p-1 #{(collections && request.path == collections.path) || request.path == resources_collections_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+            Collections
+            <% if collections.present? %>
+              <span>(<%= collections.artwork_count %>)</span>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</div>

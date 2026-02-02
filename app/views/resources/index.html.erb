@@ -1,4 +1,62 @@
-<div>
-  <h1 class="font-bold text-4xl">Resources#index</h1>
-  <p>Find me in app/views/resources/index.html.erb</p>
+<div class="bg-white">
+  <div class="container mx-auto px-2 lg:px-0">
+
+    <div class="text-3xl font-semibold pb-8">
+      <h1>Resources</h1>
+    </div>
+
+    <% if @show_landing %>
+      <!-- resource categories grid -->
+      <div class="mb-16">
+        <% if @resource_categories.present? %>
+          <!-- display category pages -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <% @resource_categories.each do |category_page| %>
+              <%= link_to category_page.path, class: "group block hover:text-blue-800" do %>
+                <% if category_page.cloudinary_public_id.present? %>
+                  <div class="aspect-[3/2] overflow-hidden">
+                    <%= image_tag category_page.thumbnail_url, 
+                        alt: category_page.title,
+                        class: "w-full h-full bg-cover bg-center" %>
+                  </div>
+                <% end %>
+                
+                <div>
+                  <h3 class="text-xl font-semibold mt-4 mb-2"><%= category_page.title %></h3>
+                  
+                  <% if category_page.description.present? %>
+                    <p class="text-gray-500 group-hover:text-blue-400 mb-3 text-pretty"><%= category_page.description %></p>
+                  <% end %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <% elsif @categories_fallback.present? %>
+          <!-- fallback display when no category pages exist -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <% @categories_fallback.each do |key, count| %>
+              <% 
+                path = case key
+                when :exhibitions then resources_exhibitions_path
+                when :films_and_audio then resources_films_and_audio_path
+                when :texts then resources_texts_path
+                when :publications then resources_publications_path
+                when :chronology then resources_chronology_path
+                when :collections then resources_collections_path
+                else resources_path
+                end
+              %>
+              <%= link_to path, class: "group block hover:text-blue-800" do %>
+                <h3 class="text-xl font-semibold mt-4 mb-2"><%= key.to_s.titleize %></h3>
+                <p class="text-gray-600"><%= count %> <%= key == :collections ? 'collections' : 'items' %></p>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+    <% else %>
+      <%= render 'category_listing' %>
+    <% end %>
+  </div>
 </div>

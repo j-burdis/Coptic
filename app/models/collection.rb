@@ -13,6 +13,16 @@ class Collection < ApplicationRecord
   validates :name, :slug, presence: true
   validates :slug, uniqueness: true
 
+  # helper method for getting the collection URL path
+  def path
+    Rails.application.routes.url_helpers.collection_path(slug)
+  end
+
+  # published artworks count in this collection
+  def artwork_count
+    artworks.published.count
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     ["id", "name", "slug", "location", "region", "description", "website", "published",
      "created_at", "updated_at"]

@@ -21,6 +21,35 @@ class Resource < ApplicationRecord
   validates :title, :slug, :category, presence: true
   validates :slug, uniqueness: true
 
+  # helper method for getting the resource URL path
+  def path
+    Rails.application.routes.url_helpers.resource_path(slug)
+  end
+
+  # helper for cloudinary image URLs (optional - only if you use images)
+  def thumbnail_url(width: 800, height: 600, crop: :fill)
+    return nil unless cloudinary_public_id.present?
+
+    Cloudinary::Utils.cloudinary_url(
+      cloudinary_public_id,
+      width: width,
+      height: height,
+      crop: crop,
+      quality: 'auto',
+      fetch_format: 'auto'
+    )
+  end
+
+  def image_url
+    return nil unless cloudinary_public_id.present?
+
+    Cloudinary::Utils.cloudinary_url(
+      cloudinary_public_id,
+      quality: 'auto',
+      fetch_format: 'auto'
+    )
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     ["id", "title", "slug", "category", "subcategory", "year", "author",
      "summary", "description", "content", "external_url",

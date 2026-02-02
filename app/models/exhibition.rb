@@ -17,6 +17,25 @@ class Exhibition < ApplicationRecord
   validates :title, :slug, presence: true
   validates :slug, uniqueness: true
 
+  # helper method for getting the exhibition URL path
+  def path
+    Rails.application.routes.url_helpers.exhibition_path(slug)
+  end
+
+  # published artworks count  in this exhibition
+  def artwork_count
+    artworks.published.count
+  end
+
+  # display year range
+  def year_display
+    if year_end.present? && year_end != year
+      "#{year}-#{year_end}"
+    else
+      year.to_s
+    end
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     ["title", "slug", "year", "year_end", "venue", "location", "description",
      "exhibition_type", "published", "is_indian_collection",

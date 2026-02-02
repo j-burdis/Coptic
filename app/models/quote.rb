@@ -14,6 +14,7 @@ class Quote < ApplicationRecord
 
   scope :gallery_landing, -> { where(page_location: 'gallery_landing') }
   scope :design_landing, -> { where(page_location: 'design_landing') }
+  scope :resources_landing, -> { where(page_location: 'resources_landing') }
 
   def self.page_locations
     {

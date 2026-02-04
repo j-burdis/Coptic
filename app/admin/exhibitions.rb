@@ -1,21 +1,7 @@
 ActiveAdmin.register Exhibition do
-
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-
   permit_params :title, :slug, :year, :year_end, :venue, :location,
   :description, :exhibition_type, :is_indian_collection, :published,
   :image, :cloudinary_public_id, :original_filename
-
-  # or
-  #
-  # permit_params do
-  #   permitted = [:title, :slug, :year, :year_end, :venue, :location, :description, :exhibition_type, :is_indian_collection, :published]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
 
   # sidebar filters
   filter :title
@@ -25,32 +11,10 @@ ActiveAdmin.register Exhibition do
   filter :published
   filter :created_at
 
-  # form do |f|
-  #   f.inputs 'Exhibition Details' do
-  #     f.input :title
-  #     f.input :slug
-  #     f.input :year
-  #     f.input :year_end
-  #     f.input :venue
-  #     f.input :location
-  #     f.input :description
-  #     f.input :exhibition_type, as: :select, collection: Exhibition.exhibition_types.keys
-  #     f.input :is_indian_collection
-  #     f.input :published
-      
-  #     # Add image upload
-  #     f.input :image, as: :file, hint: f.object.cloudinary_public_id.present? ? image_tag(f.object.thumbnail_url) : content_tag(:span, "No image uploaded")
-  #   end
-  #   f.actions
-  # end
-
   form do |f|
     f.semantic_errors
 
     columns do
-      #
-      # LEFT COLUMN
-      #
       column do
         f.inputs "Image" do
           if f.object.cloudinary_public_id.present?
@@ -72,9 +36,6 @@ ActiveAdmin.register Exhibition do
         end
       end
 
-      #
-      # RIGHT COLUMN
-      #
       column do
         f.inputs "Basic Information" do
           f.input :title

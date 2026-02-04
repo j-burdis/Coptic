@@ -1,0 +1,7 @@
+<!-- category navbar -->
+<%= render 'resource_nav' %>
+
+<div class="lg:flex lg:gap-8">
+  <%= render 'sidebar_filters' %>
+  <%= render 'resource_grid', resources: @resources %>
+</div>

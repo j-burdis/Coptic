@@ -1,0 +1,58 @@
+<%
+  # set defaults
+  resources ||= @resources
+  show_grid_view ||= @show_grid_view
+%>
+
+<div class="flex-1">
+  <!-- search/filter summary -->
+  <% if params[:s].present? || params[:dates].present? || params[:region].present? %>
+    <div class="mb-4">
+      <% if params[:s].present? %>
+        <h2 class="text-xl font-semibold">
+          Results for "<%= params[:s] %>"
+          <span class="text-gray-600 font-normal">
+            (<%= resources.total_count %>)
+          </span>
+        </h2>
+      <% elsif params[:dates].present? %>
+        <h2 class="text-xl font-semibold">
+          <%= params[:dates] %>
+          <span class="text-gray-600 font-normal">
+            (<%= resources.total_count %>)
+          </span>
+        </h2>
+      <% elsif params[:region].present? %>
+        <h2 class="text-xl font-semibold">
+          <%= params[:region].titleize %>
+          <span class="text-gray-600 font-normal">
+            (<%= resources.total_count %>)
+          </span>
+        </h2>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if resources.present? && resources.count > 0 %>
+    <div class="items-end grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+      <% resources.each do |resource| %>
+        <%= render partial: 'shared/resource_card', locals: { resource: resource } %>
+      <% end %>
+    </div>
+
+    <!-- pagination -->
+    <% if resources.total_pages > 1 %>
+      <div class="flex justify-center">
+        <%= paginate resources, theme: 'twitter-bootstrap-4' %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="text-center py-16">
+      <i class="fa-solid fa-file-lines text-6xl text-gray-300 mb-4"></i>
+      <p class="text-xl text-gray-600">No resources found</p>
+      <% if params[:s].present? || params[:dates].present? || params[:region].present? %>
+        <%= link_to "Clear filters", request.path, class: "inline-block mt-4 text-black hover:underline" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

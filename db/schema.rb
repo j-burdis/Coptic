@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_27_193801) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_04_203841) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -146,6 +146,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_27_193801) do
     t.boolean "published", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "cloudinary_public_id"
+    t.string "original_filename"
     t.index ["exhibition_type"], name: "index_exhibitions_on_exhibition_type"
     t.index ["is_indian_collection"], name: "index_exhibitions_on_is_indian_collection"
     t.index ["published"], name: "index_exhibitions_on_published"

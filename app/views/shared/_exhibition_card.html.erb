@@ -1,0 +1,27 @@
+<%= link_to exhibition.path, class: "group block" do %>
+  <div>
+    <h3 class="font-semibold text-base mb-1 group-hover:text-blue-800 transition-colors">
+      <%= exhibition.title %>
+    </h3>
+    
+    <% if exhibition.year.present? %>
+      <p class="text-sm text-gray-600"><%= exhibition.year_display %></p>
+    <% end %>
+    
+    <% if exhibition.venue.present? %>
+      <p class="text-sm text-gray-600"><%= exhibition.venue %></p>
+    <% end %>
+    
+    <% if exhibition.location.present? %>
+      <p class="text-sm text-gray-500"><%= exhibition.location %></p>
+    <% end %>
+    
+    <% if exhibition.exhibition_type.present? %>
+      <p class="text-xs text-gray-500 mt-1">
+        <span class="inline-block px-2 py-1 bg-gray-200 rounded">
+          <%= exhibition.exhibition_type.titleize %>
+        </span>
+      </p>
+    <% end %>
+  </div>
+<% end %>

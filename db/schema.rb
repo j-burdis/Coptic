@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_04_203841) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_07_130225) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -136,8 +136,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_04_203841) do
   create_table "exhibitions", force: :cascade do |t|
     t.string "title", null: false
     t.string "slug", null: false
-    t.integer "year"
-    t.integer "year_end"
     t.string "venue"
     t.string "location"
     t.text "description"
@@ -148,12 +146,13 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_04_203841) do
     t.datetime "updated_at", null: false
     t.string "cloudinary_public_id"
     t.string "original_filename"
+    t.date "start_date"
+    t.date "end_date"
     t.index ["exhibition_type"], name: "index_exhibitions_on_exhibition_type"
     t.index ["is_indian_collection"], name: "index_exhibitions_on_is_indian_collection"
     t.index ["published"], name: "index_exhibitions_on_published"
     t.index ["slug"], name: "index_exhibitions_on_slug", unique: true
     t.index ["title"], name: "index_exhibitions_on_title"
-    t.index ["year"], name: "index_exhibitions_on_year"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|

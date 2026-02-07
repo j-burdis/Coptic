@@ -31,11 +31,21 @@ class Exhibition < ApplicationRecord
 
   # display year range
   def year_display
-    if year_end.present? && year_end != year
-      "#{year}-#{year_end}"
+    if end_date.present? && end_date != start_date
+      "#{start_date.strftime('%d %B %Y')} - #{end_date.strftime('%d %B %Y')}"
+    elsif start_date.present?
+      start_date.strftime('%d %B %Y')
     else
-      year.to_s
+      ''
     end
+  end
+
+  def year
+    start_date&.year
+  end
+
+  def year_end
+    end_date&.year
   end
 
   def self.ransackable_attributes(auth_object = nil)
@@ -50,7 +60,7 @@ class Exhibition < ApplicationRecord
 
   def thumbnail_url(width: 800, height: 600, crop: :fill)
     return nil unless cloudinary_public_id.present?
-    
+
     Cloudinary::Utils.cloudinary_url(
       cloudinary_public_id,
       width: width,
@@ -63,7 +73,7 @@ class Exhibition < ApplicationRecord
 
   def image_url
     return nil unless cloudinary_public_id.present?
-    
+
     Cloudinary::Utils.cloudinary_url(
       cloudinary_public_id,
       quality: 'auto',

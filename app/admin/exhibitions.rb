@@ -1,13 +1,13 @@
 ActiveAdmin.register Exhibition do
-  permit_params :title, :slug, :year, :year_end, :venue, :location,
+  permit_params :title, :slug, :start_date, :end_date, :venue, :location,
   :description, :exhibition_type, :is_indian_collection, :published,
   :image, :cloudinary_public_id, :original_filename
 
   # sidebar filters
   filter :title
   filter :exhibition_type, as: :select, exhibition: -> { Exhibition.exhibition_type }
-  filter :year
-  filter :year_end
+  filter :start_date
+  filter :end_date
   filter :published
   filter :created_at
 
@@ -44,8 +44,8 @@ ActiveAdmin.register Exhibition do
         end
 
         f.inputs "Dates" do
-          f.input :year
-          f.input :year_end, hint: 'Leave blank if same as year'
+          f.input :start_date, as: :datepicker
+          f.input :end_date, as: :datepicker
         end
 
         f.inputs "Location & Venue" do
@@ -123,8 +123,8 @@ ActiveAdmin.register Exhibition do
     end
 
     column :title
-    column :year
-    column :year_end
+    column :start_date
+    column :end_date
     column :venue
     column :location
     column :exhibition_type
@@ -165,8 +165,8 @@ ActiveAdmin.register Exhibition do
           attributes_table_for exhibition do
             row :title
             row :slug
-            row :year
-            row :year_end
+            row :start_date
+            row :end_date
             row :venue
             row :location
             row :description
@@ -179,6 +179,7 @@ ActiveAdmin.register Exhibition do
             row :is_indian_collection do
               exhibition.is_indian_collection? ? 'Yes' : 'No'
             end
+            row :indian_collection_category
             row :cloudinary_public_id
             row :original_filename
             row :created_at

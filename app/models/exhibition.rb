@@ -32,9 +32,15 @@ class Exhibition < ApplicationRecord
   # display year range
   def year_display
     if end_date.present? && end_date != start_date
-      "#{start_date.strftime('%d %B %Y')} - #{end_date.strftime('%d %B %Y')}"
+      if start_date.year == end_date.year
+        # Same year: "28th March - 12th July 2026"
+        "#{ordinalize_day(start_date)} #{start_date.strftime('%B')} - #{ordinalize_day(end_date)} #{end_date.strftime('%B %Y')}"
+      else
+        # Different years: "28th March 2025 - 12th July 2026"
+        "#{ordinalize_day(start_date)} #{start_date.strftime('%B %Y')} - #{ordinalize_day(end_date)} #{end_date.strftime('%B %Y')}"
+      end
     elsif start_date.present?
-      start_date.strftime('%d %B %Y')
+      "#{ordinalize_day(start_date)} #{start_date.strftime('%B %Y')}"
     else
       ''
     end
@@ -79,5 +85,17 @@ class Exhibition < ApplicationRecord
       quality: 'auto',
       fetch_format: 'auto'
     )
+  end
+
+  private
+
+  def ordinalize_day(date)
+    day = date.day
+    case day
+    when 1, 21, 31 then "#{day}st"
+    when 2, 22 then "#{day}nd"
+    when 3, 23 then "#{day}rd"
+    else "#{day}th"
+    end
   end
 end

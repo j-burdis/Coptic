@@ -33,11 +33,17 @@
   <% end %>
 
   <% if exhibitions.present? && exhibitions.count > 0 %>
-    <div class="items-end grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
-      <% exhibitions.each do |exhibition| %>
-        <%= render partial: 'shared/exhibition_card', locals: { exhibition: exhibition } %>
+    <% exhibitions.group_by { |e| e.start_date&.year }.each do |year, year_exhibitions| %>
+      <% if year.present? %>
+        <h2 class="text-2xl text-gray-500 font-semibold mb-6 mt-8 first:mt-0"><%= year %></h2>
       <% end %>
-    </div>
+      
+      <div class="space-y-6 mb-8">
+        <% year_exhibitions.each do |exhibition| %>
+          <%= render partial: 'shared/exhibition_card', locals: { exhibition: exhibition } %>
+        <% end %>
+      </div>
+    <% end %>
 
     <!-- pagination -->
     <% if exhibitions.total_pages > 1 %>
@@ -50,7 +56,7 @@
       <i class="fa-solid fa-building-columns text-6xl text-gray-300 mb-4"></i>
       <p class="text-xl text-gray-600">No exhibitions found</p>
       <% if params[:s].present? || params[:dates].present? || params[:type].present? %>
-        <%= link_to "Clear filters", request.path, class: "inline-block mt-4 text-black hover:underline" %>
+        <%= link_to "Clear filters", request.path, class: "inline-block mt-4 text-black hover:text-blue-400" %>
       <% end %>
     </div>
   <% end %>

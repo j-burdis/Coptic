@@ -66,15 +66,16 @@ class ExhibitionsController < ApplicationController
       end_year = ::Regexp.last_match(2).to_i
       decade_start = Date.new(start_year, 1, 1)
       decade_end = Date.new(end_year, 12, 31)
-
+      
       @exhibitions = @exhibitions.where(
-        "(year >= ? AND year <= ?) OR (year_end >= ? AND year_end <= ?) OR (year <= ? AND year_end >= ?)",
+        "(start_date >= ? AND start_date <= ?) OR (end_date >= ? AND end_date <= ?) OR (start_date <= ? AND end_date >= ?)",
         decade_start, decade_end, decade_start, decade_end, decade_start, decade_end
       )
     when /(\d{4})/ # single year
-      year = $1.to_i
+      year = ::Regexp.last_match(1).to_i
       year_start = Date.new(year, 1, 1)
       year_end = Date.new(year, 12, 31)
+      
       @exhibitions = @exhibitions.where(
         "(start_date >= ? AND start_date <= ?) OR (end_date >= ? AND end_date <= ?) OR (start_date <= ? AND end_date >= ?)",
         year_start, year_end, year_start, year_end, year_start, year_end

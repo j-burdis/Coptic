@@ -1,7 +1,7 @@
 <%= link_to exhibition.path, class: "group block" do %>
-  <div class="flex gap-6 items-start">
+  <div class="flex gap-4 md:gap-6 items-start">
     <!-- Image on the left -->
-    <div class="flex-shrink-0 w-64">
+    <div class="flex-shrink-0 w-1/2 md:w-64">
       <div class="relative bg-white overflow-hidden">
         <% if exhibition.cloudinary_public_id.present? %>
           <%= image_tag exhibition.thumbnail_url, 
@@ -17,7 +17,7 @@
     
     <!-- Text on the right -->
     <div class="flex-1 space-y-1">
-      <h3 class="font-semibold text-lg">
+      <h3 class="font-semibold text-base md:text-lg">
         <% if exhibition.venue.present? %>
           <span class="group-hover:text-blue-800"><%= exhibition.venue %></span>
           <span class="text-gray-500 group-hover:text-blue-400"><%= exhibition.title %></span>
@@ -26,7 +26,7 @@
         <% end %>
       </h3>
       
-      <p class="text-sm">
+      <p class="text-xs md:text-sm">
         <% if exhibition.location.present? %>
           <span class="group-hover:text-blue-800"><%= exhibition.location %></span>
         <% end %>

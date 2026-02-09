@@ -31,7 +31,7 @@
         <%= f.text_field :s,
             value: params[:s],
             placeholder: "Search by keyword",
-            class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+            class: "w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
       </div>
 
       <!-- date filter -->
@@ -50,7 +50,7 @@
               ["1940-1949", "1940-1949"]
             ], params[:dates]),
             {},
-            class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+            class: "w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
       </div>
 
       <!-- type filter (for gallery landing) -->
@@ -71,7 +71,7 @@
                 ["Quantel Paintbox", "quantel_paintbox"]
               ], params[:type]),
               {},
-              class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+              class: "w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
         </div>
       <% end %>
 
@@ -82,14 +82,14 @@
               options_for_select([["Design", ""]], "design"),
               {},
               disabled: true,
-              class: "w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
+              class: "w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" %>
         </div>
       <% end %>
 
       <!-- submit button -->
       <div>
         <%= f.submit "Search", 
-            class: "w-full bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800 transition-colors cursor-pointer font-semibold" %>
+            class: "w-full bg-[#16763a] text-white py-3 px-6 rounded-sm hover:bg-gray-800 transition-colors cursor-pointer font-semibold" %>
       </div>
     </div>
   <% end %>

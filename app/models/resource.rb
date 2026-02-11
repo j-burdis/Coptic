@@ -1,4 +1,6 @@
 class Resource < ApplicationRecord
+  attr_accessor :image
+
   enum category: {
   films_and_audio: 0,
   texts: 1,

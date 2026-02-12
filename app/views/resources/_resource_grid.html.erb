@@ -34,11 +34,19 @@
   <% end %>
 
   <% if resources.present? && resources.count > 0 %>
-    <div class="items-end grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
-      <% resources.each do |resource| %>
-        <%= render partial: 'shared/resource_card', locals: { resource: resource } %>
-      <% end %>
-    </div>
+    <% if show_grid_view %>
+      <div class="items-end grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+        <% resources.each do |resource| %>
+          <%= render partial: 'shared/resource_card', locals: { resource: resource } %>
+        <% end %>
+      </div>
+    <% else %>
+        <div class="space-y-6 mb-8">
+        <% resources.each do |resource| %>
+          <%= render partial: 'shared/text_card', locals: { resource: resource } %>
+        <% end %>
+      </div>
+    <% end %>
 
     <!-- pagination -->
     <% if resources.total_pages > 1 %>

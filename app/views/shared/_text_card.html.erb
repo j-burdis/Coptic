@@ -1,0 +1,43 @@
+<%= link_to resource.path, class: "group block" do %>
+  <div class="flex gap-4 md:gap-6 items-start">
+    <!-- optional image on the left -->
+    <% if resource.cloudinary_public_id.present? %>
+      <div class="flex-shrink-0 w-32 md:w-48">
+        <%= image_tag resource.thumbnail_url, 
+            alt: resource.title,
+            class: "object-cover w-full" %>
+      </div>
+    <% end %>
+    
+    <!-- text content -->
+    <div class="flex-1 space-y-1">
+      <h3 class="font-semibold text-lg group-hover:text-blue-800">
+        <%= resource.title %>
+      </h3>
+      
+      <h3>
+        <% if resource.author.present? %>
+          <span class="font-semibold text-lg text-gray-500 group-hover:text-blue-400">
+            By <%= resource.author %>
+          </span>
+        <% end %>
+      </h3>
+      
+      <p>
+        <%# ADD A SPAN WHEN PUBLISHER FIELD IS IN DB %>
+        <% if resource.year.present? %>
+          <span class="text-gray-500 group-hover:text-blue-400">
+            <%# if resource.author.present? || resource.subcategory.present? %><%# end %>
+            <%= resource.year %>
+          </span>
+        <% end %>
+      </p>
+      
+      <% if resource.description.present? %>
+        <p class="w-2/3 text-sm text-pretty group-hover:text-blue-800">
+          <%= resource.description.truncate_words(50, omission: ' [...]') %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_07_130225) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_13_082412) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -227,6 +227,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_07_130225) do
     t.boolean "published", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "publisher"
     t.index ["category"], name: "index_resources_on_category"
     t.index ["is_indian_collection"], name: "index_resources_on_is_indian_collection"
     t.index ["published"], name: "index_resources_on_published"

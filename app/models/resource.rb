@@ -2,10 +2,10 @@ class Resource < ApplicationRecord
   attr_accessor :image
 
   enum category: {
-  films_and_audio: 0,
-  texts: 1,
-  publications: 2,
-  chronology: 3
+    films_and_audio: 0,
+    texts: 1,
+    publications: 2,
+    chronology: 3
   }
 
   TEXT_SUBCATEGORIES = [
@@ -50,6 +50,19 @@ class Resource < ApplicationRecord
       quality: 'auto',
       fetch_format: 'auto'
     )
+  end
+
+  def date_display
+    return year.to_s if year.present? && date.blank?
+    return date.strftime('%-d %B %Y') if date.present? && show_full_date?
+    return date.strftime('%B %Y') if date.present?
+
+    ''
+  end
+
+  def show_full_date?
+    # full date shown if day is not the 1st (assuming month-only dates default to 1st)
+    date.present? && date.day != 1
   end
 
   def self.ransackable_attributes(auth_object = nil)

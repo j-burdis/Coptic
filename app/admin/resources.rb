@@ -1,5 +1,5 @@
 ActiveAdmin.register Resource do
-  permit_params :title, :slug, :category, :subcategory, :year, :date, :author,
+  permit_params :title, :slug, :category, :subcategory, :year, :date, :show_day, :author,
                 :publisher, :summary, :description, :content, :external_url,
                 :video_type, :video_id, :duration_seconds, :is_indian_collection,
                 :published, :image, :cloudinary_public_id, :original_filename
@@ -37,10 +37,12 @@ ActiveAdmin.register Resource do
           f.input :category, as: :select, collection: Resource.categories.keys
           f.input :subcategory, as: :select, collection: Resource::TEXT_SUBCATEGORIES + Resource::PUBLICATION_SUBCATEGORIES, include_blank: true
 
-          f.input :date, as: :datepicker, label: 'Date (for Texts - optional)',
-                         hint: 'Use for full date (16 May 2024) or month/year (1 May 2024 = May 2024)'
-          f.input :year, label: 'Year only (for publications or if no specific date)',
-                         hint: 'Use when you only have a year (2024)'
+          f.input :date, as: :datepicker, label: 'Date',
+                         hint: 'Set the date (for full date or month/year)'
+          f.input :show_day, as: :boolean, label: 'Show day',
+                             hint: 'Check to show full date ("1 May 2024"). Uncheck for month only ("May 2024")'
+          f.input :year, label: 'Year only',
+                         hint: 'Use when you only have a year (2024) - leave date blank'
 
           f.input :author
           f.input :publisher, hint: 'Publisher/source of the text or publication'
@@ -152,6 +154,7 @@ ActiveAdmin.register Resource do
               status_tag resource.category
             end
             row :subcategory
+            row :date
             row :year
             row :author
             row :summary

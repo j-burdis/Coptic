@@ -54,13 +54,19 @@ class Resource < ApplicationRecord
 
   def date_display
     return year.to_s if year.present? && date.blank?
-    return date.strftime('%-d %B %Y') if date.present? && date.day > 1
-    return date.strftime('%B %Y') if date.present?
 
-    ''
+    if date.present?
+      if show_day?
+        date.strftime('%-d %B %Y') # full date: "16 May 2024"
+      else
+        date.strftime('%B %Y') # month only: "May 2024"
+      end
+    else
+      ''
+    end
   end
 
-  def show_full_date?
+  def year_value
     date.present? ? date.year : year
   end
 

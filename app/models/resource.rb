@@ -57,7 +57,7 @@ class Resource < ApplicationRecord
 
     if date.present?
       if show_day?
-        date.strftime('%-d %B %Y') # full date: "16 May 2024"
+        "#{ordinalize_day(date)} #{date.strftime('%B %Y')}" # full date: "16th May 2024"
       else
         date.strftime('%B %Y') # month only: "May 2024"
       end
@@ -81,5 +81,17 @@ class Resource < ApplicationRecord
 
   def self.ransackable_associations(auth_object = nil)
     []
+  end
+
+  private
+
+  def ordinalize_day(date)
+    day = date.day
+    case day
+    when 1, 21, 31 then "#{day}st"
+    when 2, 22 then "#{day}nd"
+    when 3, 23 then "#{day}rd"
+    else "#{day}th"
+    end
   end
 end

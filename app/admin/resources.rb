@@ -1,9 +1,8 @@
 ActiveAdmin.register Resource do
-  permit_params :title, :slug, :category, :subcategory, :year, :author,
-                :summary, :description, :content, :external_url,
-                :video_type, :video_id, :duration_seconds,
-                :is_indian_collection, :published,
-                :image, :cloudinary_public_id, :original_filename
+  permit_params :title, :slug, :category, :subcategory, :year, :date, :author,
+                :publisher, :summary, :description, :content, :external_url,
+                :video_type, :video_id, :duration_seconds, :is_indian_collection,
+                :published, :image, :cloudinary_public_id, :original_filename
 
   # Sidebar filters
   filter :title
@@ -18,7 +17,7 @@ ActiveAdmin.register Resource do
     columns do
       column do
         panel 'Video' do
-          f.inputs do            
+          f.inputs do
             f.input :video_type, as: :select, collection: ['youtube', 'vimeo'], include_blank: 'No video'
             f.input :video_id, hint: "For YouTube: the ID from youtube.com/watch?v=VIDEO_ID<br>For Vimeo: the ID from vimeo.com/VIDEO_ID".html_safe
             f.input :duration_seconds, hint: "Video duration in seconds (optional)"
@@ -37,8 +36,14 @@ ActiveAdmin.register Resource do
           f.input :slug
           f.input :category, as: :select, collection: Resource.categories.keys
           f.input :subcategory, as: :select, collection: Resource::TEXT_SUBCATEGORIES + Resource::PUBLICATION_SUBCATEGORIES, include_blank: true
-          f.input :year
+
+          f.input :date, as: :datepicker, label: 'Date (for Texts - optional)',
+                         hint: 'Use for full date (16 May 2024) or month/year (1 May 2024 = May 2024)'
+          f.input :year, label: 'Year only (for publications or if no specific date)',
+                         hint: 'Use when you only have a year (2024)'
+
           f.input :author
+          f.input :publisher, hint: 'Publisher/source of the text or publication'
           f.input :summary, as: :text
           f.input :description, as: :text, input_html: { rows: 6 }
           f.input :content, as: :text, input_html: { rows: 10 }
@@ -54,14 +59,14 @@ ActiveAdmin.register Resource do
   controller do
     def create
       @resource = Resource.new(permitted_params[:resource])
-      
+
       if params[:resource][:image].present?
         uploaded_file = params[:resource][:image]
         result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'resources')
         @resource.cloudinary_public_id = result['public_id']
         @resource.original_filename = uploaded_file.original_filename
       end
-      
+
       if @resource.save
         redirect_to admin_resource_path(@resource), notice: 'Resource created successfully.'
       else
@@ -71,14 +76,14 @@ ActiveAdmin.register Resource do
 
     def update
       @resource = Resource.find(params[:id])
-      
+
       if params[:resource][:image].present?
         uploaded_file = params[:resource][:image]
         result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'resources')
         @resource.cloudinary_public_id = result['public_id']
         @resource.original_filename = uploaded_file.original_filename
       end
-      
+
       if @resource.update(permitted_params[:resource])
         redirect_to admin_resource_path(@resource), notice: 'Resource updated successfully.'
       else

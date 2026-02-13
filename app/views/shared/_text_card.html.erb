@@ -24,11 +24,15 @@
       </h3>
       
       <p>
-        <%# ADD A SPAN WHEN PUBLISHER FIELD IS IN DB %>
-        <% if resource.year.present? %>
+        <% if resource.publisher.present? %>
+          <span class="group-hover:text-blue-800">
+            <%= resource.publisher %>, 
+          </span>
+        <% end %>
+        <% if resource.date.present? || resource.year.present? %>
           <span class="text-gray-500 group-hover:text-blue-400">
             <%# if resource.author.present? || resource.subcategory.present? %><%# end %>
-            <%= resource.year %>
+            <%= resource.date_display %>
           </span>
         <% end %>
       </p>

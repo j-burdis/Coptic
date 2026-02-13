@@ -54,15 +54,14 @@ class Resource < ApplicationRecord
 
   def date_display
     return year.to_s if year.present? && date.blank?
-    return date.strftime('%-d %B %Y') if date.present? && show_full_date?
+    return date.strftime('%-d %B %Y') if date.present? && date.day > 1
     return date.strftime('%B %Y') if date.present?
 
     ''
   end
 
   def show_full_date?
-    # full date shown if day is not the 1st (assuming month-only dates default to 1st)
-    date.present? && date.day != 1
+    date.present? ? date.year : year
   end
 
   def self.ransackable_attributes(auth_object = nil)

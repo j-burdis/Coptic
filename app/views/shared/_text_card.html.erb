@@ -37,7 +37,11 @@
         <% end %>
       </p>
       
-      <% if resource.description.present? %>
+      <% if resource.summary.length > 0 %>
+        <p class="w-2/3 text-sm text-pretty group-hover:text-blue-800">
+          <%= resource.summary %>
+        </p>
+      <% elsif resource.description.present? %>
         <p class="w-2/3 text-sm text-pretty group-hover:text-blue-800">
           <%= resource.description.truncate_words(50, omission: ' [...]') %>
         </p>

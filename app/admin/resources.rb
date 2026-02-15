@@ -1,6 +1,6 @@
 ActiveAdmin.register Resource do
-  permit_params :title, :slug, :category, :subcategory, :year, :date, :show_day, :author,
-                :publisher, :summary, :description, :content, :external_url,
+  permit_params :title, :slug, :category, :subcategory, :year, :year_end, :date, :show_day, 
+                :author, :publisher, :summary, :description, :content, :external_url,
                 :video_type, :video_id, :duration_seconds, :is_indian_collection,
                 :published, :image, :cloudinary_public_id, :original_filename
 
@@ -32,8 +32,8 @@ ActiveAdmin.register Resource do
 
       column do
         f.inputs 'Resource Details' do
-          f.input :title
-          f.input :slug
+          f.input :title, hint: 'Optional for chronology entries'
+          f.input :slug, hint: 'Not required for chronology entries'
           f.input :category, as: :select, collection: Resource.categories.keys
           f.input :subcategory, as: :select, collection: Resource::TEXT_SUBCATEGORIES + Resource::PUBLICATION_SUBCATEGORIES, include_blank: true
 
@@ -41,8 +41,9 @@ ActiveAdmin.register Resource do
                          hint: 'Set the date (for full date or month/year)'
           f.input :show_day, as: :boolean, label: 'Show day',
                              hint: 'Check to show full date ("1 May 2024"). Uncheck for month only ("May 2024")'
-          f.input :year, label: 'Year only',
+          f.input :year, label: 'Year',
                          hint: 'Use when you only have a year (2024) - leave date blank'
+          f.input :year_end, label: 'End year (optional)', hint: 'For chronology year ranges (e.g., 1940-1945)'
 
           f.input :author
           f.input :publisher, hint: 'Publisher/source of the text or publication'
@@ -109,6 +110,9 @@ ActiveAdmin.register Resource do
     column :title
     column :category do |resource|
       status_tag resource.category
+    end
+    column :year do |resource|
+      resource.year_display  # Shows year or year range
     end
     column :subcategory
     column :year

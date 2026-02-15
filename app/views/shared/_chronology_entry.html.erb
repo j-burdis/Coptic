@@ -1,0 +1,32 @@
+<div class="border-b border-gray-200 pb-6 mb-6 last:border-0">
+  <div>
+    <h3 class="text-xl font-semibold text-gray-500 mb-3"><%= resource.year_display %></h3>
+  </div>
+  
+  <div class="flex gap-6 items-start">
+
+    <!-- content -->
+    <div class="w-1/2">
+      <% if resource.description.present? %>
+        <div class="prose max-w-none">
+          <%= simple_format(resource.description) %>
+        </div>
+      <% end %>
+      
+      <% if resource.content.present? %>
+        <div class="prose max-w-none mt-3">
+          <%= simple_format(resource.content) %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- optional image on the right -->
+    <% if resource.cloudinary_public_id.present? %>
+      <div class="flex-shrink-0 max-w-full">
+        <%= image_tag resource.image_url,
+            alt: resource.year_display,
+            class: "object-cover w-full" %>
+      </div>
+    <% end %>
+  </div>
+</div>

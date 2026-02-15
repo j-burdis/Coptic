@@ -1,6 +1,9 @@
 class Resource < ApplicationRecord
   attr_accessor :image
 
+  before_validation :set_chronology_title, if: :chronology?
+  before_validation :clear_slug_for_chronology, if: :chronology?
+
   enum category: {
     films_and_audio: 0,
     texts: 1,
@@ -20,12 +23,17 @@ class Resource < ApplicationRecord
   scope :main_collection, -> { where(is_indian_collection: false) }
   scope :indian_collection, -> { where(is_indian_collection: true) }
 
-  validates :title, :slug, :category, presence: true
-  validates :slug, uniqueness: true
+  validates :title, :category, presence: true
+  validates :slug, presence: true, uniqueness: true, unless: :chronology?
 
   # helper method for getting the resource URL path
   def path
+    return nil if chronology?
     Rails.application.routes.url_helpers.resource_path(slug)
+  end
+
+  def chronology?
+    category == 'chronology'
   end
 
   # helper for cloudinary image URLs (optional - only if you use images)
@@ -70,6 +78,16 @@ class Resource < ApplicationRecord
     date.present? ? date.year : year
   end
 
+  def year_display
+    if year_end.present? && year_end != year
+      "#{year} - #{year_end}"
+    elsif year.present?
+      year.to_s
+    else
+      ''
+    end
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     ["id", "title", "slug", "category", "subcategory", "year", "author",
      "summary", "description", "content", "external_url",
@@ -84,6 +102,16 @@ class Resource < ApplicationRecord
   end
 
   private
+
+  def set_chronology_title
+    if title.blank?
+      self.title = year_display.presence || "Chronology Entry"
+    end
+  end
+
+  def clear_slug_for_chronology
+    self.slug = nil if slug.blank?
+  end
 
   def ordinalize_day(date)
     day = date.day

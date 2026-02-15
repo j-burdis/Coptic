@@ -106,6 +106,7 @@ class ResourcesController < ApplicationController
     @show_decade_list = true
 
     apply_search_and_date_filters
+    @resources = @resources.reorder(year: :asc, title: :asc)
     @resources = @resources.page(params[:page]).per(20)
     render :index
   end

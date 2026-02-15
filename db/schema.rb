@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_13_085343) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_15_214808) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -208,7 +208,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_13_085343) do
 
   create_table "resources", force: :cascade do |t|
     t.string "title", null: false
-    t.string "slug", null: false
+    t.string "slug"
     t.integer "category", null: false
     t.string "subcategory"
     t.integer "year"
@@ -230,6 +230,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_13_085343) do
     t.string "publisher"
     t.date "date"
     t.boolean "show_day"
+    t.integer "year_end"
     t.index ["category"], name: "index_resources_on_category"
     t.index ["is_indian_collection"], name: "index_resources_on_is_indian_collection"
     t.index ["published"], name: "index_resources_on_published"

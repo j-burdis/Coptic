@@ -34,20 +34,33 @@
   <% end %>
 
   <% if resources.present? && resources.count > 0 %>
-    <% if show_grid_view %>
+    <% if @category_title == "Chronology" %>
+      <!-- chronology, grouped by year, no links -->
+      <% resources.group_by(&:year).each do |year, year_resources| %>
+        <div class="space-y-6 mb-12">
+          <% year_resources.each do |resource| %>
+            <%= render partial: 'shared/chronology_entry', locals: { resource: resource } %>
+          <% end %>
+        </div>
+      <% end %>
+      
+    <% elsif show_grid_view %>
+      <!-- films & audio, multi-column grid -->
       <div class="items-end grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
         <% resources.each do |resource| %>
           <%= render partial: 'shared/resource_card', locals: { resource: resource } %>
         <% end %>
       </div>
+      
     <% else %>
-        <div class="space-y-6 mb-8">
+      <!-- texts/publications, single column -->
+      <div class="space-y-6 mb-8">
         <% resources.each do |resource| %>
           <%= render partial: 'shared/text_card', locals: { resource: resource } %>
         <% end %>
       </div>
     <% end %>
-
+    
     <!-- pagination -->
     <% if resources.total_pages > 1 %>
       <div class="flex justify-center">

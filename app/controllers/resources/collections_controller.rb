@@ -6,7 +6,8 @@ class Resources::CollectionsController < ApplicationController
     @category_title = "Collections"
     @show_date_filter = false
     @show_region_filter = true
-    @regions = Collection::REGIONS
+    @regions = Collection.published.distinct.pluck(:region).compact.sort
+    # @regions = Collection::REGIONS
 
     # region filter
     if params[:region].present?

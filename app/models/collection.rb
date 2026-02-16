@@ -8,6 +8,8 @@ class Collection < ApplicationRecord
     'United Kingdom', 'USA'
   ].freeze
 
+  # validates :region, inclusion: { in: REGIONS}, allow_blank: true
+
   scope :published, -> { where(published: true) }
 
   validates :name, :slug, presence: true

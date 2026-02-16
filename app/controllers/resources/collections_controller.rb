@@ -10,7 +10,7 @@ class Resources::CollectionsController < ApplicationController
 
     # region filter
     if params[:region].present?
-      @collections = @collections.where(region: params[:region].titleize)
+      @collections = @collections.where('LOWER(region) = ?', params[:region].downcase)
       @active_region = params[:region]
     end
 
@@ -23,13 +23,14 @@ class Resources::CollectionsController < ApplicationController
       )
     end
 
+    @collections = @collections.order(region: :asc, name: :asc)
     @collections = @collections.page(params[:page]).per(12)
   end
 
   private
 
   def set_base_query
-    @collections = Collection.published.order(name: :asc)
+    @collections = Collection.published
   end
 
   def load_category_pages

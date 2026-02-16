@@ -1,25 +1,11 @@
 <%= link_to collection.path, class: "group block" do %>
-  <div>
-    <h3 class="font-semibold text-base mb-1 group-hover:text-blue-800 transition-colors">
-      <%= collection.name %>
-    </h3>
-    
+  <div class="py-1">
     <% if collection.location.present? %>
-      <p class="text-sm text-gray-600"><%= collection.location %></p>
+      <h3 class="font-semibold text-md text-gray-500 group-hover:text-blue-400"><%= collection.location %></h3>
     <% end %>
-    
-    <% if collection.region.present? %>
-      <p class="text-xs text-gray-500 mt-1">
-        <span class="inline-block px-2 py-1 bg-gray-200 rounded">
-          <%= collection.region %>
-        </span>
-      </p>
-    <% end %>
-    
-    <% if collection.artwork_count > 0 %>
-      <p class="text-sm text-gray-500 mt-2">
-        <%= pluralize(collection.artwork_count, 'artwork') %>
-      </p>
-    <% end %>
+
+    <h2 class="font-semibold text-lg group-hover:text-blue-800">
+      <%= collection.name %>
+    </h2>
   </div>
 <% end %>

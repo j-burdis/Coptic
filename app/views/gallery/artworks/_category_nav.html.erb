@@ -64,7 +64,7 @@
       <% if design.present? || defined?(gallery_design_path) %>
         <li>
           <%= link_to design&.path || gallery_design_path, 
-              class: "p-1 #{(design && request.path == design.path) || request.path == gallery_design_path ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{request.path.start_with?(gallery_design_path) ? 'border-b-2 border-black hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Design
             <% if design.present? %>
               <span>(<%= design.artwork_count %>)</span>

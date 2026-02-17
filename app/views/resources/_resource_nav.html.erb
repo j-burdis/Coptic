@@ -36,7 +36,7 @@
       <% if texts.present? || defined?(resources_texts_path) %>
         <li>
           <%= link_to texts&.path || resources_texts_path, 
-              class: "p-1 #{(texts && request.path == texts.path) || request.path == resources_texts_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{request.path.start_with?(resources_texts_path) ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Texts
             <% if texts.present? %>
               <span>(<%= texts.artwork_count %>)</span>
@@ -50,7 +50,7 @@
       <% if publications.present? || defined?(resources_publications_path) %>
         <li>
           <%= link_to publications&.path || resources_publications_path, 
-              class: "p-1 #{(publications && request.path == publications.path) || request.path == resources_publications_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{request.path.start_with?(resources_publications_path) ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Publications
             <% if publications.present? %>
               <span>(<%= publications.artwork_count %>)</span>

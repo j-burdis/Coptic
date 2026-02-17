@@ -29,11 +29,11 @@
       <% end %>
       
       <%= form_with url: request.path, method: :get, class: "space-y-6" do |f| %>
-        
+
         <!-- text subcategories filter -->
         <% if show_subcategory_filter && text_subcategories.present? %>
-          <div class="space-y-2">
-            <span class="text-gray-600">Filter</span>
+          <div>
+            <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
             <%= select_tag :subcategory,
                 options_for_select(
                   [["All Texts", resources_texts_path]] + 
@@ -47,8 +47,8 @@
 
         <!-- publication subcategories filter -->
         <% if show_subcategory_filter && publication_subcategories.present? %>
-          <div class="space-y-2">
-            <span class="text-gray-600">Filter</span>
+          <div>
+            <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
             <%= select_tag :subcategory,
                 options_for_select(
                   [["All Publications", resources_publications_path]] + 
@@ -62,8 +62,8 @@
 
         <!-- exhibition type filter -->
         <% if show_type_filter && exhibition_types.present? %>
-          <div class="space-y-2">
-            <span class="text-gray-600">Type</span>
+          <div>
+            <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
             <%= f.select :type,
                 options_for_select([["All Types", ""]] + exhibition_types, active_type),
                 {},
@@ -74,8 +74,8 @@
 
         <!-- region filter (for collections) -->
         <% if show_region_filter && regions.present? %>
-          <div class="space-y-2">
-            <span class="text-gray-600">Region</span>
+          <div>
+            <h2 class="text-sm font-semibold text-gray-600 mb-2">Region</h2>
             <%= f.select :region,
                 options_for_select([["All Regions", ""]] + regions.map { |r| [r, r.downcase] }, active_region),
                 {},
@@ -84,14 +84,9 @@
           </div>
         <% end %>
 
-        <% if params[:s].present? || params[:dates].present? || params[:region].present? || params[:type].present? %>
-          <%= link_to "Clear filters", request.path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
-        <% else %>
-          <span class="text-gray-600">Filter</span>
-        <% end %>
-
         <!-- keyword search -->
         <div>
+          <h2 class="text-sm font-semibold text-gray-600 mb-2">Search</h2>
           <%= f.text_field :s, 
               value: params[:s], 
               placeholder: "Keyword",
@@ -101,6 +96,7 @@
         <!-- date filter -->
         <% if show_date_filter %>
           <div>
+            <h2 class="text-sm font-semibold text-gray-600 mb-2">Dates</h2>
             <%= f.select :dates, 
                 options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
                 {},
@@ -108,6 +104,12 @@
                 onchange: "this.form.submit()" %>
           </div>
         <% end %>
+
+        <!-- clear filters -->
+        <% if params[:s].present? || params[:dates].present? || params[:region].present? || params[:type].present? || params[:subcategory].present? %>
+          <%= link_to "Clear filters", request.path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
+        <% end %>
+
       <% end %>
     </div>
   </aside>

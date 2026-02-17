@@ -24,8 +24,8 @@
       
       <!-- design subcategories (only for design pages) -->
       <% if design_subcategories.present? %>
-        <div class="space-y-6">
-          <span class="text-gray-600">Filter</span>
+        <div>
+          <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
           <%= select_tag :subcategory,
               options_for_select(
                 [["All Designs", gallery_design_path]] + 
@@ -38,14 +38,9 @@
       <% end %>
 
       <% unless hide_search_filter %>
-        <% if params[:s].present? || params[:dates].present? %>
-          <%= link_to "Clear filters", request.path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
-        <% else %>
-          <span class="text-gray-600">Filter</span>
-        <% end %>
-
         <!-- keyword search -->
         <div>
+          <h2 class="text-sm font-semibold text-gray-600 mb-2">Search</h2>
           <%= f.text_field :s, 
               value: params[:s], 
               placeholder: "Keyword",
@@ -55,6 +50,7 @@
         <!-- date filter -->
         <% if show_date_filter %>
           <div>
+            <h2 class="text-sm font-semibold text-gray-600 mb-2">Dates</h2>
             <%= f.select :dates, 
                 options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
                 {},
@@ -63,13 +59,16 @@
           </div>
         <% elsif fixed_year.present? %>
           <div>
-            <label class="block text-sm font-semibold mb-2">Date</label>
+            <h2 class="text-sm font-semibold text-gray-600 mb-2">Dates</h2>
             <p class="text-gray-600"><%= fixed_year %></p>
           </div>
         <% end %>
+
+        <% if params[:s].present? || params[:dates].present? %>
+          <%= link_to "Clear filters", request.path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
+        <% end %>
       <% end %>
 
-      <%#= f.submit "Search", class: "w-full bg-black text-white py-2 px-4 hover:bg-gray-800 transition-colors cursor-pointer" %>
     <% end %>
   </div>
 </aside>

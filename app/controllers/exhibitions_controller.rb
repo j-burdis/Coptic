@@ -66,7 +66,7 @@ class ExhibitionsController < ApplicationController
       end_year = ::Regexp.last_match(2).to_i
       decade_start = Date.new(start_year, 1, 1)
       decade_end = Date.new(end_year, 12, 31)
-      
+
       @exhibitions = @exhibitions.where(
         "(start_date >= ? AND start_date <= ?) OR (end_date >= ? AND end_date <= ?) OR (start_date <= ? AND end_date >= ?)",
         decade_start, decade_end, decade_start, decade_end, decade_start, decade_end
@@ -75,7 +75,7 @@ class ExhibitionsController < ApplicationController
       year = ::Regexp.last_match(1).to_i
       year_start = Date.new(year, 1, 1)
       year_end = Date.new(year, 12, 31)
-      
+
       @exhibitions = @exhibitions.where(
         "(start_date >= ? AND start_date <= ?) OR (end_date >= ? AND end_date <= ?) OR (start_date <= ? AND end_date >= ?)",
         year_start, year_end, year_start, year_end, year_start, year_end
@@ -84,8 +84,13 @@ class ExhibitionsController < ApplicationController
   end
 
   def decade_ranges
+    # earliest year from exhibitions
+    earliest_exhibition = @exhibitions.minimum(:start_date)
+    earliest_year = earliest_exhibition&.year || Date.current.year
     current_year = Date.current.year
-    start_decade = 1940
+
+    # round down to nearest decade
+    start_decade = (earliest_year / 10) * 10
 
     decades = []
     (start_decade..current_year).step(10) do |year|

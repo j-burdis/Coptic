@@ -165,8 +165,12 @@ class ResourcesController < ApplicationController
   end
 
   def decade_ranges
+    # earliest year from resources in this category
+    earliest_year = @resources.minimum(:year) || Date.current.year
     current_year = Date.current.year
-    start_decade = 1940
+
+    # round down to nearest decade
+    start_decade = (earliest_year / 10) * 10
 
     decades = []
     (start_decade..current_year).step(10) do |year|

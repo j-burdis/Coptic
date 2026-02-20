@@ -37,7 +37,7 @@
             <%= select_tag :subcategory,
                 options_for_select(
                   [["All Texts", resources_texts_path]] + 
-                  text_subcategories.map { |sub| [sub.titleize, resources_texts_subcategory_path(subcategory: sub)] },
+                  text_subcategories.map { |slug, name| [name, resources_texts_subcategory_path(subcategory: slug)] },
                   active_subcategory.present? ? resources_texts_subcategory_path(subcategory: active_subcategory) : resources_texts_path
                 ),
                 class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
@@ -52,7 +52,7 @@
             <%= select_tag :subcategory,
                 options_for_select(
                   [["All Publications", resources_publications_path]] + 
-                  publication_subcategories.map { |sub| [sub.titleize, resources_publications_subcategory_path(subcategory: sub)] },
+                  publication_subcategories.map { |slug, name| [name, resources_publications_subcategory_path(subcategory: slug)] },
                   active_subcategory.present? ? resources_publications_subcategory_path(subcategory: active_subcategory) : resources_publications_path
                 ),
                 class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",

@@ -196,7 +196,7 @@ ActiveAdmin.register Artwork do
 
           f.input :subcategory,
                   as: :select,
-                  collection: Artwork::DESIGN_SUBCATEGORIES,
+                  collection: Artwork::DESIGN_SUBCATEGORIES.map(&:first),
                   hint: 'Only required for Design category',
                   include_blank: true
 

@@ -26,13 +26,30 @@ class Artwork < ApplicationRecord
   }, _prefix: true
 
   DESIGN_SUBCATEGORIES = [
-    'artplate', 'bbc-billboard-project', 'british-council-hq', 
-    'broadgate-centre', 'designers-guild', 'evermore', 
-    'exhibition-models', 'glyndebourne-festival', 'high-gate-ponds',
-    'imax-cinema', 'kolam', 'layla-and-majnun', 'lomonosov-plate',
-    'mozart-dances', 'new-worlds-stamp', 'night-music', 'olympic-games',
-    'piano', 'pulcinella', 'rhymes-with-silver', 'savitri',
-    'the-nutcracker', 'the-way-we-live-now-susan-sontag', 'van-cliburn'
+    ['artplate', 'Artplate'],
+    ['bbc-billboard-project', 'BBC Billboard Project'],
+    ['british-council-hq', 'British Council HQ'],
+    ['broadgate-centre', 'Broadgate Centre'],
+    ['designers-guild', "Designers' Guild"],
+    ['evermore', 'Evermore'],
+    ['exhibition-models', 'Exhibition Models'],
+    ['glyndebourne-festival', 'Glyndebourne Festival'],
+    ['high-gate-ponds', 'High Gate Ponds'],
+    ['imax-cinema', 'IMAX Cinema'],
+    ['kolam', 'Kolam'],
+    ['layla-and-majnun', 'Layla and Majnun'],
+    ['lomonosov-plate', 'Lomonosov Plate'],
+    ['mozart-dances', 'Mozart Dances'],
+    ['new-worlds-stamp', 'New Worlds Stamp'],
+    ['night-music', 'Night Music'],
+    ['olympic-games', 'Olympic Games'],
+    ['piano', 'Piano'],
+    ['pulcinella', 'Pulcinella'],
+    ['rhymes-with-silver', 'Rhymes with Silver'],
+    ['savitri', 'Savitri'],
+    ['the-nutcracker', 'The Nutcracker'],
+    ['the-way-we-live-now-susan-sontag', 'The Way We Live Now - Susan Sontag'],
+    ['van-cliburn', 'Van Cliburn']
   ].freeze
 
   INDIAN_COLLECTION_CATEGORIES = [

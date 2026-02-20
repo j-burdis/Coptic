@@ -15,13 +15,17 @@ class Resource < ApplicationRecord
   }
 
   TEXT_SUBCATEGORIES = [
-    'critical-essays', 'interviews', 'selected-reviews', 'the-artists-words'
+    ['critical-essays', 'Critical Essays'],
+    ['interviews', 'Interviews'],
+    ['selected-reviews', 'Selected Reviews'],
+    ['the-artists-words', "The Artist's Words"]
   ].freeze
 
   PUBLICATION_SUBCATEGORIES = [
-    'posters-postcards', 'selected-books', 'selected-catalogues'
+    ['posters-postcards', 'Posters & Postcards'],
+    ['selected-books', 'Selected Books'],
+    ['selected-catalogues', 'Selected Catalogues']
   ].freeze
-
   scope :published, -> { where(published: true) }
   scope :main_collection, -> { where(is_indian_collection: false) }
   scope :indian_collection, -> { where(is_indian_collection: true) }

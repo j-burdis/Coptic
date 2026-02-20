@@ -35,7 +35,8 @@ ActiveAdmin.register Resource do
           f.input :title, hint: 'Optional for chronology entries'
           f.input :slug, hint: 'Not required for chronology entries'
           f.input :category, as: :select, collection: Resource.categories.keys
-          f.input :subcategory, as: :select, collection: Resource::TEXT_SUBCATEGORIES + Resource::PUBLICATION_SUBCATEGORIES, include_blank: true
+          f.input :subcategory, as: :select,
+                  collection: (Resource::TEXT_SUBCATEGORIES + Resource::PUBLICATION_SUBCATEGORIES).map(&:first), include_blank: true
 
           f.input :date, as: :datepicker, label: 'Date',
                          hint: 'Set the date (for full date or month/year)'

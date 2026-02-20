@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_15_214808) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_20_085216) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -206,6 +206,16 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_15_214808) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "resource_exhibitions", force: :cascade do |t|
+    t.bigint "resource_id", null: false
+    t.bigint "exhibition_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exhibition_id"], name: "index_resource_exhibitions_on_exhibition_id"
+    t.index ["resource_id", "exhibition_id"], name: "index_resource_exhibitions_on_resource_and_exhibition", unique: true
+    t.index ["resource_id"], name: "index_resource_exhibitions_on_resource_id"
+  end
+
   create_table "resources", force: :cascade do |t|
     t.string "title", null: false
     t.string "slug"
@@ -231,6 +241,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_15_214808) do
     t.date "date"
     t.boolean "show_day"
     t.integer "year_end"
+    t.string "isbn"
     t.index ["category"], name: "index_resources_on_category"
     t.index ["is_indian_collection"], name: "index_resources_on_is_indian_collection"
     t.index ["published"], name: "index_resources_on_published"
@@ -247,4 +258,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_15_214808) do
   add_foreign_key "artwork_exhibitions", "exhibitions"
   add_foreign_key "artwork_relations", "artworks"
   add_foreign_key "artwork_relations", "artworks", column: "related_artwork_id"
+  add_foreign_key "resource_exhibitions", "exhibitions"
+  add_foreign_key "resource_exhibitions", "resources"
 end

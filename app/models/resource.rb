@@ -4,6 +4,9 @@ class Resource < ApplicationRecord
   before_validation :set_chronology_title, if: :chronology?
   before_validation :clear_slug_for_chronology, if: :chronology?
 
+  has_many :resource_exhibitions, dependent: :destroy
+  has_many :exhibitions, through: :resource_exhibitions
+
   enum category: {
     films_and_audio: 0,
     texts: 1,

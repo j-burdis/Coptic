@@ -1,8 +1,8 @@
 ActiveAdmin.register Resource do
   permit_params :title, :slug, :category, :subcategory, :year, :year_end, :date, :show_day, 
-                :author, :publisher, :summary, :description, :content, :external_url,
-                :video_type, :video_id, :duration_seconds, :is_indian_collection,
-                :published, :image, :cloudinary_public_id, :original_filename
+                :author, :publisher, :isbn, :summary, :description, :content, :external_url, 
+                :video_type, :video_id, :duration_seconds, :is_indian_collection, :published, 
+                :image, :cloudinary_public_id, :original_filename, exhibition_ids: []
 
   # Sidebar filters
   filter :title
@@ -47,10 +47,14 @@ ActiveAdmin.register Resource do
 
           f.input :author
           f.input :publisher, hint: 'Publisher/source of the text or publication'
+          f.input :isbn, hint: 'For publications only'
           f.input :summary, as: :text
           f.input :description, as: :text, input_html: { rows: 6 }
           f.input :content, as: :text, input_html: { rows: 10 }
-          f.input :external_url
+          f.input :external_url, hint: 'Link to purchase publication or view external source'
+
+          f.input :exhibitions, as: :check_boxes, collection: Exhibition.published.order(:title)
+
           f.input :is_indian_collection
           f.input :published
         end
@@ -117,6 +121,7 @@ ActiveAdmin.register Resource do
     column :subcategory
     column :year
     column :author
+    column :isbn
     column :published do |resource|
       status_tag(resource.published ? 'Yes' : 'No', class: (resource.published ? 'yes' : 'no'))
     end
@@ -147,6 +152,23 @@ ActiveAdmin.register Resource do
             para 'No image uploaded', class: 'text-gray-500'
           end
         end
+
+        panel "Related Exhibitions" do
+          if resource.exhibitions.any?
+            table_for resource.exhibitions do
+              column :title do |exhibition|
+                link_to exhibition.title, admin_exhibition_path(exhibition)
+              end
+              column :year do |exhibition|
+                exhibition.year_display
+              end
+              column :venue
+              column :location
+            end
+          else
+            para "No exhibitions associated", class: 'text-gray-500'
+          end
+        end
       end
 
       column do
@@ -161,6 +183,8 @@ ActiveAdmin.register Resource do
             row :date
             row :year
             row :author
+            row :publisher
+            row :isbn
             row :summary
             row :description
             row :content do

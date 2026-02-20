@@ -4,6 +4,9 @@ class Exhibition < ApplicationRecord
   has_many :artwork_exhibitions, dependent: :destroy
   has_many :artworks, through: :artwork_exhibitions
 
+  has_many :resource_exhibitions, dependent: :destroy
+  has_many :resources, through: :resource_exhibitions
+
   enum exhibition_type: {
     solo_shows: 0,
     group_shows: 1,

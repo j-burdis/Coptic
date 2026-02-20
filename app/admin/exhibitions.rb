@@ -158,6 +158,23 @@ ActiveAdmin.register Exhibition do
             para "No artworks associated", class: 'text-gray-500'
           end
         end
+
+        panel "Related Publications/Resources" do
+          if exhibition.resources.any?
+            table_for exhibition.resources.order(year: :desc) do
+              column :title do |resource|
+                link_to resource.title, admin_resource_path(resource)
+              end
+              column :category do |resource|
+                status_tag resource.category
+              end
+              column :year
+              column :author
+            end
+          else
+            para "No publications/resources associated", class: 'text-gray-500'
+          end
+        end
       end
 
       column do

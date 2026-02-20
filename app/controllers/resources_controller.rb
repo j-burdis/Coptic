@@ -157,10 +157,17 @@ class ResourcesController < ApplicationController
     when /(\d{4})-(\d{4})/ # decade range
       start_year = ::Regexp.last_match(1).to_i
       end_year = ::Regexp.last_match(2).to_i
-      @resources = @resources.where("year >= ? AND year <= ?", start_year, end_year)
+
+      @resources = @resources.where(
+        "(year >= ? AND year <= ?) OR (EXTRACT(YEAR FROM date) >= ? AND EXTRACT(YEAR FROM date) <= ?)",
+        start_year, end_year, start_year, end_year
+      )
     when /(\d{4})/ # single year
-      year = $1.to_i
-      @resources = @resources.where(year: year)
+      year = ::Regexp.last_match(1).to_i
+      @resources = @resources.where(
+        "year = ? OR EXTRACT(YEAR FROM date) = ?",
+        year, year
+      )
     end
   end
 

@@ -34,12 +34,13 @@
         <% if show_subcategory_filter && text_subcategories.present? %>
           <div>
             <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
-            <%= select_tag :subcategory,
+            <%= f.select :subcategory_redirect,
                 options_for_select(
                   [["All Texts", resources_texts_path]] + 
                   text_subcategories.map { |slug, name| [name, resources_texts_subcategory_path(subcategory: slug)] },
-                  active_subcategory.present? ? resources_texts_subcategory_path(subcategory: active_subcategory) : resources_texts_path
+                  request.path
                 ),
+                {},
                 class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
                 onchange: "window.location.href = this.value;" %>
           </div>
@@ -49,12 +50,13 @@
         <% if show_subcategory_filter && publication_subcategories.present? %>
           <div>
             <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
-            <%= select_tag :subcategory,
+            <%= f.select :subcategory_redirect,
                 options_for_select(
                   [["All Publications", resources_publications_path]] + 
                   publication_subcategories.map { |slug, name| [name, resources_publications_subcategory_path(subcategory: slug)] },
-                  active_subcategory.present? ? resources_publications_subcategory_path(subcategory: active_subcategory) : resources_publications_path
+                  request.path
                 ),
+                {},
                 class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
                 onchange: "window.location.href = this.value;" %>
           </div>
@@ -106,8 +108,18 @@
         <% end %>
 
         <!-- clear filters -->
-        <% if params[:s].present? || params[:dates].present? || params[:region].present? || params[:type].present? || params[:subcategory].present? %>
-          <%= link_to "Clear filters", request.path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
+        <% if params[:s].present? || params[:dates].present? || params[:region].present? || params[:type].present? %>
+          <% 
+            # Determine the base path for clear filters
+            base_path = if text_subcategories.present? && request.path.start_with?(resources_texts_path)
+              resources_texts_path
+            elsif publication_subcategories.present? && request.path.start_with?(resources_publications_path)
+              resources_publications_path
+            else
+              request.path.split('?').first
+            end
+          %>
+          <%= link_to "Clear filters", base_path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
         <% end %>
 
       <% end %>

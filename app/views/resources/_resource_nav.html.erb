@@ -8,7 +8,7 @@
       <% if exhibitions.present? || defined?(resources_exhibitions_path) %>
         <li>
           <%= link_to exhibitions&.path || resources_exhibitions_path, 
-              class: "p-1 #{(exhibitions && request.path == exhibitions.path) || request.path == resources_exhibitions_path ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
+              class: "p-1 #{request.path.start_with?(resources_exhibitions_path) ? 'border-b-2 border-black hover:border-blue-800 hover:text-blue-800' : 'hover:text-blue-800'}" do %>
             Exhibitions
             <% if exhibitions.present? %>
               <span>(<%= exhibitions.artwork_count %>)</span>

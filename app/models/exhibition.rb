@@ -15,6 +15,14 @@ class Exhibition < ApplicationRecord
     other: 4
   }
 
+  EXHIBITION_TYPES = [
+    ['solo_shows', 'Solo Shows'],
+    ['group_shows', 'Group Shows'],
+    ['paintings', 'Paintings'],
+    ['prints', 'Prints'],
+    ['other', 'Other']
+  ].freeze
+
   scope :published, -> { where(published: true) }
   scope :main_collection, -> { where(is_indian_collection: false) }
   scope :indian_collection, -> { where(is_indian_collection: true) }

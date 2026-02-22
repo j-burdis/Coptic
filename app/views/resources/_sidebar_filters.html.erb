@@ -63,13 +63,14 @@
       <% if show_type_filter && exhibition_types.present? %>
         <div class="mb-6">
           <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Types</h2>
-          <%= form_with url: request.path, method: :get do |f| %>
-            <%= f.select :type,
-                options_for_select([["All Types", ""]] + exhibition_types, active_type),
-                {},
-                class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
-                onchange: "this.form.submit()" %>
-          <% end %>
+          <%= select_tag 'type_nav',
+              options_for_select(
+                [["All Exhibitions", resources_exhibitions_path]] + 
+                exhibition_types.map { |slug, name| [name, resources_exhibitions_by_type_path(exhibition_type: slug.gsub('_', '-'))] },
+                request.path
+              ),
+              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+              onchange: "window.location.href = this.value;" %>
         </div>
       <% end %>
 

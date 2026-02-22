@@ -97,10 +97,10 @@ Rails.application.routes.draw do
   # Exhibitions
   get '/resources/exhibitions', to: 'exhibitions#index', as: :resources_exhibitions
   
-  get 'exhibitions/:exhibition_type', to: 'exhibitions#by_type',
-      as: :exhibitions_by_type,
-      constraints: { exhibition_type: /(solo-shows|group-shows|paintings|prints|other)/ }
-  
+  get '/resources/exhibitions/:exhibition_type', to: 'exhibitions#by_type',
+    as: :resources_exhibitions_by_type,
+    constraints: { exhibition_type: /(solo-shows|group-shows|paintings|prints|other)/ }
+
   get 'exhibition/:slug', to: 'exhibitions#show', as: :exhibition
 
   # News

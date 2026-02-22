@@ -6,25 +6,20 @@ class ExhibitionsController < ApplicationController
     @category_title = "Exhibitions"
     @show_date_filter = true
     @show_type_filter = true
-    @exhibition_types = Exhibition.exhibition_types.keys.map { |k| [k.titleize, k] }
-
-    # apply type filter if present
-    if params[:type].present? && Exhibition.exhibition_types.key?(params[:type])
-      @exhibitions = @exhibitions.where(exhibition_type: params[:type])
-      @active_type = params[:type]
-    end
+    @exhibition_types = Exhibition::EXHIBITION_TYPES
 
     apply_search_and_date_filters
     @exhibitions = @exhibitions.page(params[:page]).per(12)
   end
 
   def by_type
-    @exhibitions = @exhibitions.where(exhibition_type: params[:exhibition_type])
-    @category_title = "Exhibitions - #{params[:exhibition_type].titleize}"
+    @category_title = "Exhibitions"
     @show_date_filter = true
     @show_type_filter = true
-    @exhibition_types = Exhibition.exhibition_types.keys.map { |k| [k.titleize, k] }
+    @exhibition_types = Exhibition::EXHIBITION_TYPES
     @active_type = params[:exhibition_type]
+
+    @exhibitions = @exhibitions.where(exhibition_type: params[:exhibition_type].gsub('-', '_'))
 
     apply_search_and_date_filters
     @exhibitions = @exhibitions.page(params[:page]).per(12)

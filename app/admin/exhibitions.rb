@@ -56,8 +56,7 @@ ActiveAdmin.register Exhibition do
         f.inputs "Exhibition Details" do
           f.input :exhibition_type,
                   as: :select,
-                  collection: Exhibition.exhibition_types.keys,
-                  include_blank: false
+                  collection: Exhibition::EXHIBITION_TYPES.map(&:first)
 
           f.input :description,
                   as: :text,

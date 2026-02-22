@@ -28,67 +28,70 @@
         <h1 class="text-2xl font-semibold mb-6"><%= category_title %></h1>
       <% end %>
       
-      <%= form_with url: request.path, method: :get, class: "space-y-6" do |f| %>
+      <!-- Move subcategory dropdowns OUTSIDE the form -->
+      <!-- text subcategories filter -->
+      <% if show_subcategory_filter && text_subcategories.present? %>
+        <div class="mb-6">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Types</h2>
+          <%= select_tag 'subcategory_nav',
+              options_for_select(
+                [["All Texts", resources_texts_path]] + 
+                text_subcategories.map { |slug, name| [name, resources_texts_subcategory_path(subcategory: slug)] },
+                request.path
+              ),
+              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+              onchange: "window.location.href = this.value;" %>
+        </div>
+      <% end %>
 
-        <!-- text subcategories filter -->
-        <% if show_subcategory_filter && text_subcategories.present? %>
-          <div>
-            <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
-            <%= f.select :subcategory_redirect,
-                options_for_select(
-                  [["All Texts", resources_texts_path]] + 
-                  text_subcategories.map { |slug, name| [name, resources_texts_subcategory_path(subcategory: slug)] },
-                  request.path
-                ),
-                {},
-                class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
-                onchange: "window.location.href = this.value;" %>
-          </div>
-        <% end %>
+      <!-- publication subcategories filter -->
+      <% if show_subcategory_filter && publication_subcategories.present? %>
+        <div class="mb-6">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Types</h2>
+          <%= select_tag 'subcategory_nav',
+              options_for_select(
+                [["All Publications", resources_publications_path]] + 
+                publication_subcategories.map { |slug, name| [name, resources_publications_subcategory_path(subcategory: slug)] },
+                request.path
+              ),
+              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+              onchange: "window.location.href = this.value;" %>
+        </div>
+      <% end %>
 
-        <!-- publication subcategories filter -->
-        <% if show_subcategory_filter && publication_subcategories.present? %>
-          <div>
-            <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
-            <%= f.select :subcategory_redirect,
-                options_for_select(
-                  [["All Publications", resources_publications_path]] + 
-                  publication_subcategories.map { |slug, name| [name, resources_publications_subcategory_path(subcategory: slug)] },
-                  request.path
-                ),
-                {},
-                class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
-                onchange: "window.location.href = this.value;" %>
-          </div>
-        <% end %>
-
-        <!-- exhibition type filter -->
-        <% if show_type_filter && exhibition_types.present? %>
-          <div>
-            <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
+      <!-- exhibition type filter -->
+      <% if show_type_filter && exhibition_types.present? %>
+        <div class="mb-6">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Types</h2>
+          <%= form_with url: request.path, method: :get do |f| %>
             <%= f.select :type,
                 options_for_select([["All Types", ""]] + exhibition_types, active_type),
                 {},
                 class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
                 onchange: "this.form.submit()" %>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
+      <% end %>
 
-        <!-- region filter (for collections) -->
-        <% if show_region_filter && regions.present? %>
-          <div>
-            <h2 class="text-sm font-semibold text-gray-600 mb-2">Region</h2>
+      <!-- region filter (for collections) -->
+      <% if show_region_filter && regions.present? %>
+        <div class="mb-6">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Region</h2>
+          <%= form_with url: request.path, method: :get do |f| %>
             <%= f.select :region,
                 options_for_select([["All Regions", ""]] + regions.map { |r| [r, r.downcase] }, active_region),
                 {},
                 class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
                 onchange: "this.form.submit()" %>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
+      <% end %>
+      
+      <%= form_with url: request.path, method: :get, class: "space-y-6" do |f| %>
 
         <!-- keyword search -->
         <div>
-          <h2 class="text-sm font-semibold text-gray-600 mb-2">Search</h2>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Search</h2>
           <%= f.text_field :s, 
               value: params[:s], 
               placeholder: "Keyword",
@@ -98,7 +101,7 @@
         <!-- date filter -->
         <% if show_date_filter %>
           <div>
-            <h2 class="text-sm font-semibold text-gray-600 mb-2">Dates</h2>
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Dates</h2>
             <%= f.select :dates, 
                 options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
                 {},
@@ -109,17 +112,7 @@
 
         <!-- clear filters -->
         <% if params[:s].present? || params[:dates].present? || params[:region].present? || params[:type].present? %>
-          <% 
-            # Determine the base path for clear filters
-            base_path = if text_subcategories.present? && request.path.start_with?(resources_texts_path)
-              resources_texts_path
-            elsif publication_subcategories.present? && request.path.start_with?(resources_publications_path)
-              resources_publications_path
-            else
-              request.path.split('?').first
-            end
-          %>
-          <%= link_to "Clear filters", base_path, class: "block text-sm text-gray-600 hover:text-blue-800" %>
+          <%= link_to "Clear filters", request.path.split('?').first, class: "block text-sm text-gray-600 hover:text-blue-800" %>
         <% end %>
 
       <% end %>

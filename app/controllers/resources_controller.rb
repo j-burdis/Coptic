@@ -39,6 +39,10 @@ class ResourcesController < ApplicationController
     @category_title = "Films & Audio"
     @show_date_filter = false
     @show_grid_view = true
+
+    @earliest_year = @resources.minimum(:year) || 
+                @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+
     apply_search_filters
     @resources = @resources.page(params[:page]).per(12)
     render :index
@@ -51,6 +55,9 @@ class ResourcesController < ApplicationController
     @show_date_filter = true
     @show_subcategory_filter = true
     @text_subcategories = Resource::TEXT_SUBCATEGORIES
+
+    @earliest_year = @resources.minimum(:year) || 
+                   @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
 
     apply_search_and_date_filters
     @resources = @resources.page(params[:page]).per(12)
@@ -66,6 +73,9 @@ class ResourcesController < ApplicationController
     @text_subcategories = Resource::TEXT_SUBCATEGORIES
     @active_subcategory = params[:subcategory]
 
+    @earliest_year = @resources.minimum(:year) || 
+                @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+
     apply_search_and_date_filters
     @resources = @resources.page(params[:page]).per(12)
     render :index
@@ -78,6 +88,9 @@ class ResourcesController < ApplicationController
     @show_date_filter = true
     @show_subcategory_filter = true
     @publication_subcategories = Resource::PUBLICATION_SUBCATEGORIES
+
+    @earliest_year = @resources.minimum(:year) || 
+                   @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
 
     apply_search_and_date_filters
     @resources = @resources.page(params[:page]).per(12)
@@ -93,6 +106,9 @@ class ResourcesController < ApplicationController
     @publication_subcategories = Resource::PUBLICATION_SUBCATEGORIES
     @active_subcategory = params[:subcategory]
 
+    @earliest_year = @resources.minimum(:year) || 
+                   @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+
     apply_search_and_date_filters
     @resources = @resources.page(params[:page]).per(12)
     render :index
@@ -104,6 +120,9 @@ class ResourcesController < ApplicationController
     @category_title = "Chronology"
     @show_date_filter = true
     @show_decade_list = true
+
+    @earliest_year = @resources.minimum(:year) || 
+                   @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
 
     apply_search_and_date_filters
     @resources = @resources.reorder(year: :asc, title: :asc)
@@ -173,7 +192,7 @@ class ResourcesController < ApplicationController
 
   def decade_ranges
     # earliest year from resources in this category
-    earliest_year = @resources.minimum(:year) || Date.current.year
+    earliest_year = @earliest_year || @resources.minimum(:year) || Date.current.year
     current_year = Date.current.year
 
     # round down to nearest decade

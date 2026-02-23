@@ -55,6 +55,9 @@ module Gallery
       @artworks = @artworks.paintings
       @category_title = "Paintings"
       @show_date_filter = true
+
+      @earliest_year = @artworks.minimum(:year)
+
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
       render :index
@@ -65,6 +68,9 @@ module Gallery
       @artworks = @artworks.prints
       @category_title = "Prints"
       @show_date_filter = true
+
+      @earliest_year = @artworks.minimum(:year)
+
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
       render :index
@@ -94,6 +100,9 @@ module Gallery
       @category_title = "Quantel Paintbox"
       @show_date_filter = false
       @fixed_year = "1986"
+
+      @earliest_year = @artworks.minimum(:year)
+
       render :index
     end
 
@@ -102,6 +111,9 @@ module Gallery
       @artworks = @artworks.memories_of_bombay_mumbai
       @category_title = "Memories of Bombay / Mumbai"
       @show_date_filter = true
+
+      @earliest_year = @artworks.minimum(:year)
+
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
       render :index
@@ -112,6 +124,9 @@ module Gallery
       @artworks = @artworks.other
       @category_title = "Other"
       @show_date_filter = true
+
+      @earliest_year = @artworks.minimum(:year)
+
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
       render :index
@@ -123,6 +138,9 @@ module Gallery
       @category_title = "Missing Works"
       @show_date_filter = true
       @status_filter = "missing"
+
+      @earliest_year = @artworks.minimum(:year)
+
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
       render :index
@@ -135,6 +153,9 @@ module Gallery
       @show_date_filter = false
       @fixed_year = "1961-1962"
       @status_filter = "destroyed"
+
+      @earliest_year = @artworks.minimum(:year)
+
       render :index
     end
 
@@ -165,6 +186,8 @@ module Gallery
           # @subcategory_page = @design_subcategory_pages[params[:subcategory]]
         end
 
+        @earliest_year = @artworks.minimum(:year)
+
         # apply search and date filters
         apply_search_and_date_filters
 
@@ -183,6 +206,9 @@ module Gallery
       @hide_search_filter = true
       @design_subcategories = Artwork::DESIGN_SUBCATEGORIES
       @active_subcategory = params[:subcategory]
+
+      @earliest_year = @artworks.minimum(:year)
+
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
       render :index
@@ -194,6 +220,9 @@ module Gallery
 
       @category_title = "All Artworks"
       @show_date_filter = true
+
+      @earliest_year = @exhibitions.where.not(start_date: nil).minimum("EXTRACT(YEAR FROM start_date)::integer")
+
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
       render :index
@@ -268,11 +297,9 @@ module Gallery
     end
 
     def decade_ranges
-      # earliest year from artworks
-      earliest_year = @artworks.minimum(:year) || Date.current.year
+      earliest_year = @earliest_year || Date.current.year
       current_year = Date.current.year
 
-      # round down to nearest decade
       start_decade = (earliest_year / 10) * 10
 
       decades = []

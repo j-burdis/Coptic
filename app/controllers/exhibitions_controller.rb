@@ -8,6 +8,8 @@ class ExhibitionsController < ApplicationController
     @show_type_filter = true
     @exhibition_types = Exhibition::EXHIBITION_TYPES
 
+    @earliest_year = @exhibitions.where.not(start_date: nil).minimum("EXTRACT(YEAR FROM start_date)::integer")
+
     apply_search_and_date_filters
     @exhibitions = @exhibitions.page(params[:page]).per(12)
   end
@@ -19,6 +21,7 @@ class ExhibitionsController < ApplicationController
     @exhibition_types = Exhibition::EXHIBITION_TYPES
     @active_type = params[:exhibition_type]
 
+    @earliest_year = @exhibitions.where.not(start_date: nil).minimum("EXTRACT(YEAR FROM start_date)::integer")
     @exhibitions = @exhibitions.where(exhibition_type: params[:exhibition_type].gsub('-', '_'))
 
     apply_search_and_date_filters
@@ -81,7 +84,7 @@ class ExhibitionsController < ApplicationController
   def decade_ranges
     # earliest year from exhibitions
     earliest_exhibition = @exhibitions.minimum(:start_date)
-    earliest_year = earliest_exhibition&.year || Date.current.year
+    earliest_year = @earliest_year || Date.current.year
     current_year = Date.current.year
 
     # round down to nearest decade

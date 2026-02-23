@@ -67,7 +67,7 @@ class ResourcesController < ApplicationController
   def texts_subcategory
     @category_page = CategoryPage.published.resource_subcategory.find_by(slug: params[:subcategory])
     @resources = @resources.texts.where(subcategory: params[:subcategory])
-    @category_title = "Texts - #{params[:subcategory].titleize}"
+    @category_title = Resource::TEXT_SUBCATEGORIES.find { |slug, name| slug == params[:subcategory] }&.last || params[:subcategory].titleize
     @show_date_filter = true
     @show_subcategory_filter = true
     @text_subcategories = Resource::TEXT_SUBCATEGORIES
@@ -100,7 +100,7 @@ class ResourcesController < ApplicationController
   def publications_subcategory
     @category_page = CategoryPage.published.resource_subcategory.find_by(slug: params[:subcategory])
     @resources = @resources.publications.where(subcategory: params[:subcategory])
-    @category_title = "Publications - #{params[:subcategory].titleize}"
+    @category_title = Resource::PUBLICATION_SUBCATEGORIES.find { |slug, name| slug == params[:subcategory] }&.last || params[:subcategory].titleize
     @show_date_filter = true
     @show_subcategory_filter = true
     @publication_subcategories = Resource::PUBLICATION_SUBCATEGORIES

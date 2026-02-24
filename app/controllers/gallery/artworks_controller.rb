@@ -297,6 +297,10 @@ module Gallery
     end
 
     def decade_ranges
+      if @resources&.total_count == 0 || @exhibitions&.total_count == 0
+        return []
+      end
+
       earliest_year = @earliest_year || Date.current.year
       current_year = Date.current.year
 

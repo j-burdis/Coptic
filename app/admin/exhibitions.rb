@@ -136,7 +136,9 @@ ActiveAdmin.register Exhibition do
       column do
         panel "Image" do
           if exhibition.cloudinary_public_id.present?
-            image_tag exhibition.image_url, style: 'max-width: 100%; display: block;'
+            div style: 'min-height: 200px;' do
+              image_tag exhibition.image_url, style: 'max-width: 100%; height: auto; display: block;'
+            end
           else
             para 'No image uploaded', class: 'text-gray-500'
           end

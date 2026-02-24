@@ -55,7 +55,9 @@ ActiveAdmin.register Artwork do
       column do
         panel "Image" do
           if artwork.cloudinary_public_id.present?
-            image_tag artwork.large_url, style: 'max-width: 100%; display: block;'
+            div style: 'min-height: 200px;' do
+              image_tag artwork.image_url, style: 'max-width: 100%; height: auto; display: block;'
+            end
           else
             para 'No image uploaded', class: 'text-gray-500'
           end

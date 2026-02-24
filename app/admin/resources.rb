@@ -2,7 +2,7 @@ ActiveAdmin.register Resource do
   permit_params :title, :slug, :category, :subcategory, :year, :year_end, :date, :show_day, 
                 :author, :publisher, :isbn, :summary, :description, :content, :external_url, 
                 :video_type, :video_id, :duration_seconds, :is_indian_collection, :published, 
-                :image, :cloudinary_public_id, :original_filename, exhibition_ids: []
+                :image, :cloudinary_public_id, :original_filename, :image_caption, exhibition_ids: []
 
   # Sidebar filters
   filter :title
@@ -26,6 +26,7 @@ ActiveAdmin.register Resource do
         panel 'Image' do
           f.inputs do
             f.input :image, as: :file, label: 'Upload Image (Thumbnail)', hint: f.object.cloudinary_public_id.present? ? image_tag(f.object.thumbnail_url, style: 'max-width: 100%; display: block; margin-top: 10px;') : content_tag(:span, "No image uploaded")
+            f.input :image_caption, as: :text, input_html: { rows: 2 }, hint: 'Optional caption for the image'
           end
         end
       end
@@ -151,6 +152,10 @@ ActiveAdmin.register Resource do
             image_tag resource.image_url, style: 'max-width: 100%; display: block;'
           else
             para 'No image uploaded', class: 'text-gray-500'
+          end
+
+          if resource.image_caption.present?
+            para resource.image_caption, class: 'text-sm text-gray-600 mt-2'
           end
         end
 

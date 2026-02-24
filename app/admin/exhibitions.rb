@@ -1,7 +1,7 @@
 ActiveAdmin.register Exhibition do
   permit_params :title, :slug, :start_date, :end_date, :venue, :location,
   :description, :exhibition_type, :is_indian_collection, :published,
-  :image, :cloudinary_public_id, :original_filename
+  :image, :cloudinary_public_id, :original_filename, :image_caption
 
   # sidebar filters
   filter :title
@@ -33,6 +33,7 @@ ActiveAdmin.register Exhibition do
                   as: :file,
                   hint: 'Upload a new image (JPG, PNG). This will replace the current image.',
                   input_html: { accept: 'image/*' }
+          f.input :image_caption, as: :text, input_html: { rows: 2 }, hint: 'Optional caption for the image'
         end
       end
 
@@ -138,6 +139,10 @@ ActiveAdmin.register Exhibition do
             image_tag exhibition.image_url, style: 'max-width: 100%; display: block;'
           else
             para 'No image uploaded', class: 'text-gray-500'
+          end
+
+          if exhibition.image_caption.present?
+            para exhibition.image_caption, class: 'text-sm text-gray-600 mt-2'
           end
         end
 

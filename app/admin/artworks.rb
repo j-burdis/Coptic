@@ -5,7 +5,7 @@ ActiveAdmin.register Artwork do
   permit_params :title, :slug, :year, :year_end, :medium, :description, :dimensions,
                 :category, :subcategory, :status, :published, :is_indian_collection,
                 :indian_collection_category, :image, :cloudinary_public_id, :original_filename,
-                collection_ids: [], exhibition_ids: []
+                :image_caption, collection_ids: [], exhibition_ids: []
 
   index do
     selectable_column
@@ -59,6 +59,10 @@ ActiveAdmin.register Artwork do
           else
             para 'No image uploaded', class: 'text-gray-500'
           end
+
+          if artwork.image_caption.present?
+            para artwork.image_caption, class: 'text-sm text-gray-600 mt-2'
+          end
         end
 
         panel "Collections" do
@@ -81,7 +85,9 @@ ActiveAdmin.register Artwork do
               column :title do |exhibition|
                 link_to exhibition.title, admin_exhibition_path(exhibition)
               end
-              column :year
+              column :dates do |exhibition|
+                exhibition.year_display
+              end
               column :venue
               column :location
             end
@@ -158,6 +164,7 @@ ActiveAdmin.register Artwork do
                   as: :file,
                   hint: 'Upload a new image (JPG, PNG). This will replace the current image.',
                   input_html: { accept: 'image/*' }
+          f.input :image_caption, as: :text, input_html: { rows: 2 }, hint: 'Optional caption for the image'
         end
 
         f.inputs "Relationships" do
@@ -168,7 +175,7 @@ ActiveAdmin.register Artwork do
 
           f.input :exhibitions, 
                   as: :check_boxes,
-                  collection: Exhibition.order(year: :desc, title: :asc),
+                  collection: Exhibition.order(start_date: :desc, title: :asc),
                   hint: 'Select exhibitions featuring this artwork'
         end
       end

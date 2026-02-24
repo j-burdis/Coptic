@@ -26,6 +26,9 @@
         <%= image_tag resource.image_url,
             alt: resource.year_display,
             class: "object-cover w-full" %>
+        <% if resource.image_caption.present? %>
+          <p class="text-sm text-gray-500 mt-2"><%= resource.image_caption %></p>
+        <% end %>
       </div>
     <% end %>
   </div>

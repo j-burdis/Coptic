@@ -1,6 +1,6 @@
 ActiveAdmin.register Resource do
   permit_params :title, :slug, :category, :subcategory, :year, :year_end, :date, :show_day, 
-                :author, :publisher, :isbn, :summary, :description, :content, :external_url, 
+                :author, :publisher, :isbn, :summary, :description, :external_url, 
                 :video_type, :video_id, :duration_seconds, :is_indian_collection, :published, 
                 :image, :cloudinary_public_id, :original_filename, :image_caption, exhibition_ids: []
 
@@ -19,13 +19,20 @@ ActiveAdmin.register Resource do
         panel 'Video' do
           f.inputs do
             f.input :video_type, as: :select, collection: ['youtube', 'vimeo'], include_blank: 'No video'
-            f.input :video_id, hint: "For YouTube: the ID from youtube.com/watch?v=VIDEO_ID<br>For Vimeo: the ID from vimeo.com/VIDEO_ID".html_safe
+            f.input :video_id,
+                    hint: "For YouTube: the ID from youtube.com/watch?v=VIDEO_ID<br>For Vimeo: the ID from vimeo.com/VIDEO_ID".html_safe
             f.input :duration_seconds, hint: "Video duration in seconds (optional)"
           end
         end
         panel 'Image' do
           f.inputs do
-            f.input :image, as: :file, label: 'Upload Image (Thumbnail)', hint: f.object.cloudinary_public_id.present? ? image_tag(f.object.thumbnail_url, style: 'max-width: 100%; display: block; margin-top: 10px;') : content_tag(:span, "No image uploaded")
+            f.input :image, as: :file, label: 'Upload Image (Thumbnail)',
+                            hint: if f.object.cloudinary_public_id.present?
+                                    image_tag(f.object.thumbnail_url,
+                                              style: 'max-width: 100%; display: block; margin-top: 10px;')
+                                  else
+                                    content_tag(:span, "No image uploaded")
+                                  end
             f.input :image_caption, as: :text, input_html: { rows: 2 }, hint: 'Optional caption for the image'
           end
         end
@@ -37,7 +44,7 @@ ActiveAdmin.register Resource do
           f.input :slug, hint: 'Not required for chronology entries'
           f.input :category, as: :select, collection: Resource.categories.keys
           f.input :subcategory, as: :select,
-                  collection: (Resource::TEXT_SUBCATEGORIES + Resource::PUBLICATION_SUBCATEGORIES).map(&:first), include_blank: true
+                                collection: (Resource::TEXT_SUBCATEGORIES + Resource::PUBLICATION_SUBCATEGORIES).map(&:first), include_blank: true
 
           f.input :date, as: :datepicker, label: 'Date',
                          hint: 'Set the date (for full date or month/year)'
@@ -52,7 +59,6 @@ ActiveAdmin.register Resource do
           f.input :isbn, hint: 'For publications only'
           f.input :summary, as: :text
           f.input :description, as: :text, input_html: { rows: 6 }
-          f.input :content, as: :text, input_html: { rows: 10 }
           f.input :external_url, hint: 'Link to purchase publication or view external source'
 
           f.input :exhibitions, as: :check_boxes, collection: Exhibition.published.order(:title)
@@ -195,9 +201,6 @@ ActiveAdmin.register Resource do
             row :isbn
             row :summary
             row :description
-            row :content do
-              simple_format(resource.content) if resource.content.present?
-            end
             row :external_url do
               if resource.external_url.present?
                 link_to resource.external_url, resource.external_url, target: '_blank'

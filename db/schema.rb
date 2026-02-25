@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_24_082507) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_25_173914) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -228,7 +228,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_24_082507) do
     t.string "author"
     t.text "summary"
     t.text "description"
-    t.text "content"
     t.string "external_url"
     t.string "cloudinary_public_id"
     t.string "original_filename"

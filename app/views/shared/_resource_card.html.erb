@@ -29,10 +29,8 @@
       <%= resource.title %>
     </h3>
     
-    <% if resource.summary.present? %>
-      <p class="text-sm text-pretty text-gray-600 group-hover:text-blue-400"><%= resource.summary %></p>
-    <% elsif resource.description.present? %>
-      <p class="text-sm text-pretty text-gray-600 group-hover:text-blue-400"><%= resource.description.truncate_words(50, omission: ' [...]') %></p>
+    <% if resource_preview(resource).present? %>
+      <p class="text-sm text-pretty text-gray-600 group-hover:text-blue-400"><%= resource_preview(resource) %></p>
     <% end %>
   </div>
 <% end %>

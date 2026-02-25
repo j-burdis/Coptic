@@ -24,4 +24,24 @@ module ApplicationHelper
       "fa-solid fa-circle-info text-blue-600"
     end
   end
+
+  def resource_preview(resource, words: 50)
+    if resource.summary.present?
+      resource.summary
+    elsif resource.description.present?
+      truncate_words(resource.description, words, omission: ' [...]')
+    else
+      ''
+    end
+  end
+
+  private
+
+  def truncate_words(text, word_count, options = {})
+    omission = options[:omission] || '...'
+    words = text.split
+    return text if words.length <= word_count
+
+    words[0...word_count].join(' ') + omission
+  end
 end

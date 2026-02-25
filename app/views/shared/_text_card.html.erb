@@ -34,13 +34,9 @@
         <% end %>
       </p>
       
-      <% if resource.summary.present? %>
+      <% if resource_preview(resource, words: 50).present? %>
         <p class="text-xs md:text-sm text-pretty group-hover:text-blue-800 md:w-2/3">
-          <%= resource.summary %>
-        </p>
-      <% elsif resource.description.present? %>
-        <p class="text-xs md:text-sm text-pretty group-hover:text-blue-800 md:w-2/3">
-          <%= resource.description.truncate_words(50, omission: ' [...]') %>
+          <%= resource_preview(resource, words: 50) %>
         </p>
       <% end %>
     </div>

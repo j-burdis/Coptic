@@ -1,20 +1,19 @@
 <div class="border-b border-gray-200 pb-6 mb-6 last:border-0">
   <div>
-    <h3 class="text-xl font-semibold text-gray-500 mb-3"><%= resource.year_display %></h3>
+    <h3 class="text-lg md:text-xl font-semibold text-gray-500 mb-3"><%= resource.year_display %></h3>
   </div>
   
-  <div class="flex gap-6 items-start">
-
-    <!-- content -->
-    <div class="w-1/2">
+  <div class="flex gap-4 md:gap-6 items-start">
+    <!-- content full width if no image, half width if image present -->
+    <div class="<%= resource.cloudinary_public_id.present? ? 'w-1/2' : 'w-full' %>">
       <% if resource.description.present? %>
-        <div class="prose max-w-none">
+        <div class="prose prose-sm md:prose max-w-none text-pretty">
           <%= simple_format(resource.description) %>
         </div>
       <% end %>
       
       <% if resource.content.present? %>
-        <div class="prose max-w-none mt-3">
+        <div class="prose prose-sm md:prose max-w-none mt-3 text-pretty">
           <%= simple_format(resource.content) %>
         </div>
       <% end %>
@@ -22,12 +21,12 @@
 
     <!-- optional image on the right -->
     <% if resource.cloudinary_public_id.present? %>
-      <div class="flex-shrink-0 max-w-full">
+      <div class="flex-shrink-0 w-1/2 md:w-auto">
         <%= image_tag resource.image_url,
             alt: resource.year_display,
-            class: "object-cover w-full" %>
+            class: "w-full md:w-auto md:max-w-full object-cover" %>
         <% if resource.image_caption.present? %>
-          <p class="text-sm text-gray-500 mt-2"><%= resource.image_caption %></p>
+          <p class="text-xs md:text-sm text-gray-500 mt-2 text-pretty"><%= resource.image_caption %></p>
         <% end %>
       </div>
     <% end %>

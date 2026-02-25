@@ -17,13 +17,17 @@
     <% end %>
 
     <h3 class="font-semibold text-lg group-hover:text-blue-800">
-      <span>
-        <i class="fa-solid fa-video text-md"></i> 
-      </span>
+      <% if resource.video_type.present? && resource.video_id.present? %>
+        <span>
+          <i class="fa-solid fa-video text-md"></i> 
+        </span>
+      <% end %>
       <%= resource.title %>
     </h3>
     
-    <% if resource.description.present? %>
+    <% if resource.summary.present? %>
+      <p class="text-sm text-pretty text-gray-600 group-hover:text-blue-400"><%= resource.summary %></p>
+    <% elsif resource.description.present? %>
       <p class="text-sm text-pretty text-gray-600 group-hover:text-blue-400"><%= resource.description.truncate_words(50, omission: ' [...]') %></p>
     <% end %>
   </div>

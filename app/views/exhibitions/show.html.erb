@@ -33,8 +33,8 @@
 
         <!-- description -->
         <% if @exhibition.description.present? %>
-          <div class="text-pretty prose prose-sm md:prose max-w-none">
-            <%= simple_format(@exhibition.description) %>
+          <div class="prose prose-sm md:prose max-w-none">
+            <%= simple_format(@exhibition.description, class: 'mb-4') %>
           </div>
         <% end %>
       </div>

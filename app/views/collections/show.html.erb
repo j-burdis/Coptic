@@ -1,0 +1,54 @@
+<div class="bg-white">
+  <div class="container mx-auto px-4 lg:px-0 py-4">
+    
+    <nav class="text-sm text-gray-500 mb-4">
+      <ul class="flex items-center gap-2">
+        <li><%= link_to "Resources", resources_path, class: "hover:text-blue-800" %></li>
+        <li>></li>
+        <li><%= link_to "Collections", resources_collections_path, class: "hover:text-blue-800" %></li>
+      </ul>
+    </nav>
+
+    <h1 class="text-2xl md:text-3xl font-semibold mb-8"><%= @collection.name %></h1>
+
+    <% if @artworks.any? %>
+      <section class="mt-12">
+        <h2 class="text-2xl md:text-3xl font-semibold text-center mb-8">
+          <span class="border-b-2 border-black pb-1 inline-block">Works Held</span>
+        </h2>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+          <% @artworks.each do |artwork| %>
+            <%= link_to artwork.path, class: "group block" do %>
+              <div class="relative mb-3 bg-white overflow-hidden">
+                <% if artwork.cloudinary_public_id.present? %>
+                  <%= image_tag artwork.thumbnail_url, 
+                      alt: artwork.title,
+                      class: "object-cover w-full" %>
+                <% else %>
+                  <div class="aspect-square w-full flex items-center justify-center bg-gray-100">
+                    <i class="fa-solid fa-image text-4xl text-gray-300"></i>
+                  </div>
+                <% end %>
+              </div>
+              
+              <div class="space-y-1">
+                <h3 class="font-semibold text-sm group-hover:text-blue-800"><%= artwork.title %></h3>
+                
+                <% if artwork.year.present? %>
+                  <p class="text-xs text-gray-500"><%= artwork.year_range %></p>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+
+      </section>
+    <% else %>
+      <div class="text-center py-16">
+        <p class="text-xl text-gray-600">No artworks currently listed in this collection</p>
+      </div>
+    <% end %>
+
+  </div>
+</div>

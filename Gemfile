@@ -38,7 +38,7 @@ gem "tailwindcss-rails", "~> 2.7"
 gem "simple_form", github: "heartcombo/simple_form"
 
 gem "devise", "~> 4.9"
-gem "activeadmin", "~> 3.3"
+gem "activeadmin", "~> 3.4"
 gem "sassc-rails", "~> 2.1"
 
 gem "kaminari", "~> 1.2"

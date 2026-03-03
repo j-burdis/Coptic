@@ -29,10 +29,8 @@
         </nav>
 
         <div class="max-w-xl">
-          <!-- Title - matching exhibitions h1 size -->
           <h1 class="text-2xl md:text-3xl font-semibold mb-6"><%= @artwork.title %></h1>
           
-          <!-- Details - matching exhibitions location/dates size -->
           <div class="space-y-1 mb-6 text-lg md:text-xl leading-relaxed">
             <% if @artwork.year.present? %>
               <p><%= @artwork.year_range %></p>

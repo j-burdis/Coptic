@@ -30,11 +30,21 @@
               </iframe>
             <% end %>
           </div>
-        <% elsif @resource.cloudinary_public_id.present? %>
+        <% else %>
           <!-- image fallback if no video -->
-          <%= image_tag @resource.image_url, 
-              alt: @resource.title,
-              class: "w-full h-auto" %>
+          <div class="lg:w-3/5 mb-8 lg:mb-0">
+            <div class="sticky top-24">
+              <% if @resource.cloudinary_public_id.present? %>
+                <%= image_tag @resource.image_url, 
+                    alt: @resource.title,
+                    class: "w-full h-auto" %>
+              <% else %>
+                <div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
+                  <i class="fa-solid fa-file-lines text-6xl text-gray-300"></i>
+                </div>
+              <% end %>
+            </div>
+          </div>
         <% end %>
       </div>
 
@@ -72,10 +82,13 @@
         <% end %>
 
         <% if @resource.external_url.present? %>
-          <div class="mt-6">
+          <div class="mt-6 hover:text-blue-800">
             <%= link_to "View on external site", @resource.external_url, 
                 target: "_blank", 
-                class: "text-blue-800 hover:underline" %>
+                class: "hover:underline" %>
+            <span>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </span>
           </div>
         <% end %>
 

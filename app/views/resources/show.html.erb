@@ -1,88 +1,38 @@
 <div class="bg-white">
   <div class="container mx-auto px-4 lg:px-0 py-4">
 
-    <div class="lg:flex lg:gap-12">
-      
-      <!-- left column: video/image -->
-      <div class="lg:w-2/3 mb-8 lg:mb-0">
-        <% if @resource.video_type.present? && @resource.video_id.present? %>
-          <!-- embedded video -->
-          <div class="aspect-video">
-            <% if @resource.video_type == 'youtube' %>
-              <iframe 
-                width="100%" 
-                height="100%" 
-                src="https://www.youtube.com/embed/<%= @resource.video_id %>?title=0&byline=0&portrait=0" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen
-                class="w-full h-full">
-              </iframe>
-            <% elsif @resource.video_type == 'vimeo' %>
-              <iframe 
-                src="https://player.vimeo.com/video/<%= @resource.video_id %>?title=0&byline=0&portrait=0" 
-                width="100%" 
-                height="100%" 
-                frameborder="0" 
-                allow="autoplay; fullscreen; picture-in-picture" 
-                allowfullscreen
-                class="w-full h-full">
-              </iframe>
-            <% end %>
-          </div>
-        <% else %>
-          <!-- image fallback if no video -->
-          <div class="lg:w-3/5 mb-8 lg:mb-0">
-            <div class="sticky top-24">
-              <% if @resource.cloudinary_public_id.present? %>
-                <%= image_tag @resource.image_url, 
-                    alt: @resource.title,
-                    class: "w-full h-auto" %>
-              <% else %>
-                <div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
-                  <i class="fa-solid fa-file-lines text-6xl text-gray-300"></i>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-
-      <!-- right column: details -->
-      <div class="lg:w-1/3">
+    <% if @resource.category == 'texts' %>
+      <div class="lg:w-3/5 lg:mx-auto">
         <!-- breadcrumbs -->
         <nav class="text-sm text-gray-500 mb-4">
           <ul class="flex items-center gap-2">
             <li><%= link_to "Resources", resources_path, class: "hover:text-blue-800" %></li>
             <li>></li>
-            <li><%= link_to "Films & Audio", resources_films_and_audio_path, class: "hover:text-blue-800" %></li>
+            <li><%= link_to "Texts", resources_texts_path, class: "hover:text-blue-800" %></li>
           </ul>
         </nav>
 
-        <h1 class="text-2xl md:text-3xl font-semibold mb-4"><%= @resource.title %></h1>
+        <h1 class="text-xl md:text-2xl font-semibold mb-2">
+          <%= @resource.title %>, 
+          <% if @resource.author.present? %>
+            <span class="text-gray-500">by <%= @resource.author %></span>
+          <% end %>
+        </h1>
 
-        <% if @resource.year.present? || @resource.date.present? %>
-          <p class="text-lg md:text-xl text-gray-500 mb-6">
-            <%= @resource.date_display %>
-          </p>
-        <% end %>
 
-        <% if @resource.author.present? %>
-          <p class="text-lg mb-6"><%= @resource.author %></p>
-        <% end %>
-
-        <% if @resource.description.present? %>
-          <div class="prose prose-sm md:prose max-w-none">
-            <%= simple_format(@resource.description, class: 'mb-4') %>
-          </div>
-        <% elsif @resource.summary.present? %>
-          <div class="prose prose-sm md:prose max-w-none">
-            <%= simple_format(@resource.summary, class: 'mb-4') %>
-          </div>
-        <% end %>
+        <div class="text-lg mb-8">
+          <% if @resource.publisher.present? %>
+            <span><%= @resource.publisher %></span>
+          <% end %>
+          <% if @resource.date.present? || @resource.year.present? %>
+            <span class="text-gray-500">
+              <% if @resource.publisher.present? %>, <% end %><%= @resource.date_display %>
+            </span>
+          <% end %>
+        </div>
 
         <% if @resource.external_url.present? %>
-          <div class="mt-6 hover:text-blue-800">
+          <div class="my-6 hover:text-blue-800">
             <%= link_to "View on external site", @resource.external_url, 
                 target: "_blank", 
                 class: "hover:underline" %>
@@ -92,11 +42,39 @@
           </div>
         <% end %>
 
+        <% if @resource.description.present? %>
+          <div class="text-pretty prose prose-sm md:prose max-w-none">
+            <% if @resource.cloudinary_public_id.present? %>
+              <%= image_tag @resource.image_url, 
+                  alt: @resource.title,
+                  class: "float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4" %>
+              <% if @resource.image_caption.present? %>
+                <p class="text-sm text-gray-500 mb-4"><%= @resource.image_caption %></p>
+              <% end %>
+            <% end %>
+            
+            <%= simple_format(@resource.description, class: 'mb-4') %>
+          </div>
+        <% elsif @resource.summary.present? %>
+          <div class="text-pretty prose prose-sm md:prose max-w-none">
+            <% if @resource.cloudinary_public_id.present? %>
+              <%= image_tag @resource.image_url, 
+                  alt: @resource.title,
+                  class: "float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4" %>
+              <% if @resource.image_caption.present? %>
+                <p class="text-sm text-gray-500 italic mb-4"><%= @resource.image_caption %></p>
+              <% end %>
+            <% end %>
+            
+            <%= simple_format(@resource.summary, class: 'mb-4') %>
+          </div>
+        <% end %>
+
         <% if @resource.exhibitions.published.any? %>
-          <div class="mt-8">
+          <div class="mt-8 clear-both">
             <h3 class="text-lg font-semibold mb-4">Related Exhibitions</h3>
             <div class="space-y-2">
-              <% @resource.exhibitions.published.limit(10).each do |exhibition| %>
+              <% @resource.exhibitions.published.each do |exhibition| %>
                 <div>
                   <%= link_to exhibition.title, exhibition.path, class: "text-blue-800 hover:underline" %>
                   <% if exhibition.start_date.present? %>
@@ -108,7 +86,116 @@
           </div>
         <% end %>
       </div>
+    <% else %>
+      <div class="lg:flex lg:gap-12">
+        
+        <!-- left column: video/image -->
+        <div class="lg:w-2/3 mb-8 lg:mb-0">
+          <% if @resource.video_type.present? && @resource.video_id.present? %>
+            <!-- embedded video -->
+            <div class="aspect-video">
+              <% if @resource.video_type == 'youtube' %>
+                <iframe 
+                  width="100%" 
+                  height="100%" 
+                  src="https://www.youtube.com/embed/<%= @resource.video_id %>?title=0&byline=0&portrait=0" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen
+                  class="w-full h-full">
+                </iframe>
+              <% elsif @resource.video_type == 'vimeo' %>
+                <iframe 
+                  src="https://player.vimeo.com/video/<%= @resource.video_id %>?title=0&byline=0&portrait=0" 
+                  width="100%" 
+                  height="100%" 
+                  frameborder="0" 
+                  allow="autoplay; fullscreen; picture-in-picture" 
+                  allowfullscreen
+                  class="w-full h-full">
+                </iframe>
+              <% end %>
+            </div>
+          <% else %>
+            <!-- image fallback if no video -->
+            <div class="lg:w-3/5 mb-8 lg:mb-0">
+              <div class="sticky top-24">
+                <% if @resource.cloudinary_public_id.present? %>
+                  <%= image_tag @resource.image_url, 
+                      alt: @resource.title,
+                      class: "w-full h-auto" %>
+                <% else %>
+                  <div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
+                    <i class="fa-solid fa-file-lines text-6xl text-gray-300"></i>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
 
-    </div>
+        <!-- right column: details -->
+        <div class="lg:w-1/3">
+          <!-- breadcrumbs -->
+          <nav class="text-sm text-gray-500 mb-4">
+            <ul class="flex items-center gap-2">
+              <li><%= link_to "Resources", resources_path, class: "hover:text-blue-800" %></li>
+              <li>></li>
+              <li><%= link_to "Films & Audio", resources_films_and_audio_path, class: "hover:text-blue-800" %></li>
+            </ul>
+          </nav>
+
+          <h1 class="text-2xl md:text-3xl font-semibold mb-4"><%= @resource.title %></h1>
+
+          <% if @resource.year.present? || @resource.date.present? %>
+            <p class="text-lg md:text-xl text-gray-500 mb-6">
+              <%= @resource.date_display %>
+            </p>
+          <% end %>
+
+          <% if @resource.author.present? %>
+            <p class="text-lg mb-6"><%= @resource.author %></p>
+          <% end %>
+
+          <% if @resource.description.present? %>
+            <div class="text-pretty prose prose-sm md:prose max-w-none">
+              <%= simple_format(@resource.description, class: 'mb-4') %>
+            </div>
+          <% elsif @resource.summary.present? %>
+            <div class="text-pretty prose prose-sm md:prose max-w-none">
+              <%= simple_format(@resource.summary, class: 'mb-4') %>
+            </div>
+          <% end %>
+
+          <% if @resource.external_url.present? %>
+            <div class="mt-6 hover:text-blue-800">
+              <%= link_to "View on external site", @resource.external_url, 
+                  target: "_blank", 
+                  class: "hover:underline" %>
+              <span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </span>
+            </div>
+          <% end %>
+
+          <% if @resource.exhibitions.published.any? %>
+            <div class="mt-8">
+              <h3 class="text-lg font-semibold mb-4">Related Exhibitions</h3>
+              <div class="space-y-2">
+                <% @resource.exhibitions.published.limit(10).each do |exhibition| %>
+                  <div>
+                    <%= link_to exhibition.title, exhibition.path, class: "text-blue-800 hover:underline" %>
+                    <% if exhibition.start_date.present? %>
+                      <span class="text-gray-500 text-sm">(<%= exhibition.start_date.year %>)</span>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+      </div>
+    <% end %>
   </div>
 </div>

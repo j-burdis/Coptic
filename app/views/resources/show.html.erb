@@ -32,14 +32,10 @@
         </div>
 
         <% if @resource.external_url.present? %>
-          <div class="my-6 hover:text-blue-800">
-            <%= link_to "View on external site", @resource.external_url, 
-                target: "_blank", 
-                class: "hover:underline" %>
-            <span>
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </span>
-          </div>
+          <%= link_to @resource.external_url, target: "_blank", class: "block my-6 group" do %>
+            <span class="group-hover:text-blue-800">View Resource</span>
+            <span class="text-gray-500 group-hover:text-blue-400"> ( external link <i class="fa-solid fa-arrow-up-right-from-square"></i> )</span>
+          <% end %>
         <% end %>
 
         <% if @resource.description.present? %>
@@ -168,14 +164,10 @@
           <% end %>
 
           <% if @resource.external_url.present? %>
-            <div class="mt-6 hover:text-blue-800">
-              <%= link_to "View on external site", @resource.external_url, 
-                  target: "_blank", 
-                  class: "hover:underline" %>
-              <span>
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              </span>
-            </div>
+            <%= link_to @resource.external_url, target: "_blank", class: "block my-6 group" do %>
+              <span class="group-hover:text-blue-800">View Resource</span>
+              <span class="text-gray-500 group-hover:text-blue-400"> ( external link <i class="fa-solid fa-arrow-up-right-from-square"></i> )</span>
+            <% end %>
           <% end %>
 
           <% if @resource.exhibitions.published.any? %>

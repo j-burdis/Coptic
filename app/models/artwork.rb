@@ -63,6 +63,10 @@ class Artwork < ApplicationRecord
   validates :title, :slug, :category, presence: true
   validates :slug, uniqueness: true
 
+  def path
+    Rails.application.routes.url_helpers.artwork_path(slug)
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     ["id", "title", "slug", "year", "year_end", "medium", "description", "dimensions",
      "category", "subcategory", "status", "published", "is_indian_collection",

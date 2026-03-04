@@ -3,43 +3,56 @@
   artwork ||= @artwork
 %>
 
-<div class="mb-12">
-  <h2 class="text-lg font-semibold mb-6">Exhibitions</h2>
-  <div class="space-y-8">
-    <% artwork.exhibitions.order(year: :desc).each do |exhibition| %>
-      <div class="border-b border-gray-200 pb-6 last:border-0">
-        <%= link_to exhibition_path(exhibition.slug), 
-            class: "block group" do %>
-          <% if exhibition.image.present? %>
-            <div class="aspect-[4/3] bg-gray-100 mb-4 overflow-hidden">
-              <%= image_tag exhibition.image, 
-                  alt: exhibition.title,
-                  class: "w-full h-full object-cover group-hover:opacity-90 transition-opacity" %>
+<% if artwork.exhibitions.any? %>
+  <section class="pt-12">
+    <h2 class="text-2xl md:text-3xl font-semibold text-center mb-8">
+      <span class="border-b-2 border-black pb-1 inline-block">Exhibitions</span>
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+      <% artwork.exhibitions.order(start_date: :desc).each do |exhibition| %>
+        <%= link_to exhibition.path, class: "group block" do %>
+          <div class="flex gap-4 md:gap-6 items-start">
+            <!-- image -->
+            <div class="flex-shrink-0 w-1/2 md:w-64">
+              <div class="relative bg-white overflow-hidden">
+                <% if exhibition.cloudinary_public_id.present? %>
+                  <%= image_tag exhibition.thumbnail_url, 
+                      alt: exhibition.title,
+                      class: "object-cover w-full" %>
+                <% else %>
+                  <div class="aspect-[3/2] w-full flex items-center justify-center bg-gray-100">
+                    <i class="fa-solid fa-building-columns text-4xl text-gray-300"></i>
+                  </div>
+                <% end %>
+              </div>
             </div>
-          <% end %>
-          
-          <h3 class="font-medium text-gray-900 group-hover:text-black mb-2">
-            <% if exhibition.venue.present? %>
-              <%= exhibition.venue %>
-            <% end %>
-            <%= exhibition.title %>
-          </h3>
-          
-          <p class="text-sm text-gray-600">
-            <% if exhibition.location.present? %>
-              <%= exhibition.location %>
-            <% end %>
-            <% if exhibition.location.present? && exhibition.dates.present? %>
-              <br>
-            <% end %>
-            <% if exhibition.dates.present? %>
-              <%= exhibition.dates %>
-            <% elsif exhibition.year.present? %>
-              <%= exhibition.year %>
-            <% end %>
-          </p>
+            
+            <!-- text -->
+            <div class="flex-1 space-y-1">
+              <h3 class="font-semibold text-base md:text-lg">
+                <% if exhibition.venue.present? %>
+                  <span class="group-hover:text-blue-800"><%= exhibition.venue %></span>
+                  <span class="text-gray-500 group-hover:text-blue-400"> <%= exhibition.title %></span>
+                <% else %>
+                  <span class="text-gray-500 group-hover:text-blue-400"><%= exhibition.title %></span>
+                <% end %>
+              </h3>
+              
+              <p class="text-xs md:text-sm">
+                <% if exhibition.location.present? %>
+                  <span class="group-hover:text-blue-800"><%= exhibition.location %></span>
+                <% end %>
+                <% if exhibition.start_date.present? %>
+                  <span class="text-gray-500 group-hover:text-blue-400">
+                    <%= exhibition.year_display %>
+                  </span>
+                <% end %>
+              </p>
+            </div>
+          </div>
         <% end %>
-      </div>
-    <% end %>
-  </div>
-</div>
+      <% end %>
+    </div>
+  </section>
+<% end %>

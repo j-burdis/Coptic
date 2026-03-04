@@ -9,15 +9,15 @@
       </ul>
     </nav>
 
-    <h1 class="text-2xl md:text-3xl font-semibold mb-8"><%= @collection.name %></h1>
+    <h1 class="text-2xl md:text-3xl font-semibold pb-8"><%= @collection.name %></h1>
 
     <% if @artworks.any? %>
-      <section class="mt-12">
+      <section class="pt-12">
         <h2 class="text-2xl md:text-3xl font-semibold text-center mb-8">
           <span class="border-b-2 border-black pb-1 inline-block">Works Held</span>
         </h2>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mb-8 items-end">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-8 items-end">
           <% @artworks.each do |artwork| %>
             <%= link_to artwork.path, class: "group block" do %>
               <div class="relative mb-3 bg-white overflow-hidden">

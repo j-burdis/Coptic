@@ -20,7 +20,7 @@
         </h1>
 
 
-        <div class="text-lg mb-8">
+        <div class="text-lg">
           <% if @resource.publisher.present? %>
             <span><%= @resource.publisher %></span>
           <% end %>
@@ -32,9 +32,9 @@
         </div>
 
         <% if @resource.external_url.present? %>
-          <%= link_to @resource.external_url, target: "_blank", class: "block my-6 group" do %>
+          <%= link_to @resource.external_url, target: "_blank", class: "inline-block group font-medium bg-[#F3D8A5] p-2 my-6" do %>
             <span class="group-hover:text-blue-800">View Resource</span>
-            <span class="text-gray-500 group-hover:text-blue-400"> ( external link <i class="fa-solid fa-arrow-up-right-from-square"></i> )</span>
+            <span class="text-gray-500 group-hover:text-blue-400"> ( external link ) <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
           <% end %>
         <% end %>
 
@@ -155,18 +155,18 @@
 
           <% if @resource.description.present? %>
             <div class="text-pretty prose prose-sm md:prose max-w-none">
-              <%= simple_format(@resource.description, class: 'mb-4') %>
+              <%= simple_format(@resource.description, class: 'mb-2') %>
             </div>
           <% elsif @resource.summary.present? %>
             <div class="text-pretty prose prose-sm md:prose max-w-none">
-              <%= simple_format(@resource.summary, class: 'mb-4') %>
+              <%= simple_format(@resource.summary, class: 'mb-2') %>
             </div>
           <% end %>
 
           <% if @resource.external_url.present? %>
-            <%= link_to @resource.external_url, target: "_blank", class: "block my-6 group" do %>
+            <%= link_to @resource.external_url, target: "_blank", class: "inline-block group font-medium bg-[#F3D8A5] p-2 my-6" do %>
               <span class="group-hover:text-blue-800">View Resource</span>
-              <span class="text-gray-500 group-hover:text-blue-400"> ( external link <i class="fa-solid fa-arrow-up-right-from-square"></i> )</span>
+              <span class="text-gray-500 group-hover:text-blue-400"> ( external link ) <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
             <% end %>
           <% end %>
 

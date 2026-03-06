@@ -17,29 +17,31 @@
           <span class="border-b-2 border-black pb-1 inline-block">Works Held</span>
         </h2>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-8 items-end">
+        <div class="flex flex-wrap justify-center gap-8 mb-8 items-end">
           <% @artworks.each do |artwork| %>
-            <%= link_to artwork.path, class: "group block" do %>
-              <div class="relative mb-3 bg-white overflow-hidden">
-                <% if artwork.cloudinary_public_id.present? %>
-                  <%= image_tag artwork.large_url, 
-                      alt: artwork.title,
-                      class: "object-cover" %>
-                <% else %>
-                  <div class="aspect-square w-full flex items-center justify-center bg-gray-100">
-                    <i class="fa-solid fa-image text-4xl text-gray-300"></i>
-                  </div>
-                <% end %>
-              </div>
-              
-              <div class="space-y-1">
-                <h3 class="font-semibold text-lg group-hover:text-blue-800"><%= artwork.title %></h3>
+            <div class="w-[calc(50%-1rem)] md:w-[calc(33.333%-1.334rem)] lg:w-[calc(25%-1.5rem)]">
+              <%= link_to artwork.path, class: "group block" do %>
+                <div class="relative mb-3 bg-white overflow-hidden">
+                  <% if artwork.cloudinary_public_id.present? %>
+                    <%= image_tag artwork.large_url, 
+                        alt: artwork.title,
+                        class: "object-cover" %>
+                  <% else %>
+                    <div class="aspect-square w-full flex items-center justify-center bg-gray-100">
+                      <i class="fa-solid fa-image text-4xl text-gray-300"></i>
+                    </div>
+                  <% end %>
+                </div>
                 
-                <% if artwork.year.present? %>
-                  <p class="text-sm text-gray-500 group-hover:text-blue-400"><%= artwork.year_range %></p>
-                <% end %>
-              </div>
-            <% end %>
+                <div class="space-y-1">
+                  <h3 class="font-semibold text-lg group-hover:text-blue-800"><%= artwork.title %></h3>
+                  
+                  <% if artwork.year.present? %>
+                    <p class="text-sm text-gray-500 group-hover:text-blue-400"><%= artwork.year_range %></p>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
           <% end %>
         </div>
 

@@ -143,15 +143,28 @@
 
           <h1 class="text-2xl md:text-3xl font-semibold mb-4"><%= @resource.title %></h1>
 
+          <% if @resource.author.present? %>
+            <p class="text-lg mb-6"><%= @resource.author %></p>
+          <% end %>
+
+          <div class="text-lg mb-4">
+            <% if @resource.publisher.present? %>
+              <span class="text-gray-500">Published by </span>
+              <span><%= @resource.publisher %></span>
+            <% end %>
+          </div>
+
           <% if @resource.year.present? || @resource.date.present? %>
-            <p class="text-lg md:text-xl text-gray-500 mb-6">
+            <p class="text-lg md:text-xl font-semibold mb-4">
               <%= @resource.date_display %>
             </p>
           <% end %>
 
-          <% if @resource.author.present? %>
-            <p class="text-lg mb-6"><%= @resource.author %></p>
-          <% end %>
+          <div class="text-lg mb-4 text-gray-500">
+            <% if @resource.isbn.present? %>
+              <span>ISBN: <%= @resource.isbn %></span>
+            <% end %>
+          </div>
 
           <% if @resource.description.present? %>
             <div class="text-pretty prose prose-sm md:prose max-w-none">

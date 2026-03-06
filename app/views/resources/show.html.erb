@@ -9,6 +9,14 @@
             <li><%= link_to "Resources", resources_path, class: "hover:text-blue-800" %></li>
             <li>></li>
             <li><%= link_to "Texts", resources_texts_path, class: "hover:text-blue-800" %></li>
+            <% if @resource.subcategory.present? %>
+              <li>></li>
+              <li>
+                <%= link_to @resource.subcategory.titleize, 
+                    resources_texts_subcategory_path(subcategory: @resource.subcategory), 
+                    class: "hover:text-blue-800" %>
+              </li>
+            <% end %>
           </ul>
         </nav>
 
@@ -137,7 +145,19 @@
             <ul class="flex items-center gap-2">
               <li><%= link_to "Resources", resources_path, class: "hover:text-blue-800" %></li>
               <li>></li>
-              <li><%= link_to "Films & Audio", resources_films_and_audio_path, class: "hover:text-blue-800" %></li>
+              <% if @resource.category == 'publications' %>
+                <li><%= link_to "Publications", resources_publications_path, class: "hover:text-blue-800" %></li>
+                <% if @resource.subcategory.present? %>
+                  <li>></li>
+                  <li>
+                    <%= link_to @resource.subcategory.titleize, 
+                        resources_publications_subcategory_path(subcategory: @resource.subcategory), 
+                        class: "hover:text-blue-800" %>
+                  </li>
+                <% end %>
+              <% elsif @resource.category == 'films_and_audio' %>
+                <li><%= link_to "Films & Audio", resources_films_and_audio_path, class: "hover:text-blue-800" %></li>
+              <% end %>
             </ul>
           </nav>
 

@@ -37,6 +37,46 @@
             <%= simple_format(@exhibition.description, class: 'mb-4') %>
           </div>
         <% end %>
+
+        <!-- external URL -->
+        <% if @exhibition.external_url.present? %>
+          <%= link_to @exhibition.external_url, target: "_blank", class: "inline-block group py-2" do %>
+            <span class="underline group-hover:text-blue-800">More information</span>
+            <span class="group-hover:text-blue-800"> <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+          <% end %>
+        <% end %>
+
+        <!-- related resources -->
+        <% if @exhibition.resources.published.any? %>
+          <div class="bg-gray-100 px-4 md:px-6 pt-4 md:pt-6 pb-6 md:pb-10 mt-6 md:mt-8">
+            <h2 class="text-base font-semibold text-gray-500 underline mb-3 md:mb-4">Resources</h2>
+            <ul class="space-y-2 md:space-y-3">
+              <% @exhibition.resources.published.order(year: :desc).each do |resource| %>
+                <li>
+                  <%= link_to resource.path, class: "block group" do %>
+                    <% if resource.category.present? && resource.subcategory.present? %>
+                      <span class="text-sm text-gray-500 group-hover:text-blue-400">
+                        <%= resource.category.titleize %> > <%= Resource::TEXT_SUBCATEGORIES.find { |slug, name| slug == resource.subcategory }&.last || Resource::PUBLICATION_SUBCATEGORIES.find { |slug, name| slug == resource.subcategory }&.last || resource.subcategory.titleize %>
+                      </span>
+                      <br>
+                    <% end %>
+                    <span class="text-base font-semibold group-hover:text-blue-800">
+                      <%= resource.title %>
+                    </span>
+                    <span class="text-sm text-gray-500 group-hover:text-blue-400">
+                      <% if resource.year.present? || resource.date.present? %>
+                        <%= resource.date_display %><% if resource.publisher.present? %>, <% end %>
+                      <% end %>
+                      <% if resource.publisher.present? %>
+                        <%= resource.publisher %>
+                      <% end %>
+                    </span>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
       </div>
 
       <div class="lg:w-1/2">

@@ -1,7 +1,7 @@
 ActiveAdmin.register Exhibition do
-  permit_params :title, :slug, :start_date, :end_date, :venue, :location,
-  :description, :exhibition_type, :is_indian_collection, :published,
-  :image, :cloudinary_public_id, :original_filename, :image_caption
+  permit_params :title, :slug, :start_date, :end_date, :venue, :location, :description,
+                :exhibition_type, :is_indian_collection, :published, :image,
+                :cloudinary_public_id, :original_filename, :image_caption, :external_url
 
   # sidebar filters
   filter :title
@@ -52,6 +52,7 @@ ActiveAdmin.register Exhibition do
         f.inputs "Location & Venue" do
           f.input :venue
           f.input :location
+          f.input :external_url, hint: 'Link to external exhibition page or catalogue'
         end
 
         f.inputs "Exhibition Details" do
@@ -73,18 +74,17 @@ ActiveAdmin.register Exhibition do
     f.actions
   end
 
-
   controller do
     def create
       @exhibition = Exhibition.new(permitted_params[:exhibition])
-      
+
       if params[:exhibition][:image].present?
         uploaded_file = params[:exhibition][:image]
         result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'exhibitions')
         @exhibition.cloudinary_public_id = result['public_id']
         @exhibition.original_filename = uploaded_file.original_filename
       end
-      
+
       if @exhibition.save
         redirect_to admin_exhibition_path(@exhibition), notice: 'Exhibition created successfully.'
       else
@@ -94,14 +94,14 @@ ActiveAdmin.register Exhibition do
 
     def update
       @exhibition = Exhibition.find(params[:id])
-      
+
       if params[:exhibition][:image].present?
         uploaded_file = params[:exhibition][:image]
         result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'exhibitions')
         @exhibition.cloudinary_public_id = result['public_id']
         @exhibition.original_filename = uploaded_file.original_filename
       end
-      
+
       if @exhibition.update(permitted_params[:exhibition])
         redirect_to admin_exhibition_path(@exhibition), notice: 'Exhibition updated successfully.'
       else
@@ -109,7 +109,7 @@ ActiveAdmin.register Exhibition do
       end
     end
   end
-  
+
   index do
     selectable_column
     id_column
@@ -192,6 +192,11 @@ ActiveAdmin.register Exhibition do
             row :end_date
             row :venue
             row :location
+            row :external_url do
+              if exhibition.external_url.present?
+                link_to exhibition.external_url, exhibition.external_url, target: '_blank'
+              end
+            end
             row :description
             row :exhibition_type do
               status_tag exhibition.exhibition_type

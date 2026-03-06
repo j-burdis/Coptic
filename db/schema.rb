@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_25_173914) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_06_173134) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -150,6 +150,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_25_173914) do
     t.date "start_date"
     t.date "end_date"
     t.text "image_caption"
+    t.string "external_url"
     t.index ["exhibition_type"], name: "index_exhibitions_on_exhibition_type"
     t.index ["is_indian_collection"], name: "index_exhibitions_on_is_indian_collection"
     t.index ["published"], name: "index_exhibitions_on_published"

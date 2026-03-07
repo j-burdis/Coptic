@@ -9,49 +9,51 @@
       <span class="border-b-2 border-black pb-1 inline-block">Exhibitions</span>
     </h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+    <div class="flex flex-wrap justify-center gap-8 mb-8">
       <% artwork.exhibitions.order(start_date: :desc).each do |exhibition| %>
-        <%= link_to exhibition.path, class: "group block" do %>
-          <div class="flex gap-4 md:gap-6 items-start">
-            <!-- image -->
-            <div class="flex-shrink-0 w-1/2 md:w-64">
-              <div class="relative bg-white overflow-hidden">
-                <% if exhibition.cloudinary_public_id.present? %>
-                  <%= image_tag exhibition.thumbnail_url, 
-                      alt: exhibition.title,
-                      class: "object-cover w-full" %>
-                <% else %>
-                  <div class="aspect-[3/2] w-full flex items-center justify-center bg-gray-100">
-                    <i class="fa-solid fa-building-columns text-4xl text-gray-300"></i>
-                  </div>
-                <% end %>
+        <div class="w-full md:w-[calc(50%-1rem)]">
+          <%= link_to exhibition.path, class: "group block" do %>
+            <div class="flex gap-4 md:gap-6 items-start">
+              <!-- image -->
+              <div class="flex-shrink-0 w-1/2 md:w-64">
+                <div class="relative bg-white overflow-hidden">
+                  <% if exhibition.cloudinary_public_id.present? %>
+                    <%= image_tag exhibition.thumbnail_url, 
+                        alt: exhibition.title,
+                        class: "object-cover w-full" %>
+                  <% else %>
+                    <div class="aspect-[3/2] w-full flex items-center justify-center bg-gray-100">
+                      <i class="fa-solid fa-building-columns text-4xl text-gray-300"></i>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              
+              <!-- text -->
+              <div class="flex-1 space-y-1">
+                <h3 class="font-semibold text-base md:text-lg">
+                  <% if exhibition.venue.present? %>
+                    <span class="group-hover:text-blue-800"><%= exhibition.venue %></span>
+                    <span class="text-gray-500 group-hover:text-blue-400"> <%= exhibition.title %></span>
+                  <% else %>
+                    <span class="text-gray-500 group-hover:text-blue-400"><%= exhibition.title %></span>
+                  <% end %>
+                </h3>
+                
+                <p class="text-xs md:text-sm">
+                  <% if exhibition.location.present? %>
+                    <span class="group-hover:text-blue-800"><%= exhibition.location %></span>
+                  <% end %>
+                  <% if exhibition.start_date.present? %>
+                    <span class="text-gray-500 group-hover:text-blue-400">
+                      <%= exhibition.year_display %>
+                    </span>
+                  <% end %>
+                </p>
               </div>
             </div>
-            
-            <!-- text -->
-            <div class="flex-1 space-y-1">
-              <h3 class="font-semibold text-base md:text-lg">
-                <% if exhibition.venue.present? %>
-                  <span class="group-hover:text-blue-800"><%= exhibition.venue %></span>
-                  <span class="text-gray-500 group-hover:text-blue-400"> <%= exhibition.title %></span>
-                <% else %>
-                  <span class="text-gray-500 group-hover:text-blue-400"><%= exhibition.title %></span>
-                <% end %>
-              </h3>
-              
-              <p class="text-xs md:text-sm">
-                <% if exhibition.location.present? %>
-                  <span class="group-hover:text-blue-800"><%= exhibition.location %></span>
-                <% end %>
-                <% if exhibition.start_date.present? %>
-                  <span class="text-gray-500 group-hover:text-blue-400">
-                    <%= exhibition.year_display %>
-                  </span>
-                <% end %>
-              </p>
-            </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </section>

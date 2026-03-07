@@ -81,10 +81,7 @@
             </h2>
 
             <div class="space-y-6">
-              <% @resource.exhibitions.published.order(start_date: :desc).each_with_index do |exhibition, index| %>
-                <% if index > 0 %>
-                  <div class="border-b border-gray-200 my-6"></div>
-                <% end %>
+              <% @resource.exhibitions.published.order(start_date: :desc).each do |exhibition| %>
                 <%= link_to exhibition.path, class: "group block" do %>
                   <div class="flex gap-4 md:gap-6 items-start">
                     <div class="flex-shrink-0 w-1/2 md:w-64">

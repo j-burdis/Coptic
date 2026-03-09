@@ -48,7 +48,7 @@
     <!-- pagination -->
     <% if exhibitions.total_pages > 1 %>
       <div class="flex justify-center">
-        <%= paginate exhibitions, theme: 'twitter-bootstrap-4' %>
+        <%= paginate exhibitions %>
       </div>
     <% end %>
   <% else %>

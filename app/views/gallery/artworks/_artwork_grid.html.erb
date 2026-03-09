@@ -35,7 +35,7 @@
     <!-- pagination -->
     <% if artworks.total_pages > 1 %>
       <div class="flex justify-center">
-        <%= paginate artworks, theme: 'twitter-bootstrap-4' %>
+        <%= paginate artworks %>
       </div>
     <% end %>
   <% else %>

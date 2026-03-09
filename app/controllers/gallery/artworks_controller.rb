@@ -221,7 +221,7 @@ module Gallery
       @category_title = "All Artworks"
       @show_date_filter = true
 
-      @earliest_year = @exhibitions.where.not(start_date: nil).minimum("EXTRACT(YEAR FROM start_date)::integer")
+      @earliest_year = @artworks.minimum(:year)
 
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)

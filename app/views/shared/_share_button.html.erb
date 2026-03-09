@@ -1,0 +1,27 @@
+<div class="mb-8 md:mb-12" data-controller="share">
+  <button 
+    data-action="click->share#toggle"
+    class="flex items-center gap-2 text-md font-semibold text-gray-500 hover:text-blue-800 transition-colors"
+  >
+    Share
+    <i class="fa-solid fa-share-nodes"></i>
+  </button>
+
+  <div 
+    data-share-target="menu"
+    class="hidden mt-2"
+  >
+    <div class="flex gap-6">
+      <a href="https://twitter.com/intent/tweet?url=<%= CGI.escape(request.original_url) %>" 
+         target="_blank"
+         class="text-md hover:text-blue-800">
+        <i class="fa-brands fa-x-twitter"></i> Twitter
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=<%= CGI.escape(request.original_url) %>"
+         target="_blank"
+         class="text-md hover:text-blue-800">
+        <i class="fa-brands fa-facebook"></i> Facebook
+      </a>
+    </div>
+  </div>
+</div>

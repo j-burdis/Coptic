@@ -4,13 +4,18 @@ export default class extends Controller {
   static targets = ["menu"]
 
   toggle() {
-    this.menuTarget.classList.toggle("hidden")
+    const menu = this.menuTarget
+    if (menu.style.maxHeight === "0px" || menu.style.maxHeight === "") {
+      menu.style.maxHeight = menu.scrollHeight + "px"
+    } else {
+      menu.style.maxHeight = "0px"
+    }
   }
 
   connect() {
     this.clickOutside = (e) => {
       if (!this.element.contains(e.target)) {
-        this.menuTarget.classList.add("hidden")
+        this.menuTarget.style.maxHeight = "0px"
       }
     }
     document.addEventListener("click", this.clickOutside)

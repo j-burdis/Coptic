@@ -1,6 +1,6 @@
 <span class="page">
   <% if page.current? %>
-    <span class="px-3 py-1 text-sm border border-black"><%= page %></span>
+    <span class="px-3 py-1 text-md border border-black"><%= page %></span>
   <% else %>
     <%= link_to page, url, remote: remote, rel: page.rel, class: "px-3 py-1 text-sm text-black hover:text-blue-800 transition-colors" %>
   <% end %>

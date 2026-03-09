@@ -10,7 +10,7 @@
 <div>
   <% if quote.present? %>
     <blockquote class="py-2">
-      <p class="text-lg lg:text-2xl text-gray-700 italic mb-4 text-pretty">
+      <p class="text-lg lg:text-2xl text-gray-700 mb-4 text-pretty">
         "<%= quote.text %>"
       </p>
       <cite class="text-gray-600 text-md lg:text-lg not-italic font-semibold">
@@ -89,7 +89,7 @@
       <!-- submit button -->
       <div>
         <%= f.submit "Search", 
-            class: "w-full bg-[#16763a] text-white py-3 px-6 rounded-sm hover:bg-gray-800 transition-colors cursor-pointer font-semibold" %>
+            class: "w-full text-white py-3 px-6 rounded-sm bg-green-600 hover:bg-green-700 transition-colors cursor-pointer font-semibold" %>
       </div>
     </div>
   <% end %>

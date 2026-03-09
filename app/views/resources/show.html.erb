@@ -57,7 +57,7 @@
               <% end %>
             <% end %>
             
-            <%= simple_format(@resource.description, class: 'mb-4') %>
+            <%= simple_format(@resource.description, class: 'mb-6') %>
           </div>
         <% elsif @resource.summary.present? %>
           <div class="text-pretty prose prose-sm md:prose max-w-none">
@@ -73,6 +73,8 @@
             <%= simple_format(@resource.summary, class: 'mb-4') %>
           </div>
         <% end %>
+
+        <%= render "shared/share_button" %>
 
         <% if @resource.exhibitions.published.any? %>
           <section class="pt-12">
@@ -125,6 +127,7 @@
             </div>
           </section>
         <% end %>
+
       </div>
     <% else %>
       <div class="lg:flex lg:gap-12">
@@ -224,11 +227,11 @@
 
           <% if @resource.description.present? %>
             <div class="text-pretty prose prose-sm md:prose max-w-none">
-              <%= simple_format(@resource.description, class: 'mb-2') %>
+              <%= simple_format(@resource.description, class: 'mb-6') %>
             </div>
           <% elsif @resource.summary.present? %>
             <div class="text-pretty prose prose-sm md:prose max-w-none">
-              <%= simple_format(@resource.summary, class: 'mb-2') %>
+              <%= simple_format(@resource.summary, class: 'mb-6') %>
             </div>
           <% end %>
 
@@ -239,7 +242,9 @@
             <% end %>
           <% end %>
 
+          <%= render "shared/share_button" %>
         </div>
+
       </div>
 
       <% if @resource.exhibitions.published.any? %>

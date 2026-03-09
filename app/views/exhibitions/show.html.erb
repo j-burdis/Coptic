@@ -34,7 +34,7 @@
         <!-- description -->
         <% if @exhibition.description.present? %>
           <div class="prose prose-sm md:prose max-w-none">
-            <%= simple_format(@exhibition.description, class: 'mb-4') %>
+            <%= simple_format(@exhibition.description, class: 'mb-6') %>
           </div>
         <% end %>
 
@@ -45,6 +45,8 @@
             <span class="group-hover:text-blue-800"> <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
           <% end %>
         <% end %>
+
+        <%= render "shared/share_button" %>
 
         <!-- related resources -->
         <% if @exhibition.resources.published.any? %>

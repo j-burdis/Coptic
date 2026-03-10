@@ -1,8 +1,9 @@
 ActiveAdmin.register Resource do
   permit_params :title, :slug, :category, :subcategory, :year, :year_end, :date, :show_day, 
                 :author, :publisher, :isbn, :summary, :description, :external_url, 
-                :video_type, :video_id, :duration_seconds, :is_indian_collection, :published, 
-                :image, :cloudinary_public_id, :original_filename, :image_caption, exhibition_ids: []
+                :video_type, :video_id, :is_indian_collection, :published, 
+                :image, :cloudinary_public_id, :original_filename, :image_caption, 
+                exhibition_ids: []
 
   # Sidebar filters
   filter :title
@@ -13,61 +14,201 @@ ActiveAdmin.register Resource do
   filter :published
   filter :created_at
 
-  form do |f|
+  index do
+    selectable_column
+    id_column
+
+    column :image, sortable: false do |resource|
+      if resource.cloudinary_public_id.present?
+        image_tag resource.thumbnail_url, style: 'max-width: 60px; max-height: 60px; object-fit: cover;'
+      else
+        content_tag(:span, '—', class: 'text-gray-400')
+      end
+    end
+
+    column :title
+    column :category do |resource|
+      status_tag resource.category
+    end
+    column :year do |resource|
+      resource.year_display
+    end
+    column :subcategory
+    column :author
+    column :published do |resource|
+      status_tag(resource.published ? 'Yes' : 'No', class: (resource.published ? 'yes' : 'no'))
+    end
+    actions
+  end
+
+  show do
     columns do
       column do
-        panel 'Video' do
-          f.inputs do
-            f.input :video_type, as: :select, collection: ['youtube', 'vimeo'], include_blank: 'No video'
-            f.input :video_id,
-                    hint: "For YouTube: the ID from youtube.com/watch?v=VIDEO_ID<br>For Vimeo: the ID from vimeo.com/VIDEO_ID".html_safe
-            f.input :duration_seconds, hint: "Video duration in seconds (optional)"
+        panel "Video" do
+          if resource.video_type.present? && resource.video_id.present?
+            if resource.video_type == 'youtube'
+              para do
+                link_to "View on YouTube", "https://www.youtube.com/watch?v=#{resource.video_id}", target: '_blank'
+              end
+            elsif resource.video_type == 'vimeo'
+              para do
+                link_to "View on Vimeo", "https://vimeo.com/#{resource.video_id}", target: '_blank'
+              end
+            end
+          else
+            para 'No video', class: 'text-gray-500'
           end
         end
-        panel 'Image' do
-          f.inputs do
-            f.input :image, as: :file, label: 'Upload Image (Thumbnail)',
-                            hint: if f.object.cloudinary_public_id.present?
-                                    image_tag(f.object.thumbnail_url,
-                                              style: 'max-width: 100%; display: block; margin-top: 10px;')
-                                  else
-                                    content_tag(:span, "No image uploaded")
-                                  end
-            f.input :image_caption, as: :text, input_html: { rows: 2 }, hint: 'Optional caption for the image'
+
+        panel "Image" do
+          if resource.cloudinary_public_id.present?
+            div style: 'min-height: 200px;' do
+              image_tag resource.image_url, style: 'max-width: 100%; height: auto; display: block;'
+            end
+          else
+            para 'No image uploaded', class: 'text-gray-500'
+          end
+
+          if resource.image_caption.present?
+            para resource.image_caption, class: 'text-sm text-gray-500 mt-2'
+          end
+        end
+
+        panel "Related Exhibitions" do
+          if resource.exhibitions.any?
+            table_for resource.exhibitions.order(start_date: :desc) do
+              column :title do |exhibition|
+                link_to exhibition.title, admin_exhibition_path(exhibition)
+              end
+              column :dates do |exhibition|
+                exhibition.year_display
+              end
+              column :venue
+              column :location
+            end
+          else
+            para "No exhibitions associated", class: 'text-gray-500'
           end
         end
       end
 
       column do
-        f.inputs 'Resource Details' do
-          f.input :title, hint: 'Optional for chronology entries'
-          f.input :slug, hint: 'Not required for chronology entries'
-          f.input :category, as: :select, collection: Resource.categories.keys
-          f.input :subcategory, as: :select,
-                                collection: (Resource::TEXT_SUBCATEGORIES + Resource::PUBLICATION_SUBCATEGORIES).map(&:first), include_blank: true
-
-          f.input :date, as: :datepicker, label: 'Date',
-                         hint: 'Set the date (for full date or month/year)'
-          f.input :show_day, as: :boolean, label: 'Show day',
-                             hint: 'Check to show full date ("1 May 2024"). Uncheck for month only ("May 2024")'
-          f.input :year, label: 'Year',
-                         hint: 'Use when you only have a year (2024) - leave date blank'
-          f.input :year_end, label: 'End year (optional)', hint: 'For chronology year ranges (e.g., 1940-1945)'
-
-          f.input :author
-          f.input :publisher, hint: 'Publisher/source of the text or publication'
-          f.input :isbn, hint: 'For publications only'
-          f.input :summary, as: :text
-          f.input :description, as: :text, input_html: { rows: 6 }
-          f.input :external_url, hint: 'Link to purchase publication or view external source'
-
-          f.input :exhibitions, as: :check_boxes, collection: Exhibition.published.order(:title)
-
-          f.input :is_indian_collection
-          f.input :published
+        panel "Details" do
+          attributes_table_for resource do
+            row :title
+            row :slug
+            row :category do
+              status_tag resource.category
+            end
+            row :subcategory
+            row :year
+            row :year_end
+            row :date
+            row :show_day do
+              resource.show_day? ? 'Yes' : 'No'
+            end
+            row :author
+            row :publisher
+            row :isbn
+            row :summary
+            row :description
+            row :external_url do
+              if resource.external_url.present?
+                link_to resource.external_url, resource.external_url, target: '_blank'
+              end
+            end
+            row :published do
+              status_tag(resource.published ? 'Yes' : 'No', class: (resource.published ? 'yes' : 'no'))
+            end
+            row :is_indian_collection do
+              resource.is_indian_collection? ? 'Yes' : 'No'
+            end
+            row :cloudinary_public_id
+            row :original_filename
+            row :created_at
+            row :updated_at
+          end
         end
       end
     end
+  end
+
+  form do |f|
+    f.semantic_errors
+
+    columns do
+      column do
+        f.inputs "Video (Films & Audio only)" do
+          f.input :video_type, as: :select, collection: ['youtube', 'vimeo'], include_blank: 'No video',
+                               hint: 'Leave blank if not a video resource'
+          f.input :video_id,
+                  hint: "For YouTube: the ID from youtube.com/watch?v=VIDEO_ID<br>For Vimeo: the ID from vimeo.com/VIDEO_ID".html_safe
+        end
+
+        f.inputs "Image" do
+          if f.object.cloudinary_public_id.present?
+            li do
+              label 'Current Image'
+              div do
+                image_tag f.object.image_url, style: 'max-width: 100%; display: block; margin: 10px 0;'
+              end
+            end
+          end
+
+          f.input :image,
+                  as: :file,
+                  hint: 'Upload a new image (JPG, PNG). This will replace the current image.',
+                  input_html: { accept: 'image/*' }
+          f.input :image_caption, as: :text, input_html: { rows: 2 }, hint: 'Optional caption for the image'
+        end
+
+        f.inputs "Relationships" do
+          f.input :exhibitions,
+                  as: :check_boxes,
+                  collection: Exhibition.published.order(start_date: :desc),
+                  hint: 'Select exhibitions featuring this resource'
+        end
+      end
+
+      column do
+        f.inputs "Basic Information" do
+          f.input :title, hint: 'Leave blank for chronology entries (auto-generated from year)'
+          f.input :slug, hint: 'Leave blank to auto-generate from title (not used for chronology)'
+          f.input :category, as: :select, collection: Resource.categories.keys, include_blank: false
+          f.input :subcategory, as: :select,
+                                collection: (Resource::TEXT_SUBCATEGORIES + Resource::PUBLICATION_SUBCATEGORIES).map(&:first), 
+                                include_blank: true,
+                                hint: 'Required for Texts and Publications'
+          f.input :published
+        end
+
+        f.inputs "Date Information" do
+          f.input :year, hint: 'Primary year or use date field below for specific dates'
+          f.input :year_end, hint: 'Optional: for chronology year ranges (e.g., 1940–1945)'
+          f.input :date, as: :datepicker,
+                         hint: 'Optional: for specific dates (overrides year field)'
+          f.input :show_day, as: :boolean,
+                             hint: 'Check to show day in date display (28th March 2024 vs March 2024)'
+        end
+
+        f.inputs "Content Details" do
+          f.input :author, hint: 'Author/creator of the resource'
+          f.input :publisher, hint: 'For publications and texts'
+          f.input :isbn, hint: 'For publications only'
+          f.input :summary, as: :text, input_html: { rows: 3 },
+                            hint: 'Brief summary (shown in previews)'
+          f.input :description, as: :text, input_html: { rows: 6 },
+                                hint: 'Full description (used if summary not provided)'
+          f.input :external_url, hint: 'Link to purchase publication or view full text'
+        end
+
+        f.inputs "Indian Collection" do
+          f.input :is_indian_collection,
+                  hint: 'Check if this resource is part of the Indian Collection'
+        end
+      end
+    end
+
     f.actions
   end
 
@@ -103,128 +244,6 @@ ActiveAdmin.register Resource do
         redirect_to admin_resource_path(@resource), notice: 'Resource updated successfully.'
       else
         render :edit
-      end
-    end
-  end
-
-  index do
-    selectable_column
-    id_column
-
-    column :image, sortable: false do |resource|
-      if resource.cloudinary_public_id.present?
-        image_tag resource.thumbnail_url, style: 'max-width: 60px; max-height: 60px; object-fit: cover;'
-      else
-        content_tag(:span, '—', class: 'text-gray-400')
-      end
-    end
-
-    column :title
-    column :category do |resource|
-      status_tag resource.category
-    end
-    column :year do |resource|
-      resource.year_display  # Shows year or year range
-    end
-    column :subcategory
-    column :year
-    column :author
-    column :isbn
-    column :published do |resource|
-      status_tag(resource.published ? 'Yes' : 'No', class: (resource.published ? 'yes' : 'no'))
-    end
-    actions
-  end
-
-  show do
-    columns do
-      column do
-        panel "Video" do
-          if resource.video_type.present? && resource.video_id.present?
-            if resource.video_type == 'youtube'
-              para do
-                link_to "View on YouTube", "https://www.youtube.com/watch?v=#{resource.video_id}", target: '_blank'
-              end
-            elsif resource.video_type == 'vimeo'
-              para do
-                link_to "View on Vimeo", "https://vimeo.com/#{resource.video_id}", target: '_blank'
-              end
-            end
-          end
-        end
-
-        panel "Image" do
-          if resource.cloudinary_public_id.present?
-            div style: 'min-height: 200px;' do
-              image_tag resource.image_url, style: 'max-width: 100%; height: auto; display: block;'
-            end
-          else
-            para 'No image uploaded', class: 'text-gray-500'
-          end
-
-          if resource.image_caption.present?
-            para resource.image_caption, class: 'text-sm text-gray-600 mt-2'
-          end
-        end
-
-        panel "Related Exhibitions" do
-          if resource.exhibitions.any?
-            table_for resource.exhibitions do
-              column :title do |exhibition|
-                link_to exhibition.title, admin_exhibition_path(exhibition)
-              end
-              column :year do |exhibition|
-                exhibition.year_display
-              end
-              column :venue
-              column :location
-            end
-          else
-            para "No exhibitions associated", class: 'text-gray-500'
-          end
-        end
-      end
-
-      column do
-        panel "Details" do
-          attributes_table_for resource do
-            row :title
-            row :slug
-            row :category do
-              status_tag resource.category
-            end
-            row :subcategory
-            row :date
-            row :year
-            row :author
-            row :publisher
-            row :isbn
-            row :summary
-            row :description
-            row :external_url do
-              if resource.external_url.present?
-                link_to resource.external_url, resource.external_url, target: '_blank'
-              end
-            end
-            row :video_type
-            row :video_id
-            row :duration_seconds do
-              if resource.duration_seconds.present?
-                "#{resource.duration_seconds / 60} minutes #{resource.duration_seconds % 60} seconds"
-              end
-            end
-            row :published do
-              status_tag(resource.published ? 'Yes' : 'No', class: (resource.published ? 'yes' : 'no'))
-            end
-            row :is_indian_collection do
-              resource.is_indian_collection? ? 'Yes' : 'No'
-            end
-            row :cloudinary_public_id
-            row :original_filename
-            row :created_at
-            row :updated_at
-          end
-        end
       end
     end
   end

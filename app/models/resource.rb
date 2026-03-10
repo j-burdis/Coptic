@@ -3,6 +3,8 @@ class Resource < ApplicationRecord
 
   before_validation :set_chronology_title, if: :chronology?
   before_validation :clear_slug_for_chronology, if: :chronology?
+  before_validation :generate_slug, if: -> { slug.blank? && title.present? && !chronology? }
+
 
   has_many :resource_exhibitions, dependent: :destroy
   has_many :exhibitions, through: :resource_exhibitions
@@ -128,5 +130,11 @@ class Resource < ApplicationRecord
     when 3, 23 then "#{day}rd"
     else "#{day}th"
     end
+  end
+
+  private
+
+  def generate_slug
+    self.slug = title.parameterize
   end
 end

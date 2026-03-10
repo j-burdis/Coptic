@@ -1,6 +1,8 @@
 class Artwork < ApplicationRecord
   attr_accessor :image
 
+  before_validation :generate_slug, if: -> { slug.blank? && title.present? }
+
   has_many :artwork_collections, dependent: :destroy
   has_many :collections, through: :artwork_collections
   has_many :artwork_exhibitions, dependent: :destroy
@@ -123,5 +125,11 @@ class Artwork < ApplicationRecord
     return year.to_s unless year_end.present? && year_end != year
 
     "#{year} - #{year_end}"
+  end
+
+  private
+
+  def generate_slug
+    self.slug = title.parameterize
   end
 end

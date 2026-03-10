@@ -1,6 +1,8 @@
 class Exhibition < ApplicationRecord
   attr_accessor :image
 
+  before_validation :generate_slug, if: -> { slug.blank? && title.present? }
+
   has_many :artwork_exhibitions, dependent: :destroy
   has_many :artworks, through: :artwork_exhibitions
 
@@ -108,5 +110,9 @@ class Exhibition < ApplicationRecord
     when 3, 23 then "#{day}rd"
     else "#{day}th"
     end
+  end
+
+  def generate_slug
+    self.slug = title.parameterize
   end
 end

@@ -3,9 +3,9 @@
     <!-- image on mobile and left on larger screens -->
     <% if resource.cloudinary_public_id.present? %>
       <div class="flex-shrink-0 w-full md:w-32 lg:w-48">
-        <%= image_tag resource.thumbnail_url, 
+        <%= image_tag resource.image_url, 
             alt: resource.title,
-            class: "object-cover w-full" %>
+            class: "w-full h-full" %>
       </div>
     <% end %>
     

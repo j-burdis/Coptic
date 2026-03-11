@@ -5,9 +5,11 @@ class Resource < ApplicationRecord
   before_validation :clear_slug_for_chronology, if: :chronology?
   before_validation :generate_slug, if: -> { slug.blank? && title.present? && !chronology? }
 
-
   has_many :resource_exhibitions, dependent: :destroy
   has_many :exhibitions, through: :resource_exhibitions
+
+  has_many :resource_images, -> { order(position: :asc) }, dependent: :destroy
+  accepts_nested_attributes_for :resource_images, allow_destroy: true
 
   enum category: {
     films_and_audio: 0,
@@ -45,9 +47,15 @@ class Resource < ApplicationRecord
     category == 'chronology'
   end
 
+  def primary_image
+    resource_images.first || self
+  end
+
   # helper for cloudinary image URLs (optional - only if you use images)
   def thumbnail_url(width: 800, height: 600, crop: :fill)
-    return nil unless cloudinary_public_id.present?
+    if resource_images.any?
+      resource_images.first.thumbnail_url(width: width, height: height, crop: crop)
+    elsif cloudinary_public_id.present?
 
     Cloudinary::Utils.cloudinary_url(
       cloudinary_public_id,
@@ -60,13 +68,15 @@ class Resource < ApplicationRecord
   end
 
   def image_url
-    return nil unless cloudinary_public_id.present?
-
-    Cloudinary::Utils.cloudinary_url(
-      cloudinary_public_id,
-      quality: 'auto',
-      fetch_format: 'auto'
-    )
+    if resource_images.any?
+      resource_images.first.image_url
+    elsif cloudinary_public_id.present?
+      Cloudinary::Utils.cloudinary_url(
+        cloudinary_public_id,
+        quality: 'auto',
+        fetch_format: 'auto'
+      )
+    end
   end
 
   def date_display

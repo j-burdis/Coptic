@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_06_173134) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_11_174734) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -134,6 +134,18 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_06_173134) do
     t.index ["slug"], name: "index_collections_on_slug", unique: true
   end
 
+  create_table "exhibition_images", force: :cascade do |t|
+    t.bigint "exhibition_id", null: false
+    t.string "cloudinary_public_id", null: false
+    t.string "original_filename"
+    t.text "caption"
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exhibition_id", "position"], name: "index_exhibition_images_on_exhibition_id_and_position"
+    t.index ["exhibition_id"], name: "index_exhibition_images_on_exhibition_id"
+  end
+
   create_table "exhibitions", force: :cascade do |t|
     t.string "title", null: false
     t.string "slug", null: false
@@ -220,6 +232,18 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_06_173134) do
     t.index ["resource_id"], name: "index_resource_exhibitions_on_resource_id"
   end
 
+  create_table "resource_images", force: :cascade do |t|
+    t.bigint "resource_id", null: false
+    t.string "cloudinary_public_id", null: false
+    t.string "original_filename"
+    t.text "caption"
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resource_id", "position"], name: "index_resource_images_on_resource_id_and_position"
+    t.index ["resource_id"], name: "index_resource_images_on_resource_id"
+  end
+
   create_table "resources", force: :cascade do |t|
     t.string "title", null: false
     t.string "slug"
@@ -262,6 +286,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_06_173134) do
   add_foreign_key "artwork_exhibitions", "exhibitions"
   add_foreign_key "artwork_relations", "artworks"
   add_foreign_key "artwork_relations", "artworks", column: "related_artwork_id"
+  add_foreign_key "exhibition_images", "exhibitions"
   add_foreign_key "resource_exhibitions", "exhibitions"
   add_foreign_key "resource_exhibitions", "resources"
+  add_foreign_key "resource_images", "resources"
 end

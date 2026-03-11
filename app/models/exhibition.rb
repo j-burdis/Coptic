@@ -9,6 +9,9 @@ class Exhibition < ApplicationRecord
   has_many :resource_exhibitions, dependent: :destroy
   has_many :resources, through: :resource_exhibitions
 
+  has_many :exhibition_images, -> { order(position: :asc) }, dependent: :destroy
+  accepts_nested_attributes_for :exhibition_images, allow_destroy: true
+
   enum exhibition_type: {
     solo_shows: 0,
     group_shows: 1,
@@ -77,27 +80,35 @@ class Exhibition < ApplicationRecord
     ["artworks", "artwork_exhibitions"]
   end
 
-  def thumbnail_url(width: 800, height: 600, crop: :fill)
-    return nil unless cloudinary_public_id.present?
+  def primary_image
+    exhibition_images.first || self
+  end
 
-    Cloudinary::Utils.cloudinary_url(
-      cloudinary_public_id,
-      width: width,
-      height: height,
-      crop: crop,
-      quality: 'auto',
-      fetch_format: 'auto'
-    )
+  def thumbnail_url(width: 800, height: 600, crop: :fill)
+    if exhibition_images.any?
+      exhibition_images.first.thumbnail_url(width: width, height: height, crop: crop)
+    elsif cloudinary_public_id.present?
+      Cloudinary::Utils.cloudinary_url(
+        cloudinary_public_id,
+        width: width,
+        height: height,
+        crop: crop,
+        quality: 'auto',
+        fetch_format: 'auto'
+      )
+    end
   end
 
   def image_url
-    return nil unless cloudinary_public_id.present?
-
-    Cloudinary::Utils.cloudinary_url(
-      cloudinary_public_id,
-      quality: 'auto',
-      fetch_format: 'auto'
-    )
+    if exhibition_images.any?
+      exhibition_images.first.image_url
+    elsif cloudinary_public_id.present?
+      Cloudinary::Utils.cloudinary_url(
+        cloudinary_public_id,
+        quality: 'auto',
+        fetch_format: 'auto'
+      )
+    end
   end
 
   private

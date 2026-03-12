@@ -57,14 +57,15 @@ class Resource < ApplicationRecord
       resource_images.first.thumbnail_url(width: width, height: height, crop: crop)
     elsif cloudinary_public_id.present?
 
-    Cloudinary::Utils.cloudinary_url(
-      cloudinary_public_id,
-      width: width,
-      height: height,
-      crop: crop,
-      quality: 'auto',
-      fetch_format: 'auto'
-    )
+      Cloudinary::Utils.cloudinary_url(
+        cloudinary_public_id,
+        width: width,
+        height: height,
+        crop: crop,
+        quality: 'auto',
+        fetch_format: 'auto'
+      )
+    end
   end
 
   def image_url

@@ -1,6 +1,10 @@
 <%= link_to resource.path, class: "group block" do %>
   <div class="relative mb-3 bg-white overflow-hidden">
-    <% if resource.cloudinary_public_id.present? %>
+    <% if resource.resource_images.any? %>
+      <%= image_tag resource.resource_images.first.thumbnail_url, 
+          alt: resource.title,
+          class: "object-cover" %>
+    <% elsif resource.cloudinary_public_id.present? %>
       <%= image_tag resource.thumbnail_url, 
           alt: resource.title,
           class: "object-cover" %>

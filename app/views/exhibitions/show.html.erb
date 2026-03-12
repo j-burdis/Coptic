@@ -81,7 +81,17 @@
       </div>
 
       <div class="lg:w-1/2">
-        <% if @exhibition.cloudinary_public_id.present? %>
+        <% if @exhibition.exhibition_images.any? %>
+          <div class="sticky top-24">
+            <%= image_tag @exhibition.exhibition_images.first.image_url, 
+                alt: @exhibition.title,
+                class: "w-full h-auto" %>
+            <% if @exhibition.exhibition_images.first.caption.present? %>
+              <p class="text-sm text-gray-500 mt-2 italic"><%= @exhibition.exhibition_images.first.caption %></p>
+            <% end %>
+          </div>
+        <% elsif @exhibition.cloudinary_public_id.present? %>
+          <!-- Fallback to legacy image -->
           <div class="sticky top-24">
             <%= image_tag @exhibition.image_url, 
                 alt: @exhibition.title,

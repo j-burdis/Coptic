@@ -3,7 +3,11 @@
     <!-- Image on the left -->
     <div class="flex-shrink-0 w-1/2 md:w-64">
       <div class="relative bg-white overflow-hidden">
-        <% if exhibition.cloudinary_public_id.present? %>
+        <% if exhibition.exhibition_images.any? %>
+          <%= image_tag exhibition.exhibition_images.first.thumbnail_url, 
+              alt: exhibition.title,
+              class: "object-cover w-full" %>
+        <% elsif exhibition.cloudinary_public_id.present? %>
           <%= image_tag exhibition.thumbnail_url, 
               alt: exhibition.title,
               class: "object-cover w-full" %>

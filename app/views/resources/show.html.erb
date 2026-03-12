@@ -48,12 +48,20 @@
 
         <% if @resource.description.present? %>
           <div class="text-pretty prose prose-sm md:prose max-w-none">
-            <% if @resource.cloudinary_public_id.present? %>
+            <% if @resource.resource_images.any? %>
+              <%= image_tag @resource.resource_images.first.image_url, 
+                  alt: @resource.title,
+                  class: "float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4" %>
+              <% if @resource.resource_images.first.caption.present? %>
+                <p class="text-sm text-gray-500 italic mb-4"><%= @resource.resource_images.first.caption %></p>
+              <% end %>
+            <% elsif @resource.cloudinary_public_id.present? %>
+              <!-- Fallback to legacy -->
               <%= image_tag @resource.image_url, 
                   alt: @resource.title,
                   class: "float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4" %>
               <% if @resource.image_caption.present? %>
-                <p class="text-sm text-gray-500 mb-4"><%= @resource.image_caption %></p>
+                <p class="text-sm text-gray-500 italic mb-4"><%= @resource.image_caption %></p>
               <% end %>
             <% end %>
             
@@ -61,7 +69,15 @@
           </div>
         <% elsif @resource.summary.present? %>
           <div class="text-pretty prose prose-sm md:prose max-w-none">
-            <% if @resource.cloudinary_public_id.present? %>
+            <% if @resource.resource_images.any? %>
+              <%= image_tag @resource.resource_images.first.image_url, 
+                  alt: @resource.title,
+                  class: "float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4" %>
+              <% if @resource.resource_images.first.caption.present? %>
+                <p class="text-sm text-gray-500 italic mb-4"><%= @resource.resource_images.first.caption %></p>
+              <% end %>
+            <% elsif @resource.cloudinary_public_id.present? %>
+              <!-- Fallback to legacy -->
               <%= image_tag @resource.image_url, 
                   alt: @resource.title,
                   class: "float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4" %>
@@ -165,7 +181,15 @@
             <!-- image fallback if no video -->
             <div class="lg:w-3/5 mb-8 lg:mb-0">
               <div class="sticky top-24">
-                <% if @resource.cloudinary_public_id.present? %>
+                <% if @resource.resource_images.any? %>
+                  <%= image_tag @resource.resource_images.first.image_url,
+                      alt: @resource.title,
+                      class: "w-full h-auto" %>
+                  <% if @resource.resource_images.first.caption.present? %>
+                    <p class="text-sm text-gray-500 mt-2 italic"><%= @resource.resource_images.first.caption %></p>
+                  <% end %>
+                <% elsif @resource.cloudinary_public_id.present? %>
+                  <!-- Fallback to legacy -->
                   <%= image_tag @resource.image_url, 
                       alt: @resource.title,
                       class: "w-full h-auto" %>
@@ -262,7 +286,11 @@
                   <div class="flex gap-4 md:gap-6 items-start">
                     <div class="flex-shrink-0 w-1/2 md:w-64">
                       <div class="relative bg-white overflow-hidden">
-                        <% if exhibition.cloudinary_public_id.present? %>
+                        <% if exhibition.exhibition_images.any? %>
+                          <%= image_tag exhibition.exhibition_images.first.thumbnail_url, 
+                              alt: exhibition.title,
+                              class: "object-cover w-full" %>
+                        <% elsif exhibition.cloudinary_public_id.present? %>
                           <%= image_tag exhibition.thumbnail_url, 
                               alt: exhibition.title,
                               class: "object-cover w-full" %>

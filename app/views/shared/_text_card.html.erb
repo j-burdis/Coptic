@@ -1,11 +1,17 @@
 <%= link_to resource.path, class: "group block" do %>
   <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
     <!-- image on mobile and left on larger screens -->
-    <% if resource.cloudinary_public_id.present? %>
+    <% if resource.resource_images.any? %>
+      <div class="flex-shrink-0 w-full md:w-32 lg:w-48">
+        <%= image_tag resource.resource_images.first.image_url, 
+            alt: resource.title,
+            class: "w-full h-auto" %>
+      </div>
+    <% elsif resource.cloudinary_public_id.present? %>
       <div class="flex-shrink-0 w-full md:w-32 lg:w-48">
         <%= image_tag resource.image_url, 
             alt: resource.title,
-            class: "w-full h-full" %>
+            class: "w-full h-auto" %>
       </div>
     <% end %>
     

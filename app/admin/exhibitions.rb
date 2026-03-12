@@ -1,23 +1,43 @@
 ActiveAdmin.register Exhibition do
   permit_params :title, :slug, :start_date, :end_date, :venue, :location, :description,
                 :exhibition_type, :is_indian_collection, :published, :image,
-                :cloudinary_public_id, :original_filename, :image_caption, :external_url
+                :cloudinary_public_id, :original_filename, :image_caption, :external_url,
+                exhibition_images_attributes: [:id, :cloudinary_public_id, :original_filename, :caption, :position, :_destroy]
 
   # sidebar filters
   filter :title
-  filter :exhibition_type, as: :select, exhibition: -> { Exhibition.exhibition_type }
+  filter :exhibition_type, as: :select, collection: -> { Exhibition::EXHIBITION_TYPES }
   filter :start_date
   filter :end_date
   filter :published
   filter :created_at
 
-  form do |f|
+  form html: { multipart: true } do |f|
     f.semantic_errors
 
     columns do
       column do
-        f.inputs "Image" do
-          if f.object.cloudinary_public_id.present?
+        f.inputs "Images" do
+          # existing images
+          if f.object.exhibition_images.any?
+            f.object.exhibition_images.each_with_index do |img, index|
+              f.inputs "Image #{index + 1}", for: [:exhibition_images, img] do |i|
+                i.input :cloudinary_public_id, as: :hidden
+                i.input :original_filename, as: :hidden
+                i.input :position, as: :hidden, input_html: { value: index }
+
+                li do
+                  image_tag img.image_url, style: 'max-width: 100%; height: auto; margin: 10px 0;'
+                end
+
+                i.input :caption, as: :text, input_html: { rows: 2 }
+                i.input :_destroy, as: :boolean, label: 'Delete this image'
+              end
+            end
+          end
+
+          # legacy single image if exists and no new images
+          if f.object.cloudinary_public_id.present? && f.object.exhibition_images.empty?
             li do
               label 'Current Image'
               div do
@@ -26,14 +46,26 @@ ActiveAdmin.register Exhibition do
                   style: 'max-width: 100%; display: block; margin: 10px 0;'
                 )
               end
+              para "Upload new images below to use the multi-image system.", class: 'inline-hints'
             end
+
+            f.input :cloudinary_public_id, 
+              as: :boolean,
+              label: 'Delete legacy image',
+              hint: 'Check this box to remove the old single image',
+              input_html: { 
+                value: '',
+                checked: false,
+                onclick: "if(this.checked) { this.value = ''; this.form.querySelector('input[name=\"exhibition[cloudinary_public_id]\"][type=\"hidden\"]')?.remove(); } else { this.value = '#{f.object.cloudinary_public_id}'; }"
+              }
           end
 
-          f.input :image,
-                  as: :file,
-                  hint: 'Upload a new image (JPG, PNG). This will replace the current image.',
-                  input_html: { accept: 'image/*' }
-          f.input :image_caption, as: :text, input_html: { rows: 2 }, hint: 'Optional caption for the image'
+          # upload new images
+          li do
+            label 'Upload New Images'
+            text_node '<input name="exhibition[new_images][]" type="file" multiple="multiple" accept="image/*" style="margin: 10px 0;" />'.html_safe
+            para "Select multiple images to upload. First image will be the primary/thumbnail.", class: 'inline-hints'
+          end
         end
       end
 
@@ -78,11 +110,17 @@ ActiveAdmin.register Exhibition do
     def create
       @exhibition = Exhibition.new(permitted_params[:exhibition])
 
-      if params[:exhibition][:image].present?
-        uploaded_file = params[:exhibition][:image]
-        result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'exhibitions')
-        @exhibition.cloudinary_public_id = result['public_id']
-        @exhibition.original_filename = uploaded_file.original_filename
+      if params[:exhibition][:new_images].present?
+        params[:exhibition][:new_images].each_with_index do |uploaded_file, index|
+          next if uploaded_file.blank?
+
+          result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'exhibitions')
+          @exhibition.exhibition_images.build(
+            cloudinary_public_id: result['public_id'],
+            original_filename: uploaded_file.original_filename,
+            position: index
+          )
+        end
       end
 
       if @exhibition.save
@@ -95,11 +133,19 @@ ActiveAdmin.register Exhibition do
     def update
       @exhibition = Exhibition.find(params[:id])
 
-      if params[:exhibition][:image].present?
-        uploaded_file = params[:exhibition][:image]
-        result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'exhibitions')
-        @exhibition.cloudinary_public_id = result['public_id']
-        @exhibition.original_filename = uploaded_file.original_filename
+      if params[:exhibition][:new_images].present?
+        current_max_position = @exhibition.exhibition_images.maximum(:position) || -1
+
+        params[:exhibition][:new_images].each_with_index do |uploaded_file, index|
+          next if uploaded_file.blank?
+
+          result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'exhibitions')
+          @exhibition.exhibition_images.create(
+            cloudinary_public_id: result['public_id'],
+            original_filename: uploaded_file.original_filename,
+            position: current_max_position + index + 1
+          )
+        end
       end
 
       if @exhibition.update(permitted_params[:exhibition])
@@ -108,6 +154,31 @@ ActiveAdmin.register Exhibition do
         render :edit
       end
     end
+
+    def destroy
+      @exhibition = Exhibition.find(params[:id])
+
+      # delete all images from cloudinary
+      @exhibition.exhibition_images.each do |img|
+        begin
+          Cloudinary::Uploader.destroy(img.cloudinary_public_id)
+        rescue StandardError => e
+          Rails.logger.error "Failed to delete image: #{e.message}"
+        end
+      end
+
+      # delete legacy single image if exists
+      if @exhibition.cloudinary_public_id.present?
+        begin
+          Cloudinary::Uploader.destroy(@exhibition.cloudinary_public_id)
+        rescue StandardError => e
+          Rails.logger.error "Failed to delete image: #{e.message}"
+        end
+      end
+
+      @exhibition.destroy
+      redirect_to admin_exhibitions_path, notice: 'Exhibition was successfully deleted.'
+    end
   end
 
   index do
@@ -115,7 +186,9 @@ ActiveAdmin.register Exhibition do
     id_column
 
     column :image, sortable: false do |exhibition|
-      if exhibition.cloudinary_public_id.present?
+      if exhibition.exhibition_images.any?
+        image_tag exhibition.exhibition_images.first.thumbnail_url, style: 'max-width: 60px; max-height: 60px; object-fit: cover;'
+      elsif exhibition.cloudinary_public_id.present?
         image_tag exhibition.thumbnail_url, style: 'max-width: 60px; max-height: 60px; object-fit: cover;'
       else
         content_tag(:span, '—', class: 'text-gray-400')
@@ -134,17 +207,29 @@ ActiveAdmin.register Exhibition do
   show do
     columns do
       column do
-        panel "Image" do
-          if exhibition.cloudinary_public_id.present?
+        panel "Images" do
+          if exhibition.exhibition_images.any?
+            exhibition.exhibition_images.each_with_index do |img, index|
+              div style: 'margin-bottom: 20px;' do
+                para "Image #{index + 1}", style: 'font-weight: bold; margin-bottom: 5px;'
+                div style: 'min-height: 200px;' do
+                  image_tag img.image_url, style: 'max-width: 100%; height: auto; display: block;'
+                end
+                if img.caption.present?
+                  para img.caption, class: 'text-sm text-gray-600', style: 'margin-top: 5px;'
+                end
+              end
+            end
+          elsif exhibition.cloudinary_public_id.present?
+            para "Image", style: 'font-weight: bold; margin-bottom: 5px;'
             div style: 'min-height: 200px;' do
               image_tag exhibition.image_url, style: 'max-width: 100%; height: auto; display: block;'
             end
+            if exhibition.image_caption.present?
+              para exhibition.image_caption, class: 'text-sm text-gray-600', style: 'margin-top: 5px;'
+            end
           else
-            para 'No image uploaded', class: 'text-gray-500'
-          end
-
-          if exhibition.image_caption.present?
-            para exhibition.image_caption, class: 'text-sm text-gray-600 mt-2'
+            para 'No images uploaded', class: 'text-gray-500'
           end
         end
 
@@ -207,9 +292,6 @@ ActiveAdmin.register Exhibition do
             row :is_indian_collection do
               exhibition.is_indian_collection? ? 'Yes' : 'No'
             end
-            row :indian_collection_category
-            row :cloudinary_public_id
-            row :original_filename
             row :created_at
             row :updated_at
           end

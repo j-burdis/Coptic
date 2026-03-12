@@ -85,22 +85,25 @@
           <div class="sticky top-24">
             <% if @exhibition.exhibition_images.count > 1 %>
               <!-- multiple image carousel -->
-              <div class="swiper" data-controller="carousel">
-                <div class="swiper-wrapper">
-                  <% @exhibition.exhibition_images.each do |img| %>
-                    <div class="swiper-slide">
-                      <%= image_tag img.image_url, 
-                          alt: @exhibition.title,
-                          class: "w-full h-auto" %>
-                      <% if img.caption.present? %>
-                        <p class="text-sm text-gray-500 mt-2 italic"><%= img.caption %></p>
-                      <% end %>
-                    </div>
-                  <% end %>
+              <div data-controller="carousel">
+                <div class="swiper">
+                  <div class="swiper-wrapper">
+                    <% @exhibition.exhibition_images.each do |img| %>
+                      <div class="swiper-slide">
+                        <%= image_tag img.image_url, 
+                            alt: @exhibition.title,
+                            class: "w-full h-auto" %>
+                        <% if img.caption.present? %>
+                          <p class="text-sm text-gray-500 mt-2 italic"><%= img.caption %></p>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  </div>
+                  
+                  <div class="swiper-button-prev"></div>
+                  <div class="swiper-button-next"></div>
                 </div>
                 
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
                 <div class="swiper-pagination"></div>
               </div>
             <% else %>

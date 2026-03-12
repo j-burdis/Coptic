@@ -14,7 +14,9 @@ export default class extends Controller {
   }
 
   initSwiper() {
-    new Swiper(this.element, {
+    const swiperElement = this.element.querySelector('.swiper')
+    
+    new Swiper(swiperElement, {
       loop: true,
       navigation: {
         nextEl: this.element.querySelector('.swiper-button-next'),

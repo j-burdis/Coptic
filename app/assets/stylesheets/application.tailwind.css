@@ -41,3 +41,28 @@
     }
   }
 }
+
+/* navigation buttons */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #1f2937 !important;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  color: #9ca3af !important;
+}
+
+.swiper-pagination {
+  position: relative !important;
+  margin-top: 1rem !important;
+}
+
+/* pagination dots */
+.swiper-pagination-bullet {
+  background: #9ca3af !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #1f2937 !important;
+}

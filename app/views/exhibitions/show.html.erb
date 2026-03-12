@@ -90,16 +90,6 @@
               <p class="text-sm text-gray-500 mt-2 italic"><%= @exhibition.exhibition_images.first.caption %></p>
             <% end %>
           </div>
-        <% elsif @exhibition.cloudinary_public_id.present? %>
-          <!-- Fallback to legacy image -->
-          <div class="sticky top-24">
-            <%= image_tag @exhibition.image_url, 
-                alt: @exhibition.title,
-                class: "w-full h-auto" %>
-            <% if @exhibition.image_caption.present? %>
-              <p class="text-sm text-gray-500 mt-2 italic"><%= @exhibition.image_caption %></p>
-            <% end %>
-          </div>
         <% end %>
       </div>
 

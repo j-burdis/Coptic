@@ -21,10 +21,6 @@
                     <%= image_tag exhibition.exhibition_images.first.thumbnail_url, 
                         alt: exhibition.title,
                         class: "object-cover w-full" %>
-                  <% elsif exhibition.cloudinary_public_id.present? %>
-                    <%= image_tag exhibition.thumbnail_url, 
-                        alt: exhibition.title,
-                        class: "object-cover w-full" %>
                   <% else %>
                     <div class="aspect-[3/2] w-full flex items-center justify-center bg-gray-100">
                       <i class="fa-solid fa-building-columns text-4xl text-gray-300"></i>

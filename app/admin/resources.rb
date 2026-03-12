@@ -22,8 +22,6 @@ ActiveAdmin.register Resource do
     column :image, sortable: false do |resource|
       if resource.resource_images.any?
         image_tag resource.resource_images.first.thumbnail_url, style: 'max-width: 60px; max-height: 60px; object-fit: cover;'
-      elsif resource.cloudinary_public_id.present?
-        image_tag resource.thumbnail_url, style: 'max-width: 60px; max-height: 60px; object-fit: cover;'
       else
         content_tag(:span, '—', class: 'text-gray-400')
       end
@@ -75,14 +73,6 @@ ActiveAdmin.register Resource do
                   para img.caption, class: 'text-sm text-gray-500', style: 'margin-top: 5px;'
                 end
               end
-            end
-          elsif resource.cloudinary_public_id.present?
-            para "Image", style: 'font-weight: bold; margin-bottom: 5px;'
-            div style: 'min-height: 200px;' do
-              image_tag resource.image_url, style: 'max-width: 100%; height: auto; display: block;'
-            end
-            if resource.image_caption.present?
-              para resource.image_caption, class: 'text-sm text-gray-500', style: 'margin-top: 5px;'
             end
           else
             para 'No images uploaded', class: 'text-gray-500'
@@ -177,31 +167,7 @@ ActiveAdmin.register Resource do
             end
           end
 
-          # show single image if exists and no new images
-          if f.object.cloudinary_public_id.present? && f.object.resource_images.empty?
-            li do
-              label 'Current Image'
-              div do
-                image_tag(
-                  f.object.image_url,
-                  style: 'max-width: 100%; display: block; margin: 10px 0;'
-                )
-              end
-              para "Upload new images below to use the multi-image system.", class: 'inline-hints'
-            end
-
-            f.input :cloudinary_public_id, 
-              as: :boolean,
-              label: 'Delete legacy image',
-              hint: 'Check this box to remove the old single image',
-              input_html: { 
-                value: '',
-                checked: false,
-                onclick: "if(this.checked) { this.value = ''; this.form.querySelector('input[name=\"resource[cloudinary_public_id]\"][type=\"hidden\"]')?.remove(); } else { this.value = '#{f.object.cloudinary_public_id}'; }"
-              }
-          end
-
-          # upload new images
+          # upload image(s)
           li do
             label 'Upload New Images'
             text_node '<input name="resource[new_images][]" type="file" multiple="multiple" accept="image/*" style="margin: 10px 0;" />'.html_safe
@@ -317,15 +283,6 @@ ActiveAdmin.register Resource do
       @resource.resource_images.each do |img|
         begin
           Cloudinary::Uploader.destroy(img.cloudinary_public_id)
-        rescue StandardError => e
-          Rails.logger.error "Failed to delete image: #{e.message}"
-        end
-      end
-
-      # delete single image if exists
-      if @resource.cloudinary_public_id.present?
-        begin
-          Cloudinary::Uploader.destroy(@resource.cloudinary_public_id)
         rescue StandardError => e
           Rails.logger.error "Failed to delete image: #{e.message}"
         end

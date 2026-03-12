@@ -4,10 +4,6 @@
       <%= image_tag resource.resource_images.first.thumbnail_url, 
           alt: resource.title,
           class: "object-cover" %>
-    <% elsif resource.cloudinary_public_id.present? %>
-      <%= image_tag resource.thumbnail_url, 
-          alt: resource.title,
-          class: "object-cover" %>
     <% else %>
       <div class="aspect-[3/2] w-full flex items-center justify-center bg-gray-100">
         <i class="fa-solid fa-file-lines text-4xl text-gray-300"></i>

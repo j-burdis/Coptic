@@ -166,13 +166,37 @@
             <div class="lg:w-3/5 mb-8 lg:mb-0">
               <div class="sticky top-24">
                 <% if @resource.resource_images.any? %>
-                  <%= image_tag @resource.resource_images.first.image_url,
-                      alt: @resource.title,
-                      class: "w-full h-auto" %>
-                  <% if @resource.resource_images.first.caption.present? %>
-                    <p class="text-sm text-gray-500 mt-2 italic"><%= @resource.resource_images.first.caption %></p>
+                  <% if @resource.resource_images.count > 1 %>
+                    <!-- multiple image carousel -->
+                    <div class="swiper" data-controller="carousel">
+                      <div class="swiper-wrapper">
+                        <% @resource.resource_images.each do |img| %>
+                          <div class="swiper-slide">
+                            <%= image_tag img.image_url,
+                                alt: @resource.title,
+                                class: "w-full h-auto" %>
+                            <% if img.caption.present? %>
+                              <p class="text-sm text-gray-500 mt-2 italic"><%= img.caption %></p>
+                            <% end %>
+                          </div>
+                        <% end %>
+                      </div>
+                      
+                      <div class="swiper-button-prev"></div>
+                      <div class="swiper-button-next"></div>
+                      <div class="swiper-pagination"></div>
+                    </div>
+                  <% else %>
+                    <!-- single image -->
+                    <%= image_tag @resource.resource_images.first.image_url,
+                        alt: @resource.title,
+                        class: "w-full h-auto" %>
+                    <% if @resource.resource_images.first.caption.present? %>
+                      <p class="text-sm text-gray-500 mt-2 italic"><%= @resource.resource_images.first.caption %></p>
+                    <% end %>
                   <% end %>
                 <% else %>
+                  <!-- No images - show placeholder -->
                   <div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
                     <i class="fa-solid fa-file-lines text-6xl text-gray-300"></i>
                   </div>

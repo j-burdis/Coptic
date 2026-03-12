@@ -1,9 +1,7 @@
 ActiveAdmin.register Resource do
   permit_params :title, :slug, :category, :subcategory, :year, :year_end, :date, :show_day, 
                 :author, :publisher, :isbn, :summary, :description, :external_url, 
-                :video_type, :video_id, :is_indian_collection, :published, 
-                :image, :cloudinary_public_id, :original_filename, :image_caption, 
-                exhibition_ids: [],
+                :video_type, :video_id, :is_indian_collection, :published, exhibition_ids: [],
                 resource_images_attributes: [:id, :cloudinary_public_id, :original_filename, :caption, :position, :_destroy]
 
   # Sidebar filters

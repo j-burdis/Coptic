@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_11_174734) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_12_175941) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -157,11 +157,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_11_174734) do
     t.boolean "published", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "cloudinary_public_id"
-    t.string "original_filename"
     t.date "start_date"
     t.date "end_date"
-    t.text "image_caption"
     t.string "external_url"
     t.index ["exhibition_type"], name: "index_exhibitions_on_exhibition_type"
     t.index ["is_indian_collection"], name: "index_exhibitions_on_is_indian_collection"
@@ -254,8 +251,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_11_174734) do
     t.text "summary"
     t.text "description"
     t.string "external_url"
-    t.string "cloudinary_public_id"
-    t.string "original_filename"
     t.string "video_type"
     t.string "video_id"
     t.text "embed_code"
@@ -269,7 +264,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_11_174734) do
     t.boolean "show_day"
     t.integer "year_end"
     t.string "isbn"
-    t.text "image_caption"
     t.index ["category"], name: "index_resources_on_category"
     t.index ["is_indian_collection"], name: "index_resources_on_is_indian_collection"
     t.index ["published"], name: "index_resources_on_published"

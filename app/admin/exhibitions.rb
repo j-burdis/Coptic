@@ -1,7 +1,6 @@
 ActiveAdmin.register Exhibition do
   permit_params :title, :slug, :start_date, :end_date, :venue, :location, :description,
-                :exhibition_type, :is_indian_collection, :published, :image,
-                :cloudinary_public_id, :original_filename, :image_caption, :external_url,
+                :exhibition_type, :is_indian_collection, :published, :external_url,
                 exhibition_images_attributes: [:id, :cloudinary_public_id, :original_filename, :caption, :position, :_destroy]
 
   # sidebar filters

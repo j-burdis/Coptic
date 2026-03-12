@@ -1,6 +1,4 @@
 class Exhibition < ApplicationRecord
-  attr_accessor :image
-
   before_validation :generate_slug, if: -> { slug.blank? && title.present? }
 
   has_many :artwork_exhibitions, dependent: :destroy

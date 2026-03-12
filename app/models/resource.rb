@@ -1,6 +1,4 @@
 class Resource < ApplicationRecord
-  attr_accessor :image
-
   before_validation :set_chronology_title, if: :chronology?
   before_validation :clear_slug_for_chronology, if: :chronology?
   before_validation :generate_slug, if: -> { slug.blank? && title.present? && !chronology? }

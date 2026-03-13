@@ -163,30 +163,34 @@
             </div>
           <% else %>
             <!-- image fallback if no video -->
-            <div class="lg:w-3/5 mb-8 lg:mb-0">
+            <div class="<%= @resource.resource_images.count > 1 ? '' : 'lg:w-3/5' %> mb-8 lg:mb-0">
               <div class="sticky top-24">
                 <% if @resource.resource_images.any? %>
                   <% if @resource.resource_images.count > 1 %>
                     <!-- multiple image carousel -->
                     <div data-controller="carousel">
-                      <div class="swiper">
-                        <div class="swiper-wrapper">
-                          <% @resource.resource_images.each do |img| %>
-                            <div class="swiper-slide">
-                              <%= image_tag img.image_url,
-                                  alt: @resource.title,
-                                  class: "w-full h-auto" %>
-                              <% if img.caption.present? %>
-                                <p class="text-sm text-gray-500 mt-2 italic"><%= img.caption %></p>
-                              <% end %>
-                            </div>
-                          <% end %>
+                      <div class="flex items-center gap-4">
+                        <div class="swiper-button-prev relative !static flex-shrink-0"></div>
+                        
+                        <div class="swiper flex-1">
+                          <div class="swiper-wrapper">
+                            <% @resource.resource_images.each do |img| %>
+                              <div class="swiper-slide">
+                                <%= image_tag img.image_url,
+                                    alt: @resource.title,
+                                    class: "w-full h-auto" %>
+                                <% if img.caption.present? %>
+                                  <p class="text-sm text-gray-500 mt-2 italic"><%= img.caption %></p>
+                                <% end %>
+                              </div>
+                            <% end %>
+                          </div>
                         </div>
                         
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-next relative !static flex-shrink-0"></div>
                       </div>
                       
+                      <!-- pagination dots -->
                       <div class="swiper-pagination"></div>
                     </div>
                   <% else %>
@@ -199,7 +203,7 @@
                     <% end %>
                   <% end %>
                 <% else %>
-                  <!-- No images - show placeholder -->
+                  <!-- show placeholder if no images -->
                   <div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
                     <i class="fa-solid fa-file-lines text-6xl text-gray-300"></i>
                   </div>

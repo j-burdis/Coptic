@@ -1,21 +1,11 @@
 <div class="bg-white">
   <div class="container mx-auto px-2 lg:px-0">
     
-    <!-- breadcrumbs
-    <nav class="mb-4 text-sm text-gray-600">
-      <%= link_to "Home", root_path, class: "hover:text-black" %>
-      <span class="mx-2">/</span>
-      <%= link_to "Gallery", gallery_root_path, class: "hover:text-black" %>
-      <% if @category_title.present? %>
-        <span class="mx-2">/</span>
-        <span class="text-black"><%= @category_title %></span>
-      <% end %>
-    </nav> -->
-
     <% if @show_landing %>
       <%= render 'gallery_landing' %>
     <% else %>
       <%= render 'category_listing' %>
     <% end %>
+
   </div>
 </div>

@@ -19,8 +19,8 @@
         <%= image_tag resource.resource_images.first.image_url,
             alt: resource.year_display,
             class: "w-full md:w-auto md:max-w-full object-cover" %>
-        <% if resource.image_caption.present? %>
-          <p class="text-xs md:text-sm text-gray-500 mt-2 text-pretty"><%= resource.image_caption %></p>
+        <% if resource.resource_images.first.caption.present? %>
+          <p class="text-xs md:text-sm text-gray-500 mt-2 text-pretty"><%= resource.resource_images.first.caption %></p>
         <% end %>
       </div>
     <% end %>

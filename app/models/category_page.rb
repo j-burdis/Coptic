@@ -86,7 +86,7 @@ class CategoryPage < ApplicationRecord
         elsif slug.in?(Resource::PUBLICATION_SUBCATEGORIES)
           Rails.application.routes.url_helpers.resources_publications_subcategory_path(subcategory: slug)
         else
-          Rails.application.routes.url_helpers.resources_path
+          Rails.application.routes.url_helpers.resources_root_path
         end
       else
         Rails.application.routes.url_helpers.gallery_root_path

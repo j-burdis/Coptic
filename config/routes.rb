@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  namespace :indian_collection do
-    get "pages/index"
-  end
   # Admin
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -24,7 +21,6 @@ Rails.application.routes.draw do
 
   # Main collection - gallery/artworks
   namespace :gallery do
-
     get '/', to: 'artworks#index', as: :root
 
     get 'paintings', to: 'artworks#paintings'
@@ -35,11 +31,11 @@ Rails.application.routes.draw do
     get 'memories-of-bombay-mumbai', to: 'artworks#memories_of_bombay_mumbai'
     get 'other', to: 'artworks#other'
 
-    # Special status collections
+    # special status collections
     get 'missing-works', to: 'artworks#missing_works'
     get 'destroyed', to: 'artworks#destroyed'
 
-    # Design with subcategories
+    # design with subcategories
     get 'design', to: 'artworks#design'
     get 'design/:subcategory', to: 'artworks#design_subcategory', 
         as: :design_subcategory
@@ -47,60 +43,36 @@ Rails.application.routes.draw do
     get 'all', to: 'artworks#all'
   end
 
-  # Individual artwork - cleaner URL outside of namespace
+  # Individual artwork
   get 'artwork/:slug', to: 'artworks#show', as: :artwork
   
-  # Main collection - resources
-  # namespace :resources do
-  #   get "pages/index"
-  #   get '/', to: 'pages#index', as: :root
-
-  #   get 'films-and-audio', to: 'resources#films_and_audio'
-
-  #   get 'texts', to: 'resources#texts'
-  #   get 'texts/:subcategory', to: 'resources#texts_subcategory',
-  #       as: :texts_subcategory,
-  #       constraints: { subcategory: /(critical-essays|interviews|selected-reviews|the-artists-words)/ }
-    
-  #   get 'publications', to: 'resources#publications'
-  #   get 'publications/:subcategory', to: 'resources#publications_subcategory',
-  #       as: :publications_subcategory,
-  #       constraints: { subcategory: /(posters-postcards|selected-books|selected-catalogues)/ }
-    
-  #   get 'chronology', to: 'resources#chronology'
-
-  #   get 'collections', to: 'collections#index'    
-  # end
-  get 'resources', to: 'resources#index'
-  get 'resources/films-and-audio', to: 'resources#films_and_audio', as: :resources_films_and_audio
-  get 'resources/texts', to: 'resources#texts', as: :resources_texts
-  get 'resources/texts/:subcategory', to: 'resources#texts_subcategory',
-      as: :resources_texts_subcategory,
-      constraints: { subcategory: /(critical-essays|interviews|selected-reviews|the-artists-words)/ }
-  get 'resources/publications', to: 'resources#publications', as: :resources_publications
-  get 'resources/publications/:subcategory', to: 'resources#publications_subcategory',
-      as: :resources_publications_subcategory,
-      constraints: { subcategory: /(posters-postcards|selected-books|selected-catalogues)/ }
-  get 'resources/chronology', to: 'resources#chronology', as: :resources_chronology
-
-  # Keep collections in namespace since it has its own controller
+  # collections & exhibitions in namespace,have their own controllers
   namespace :resources do
+    get '/', to: 'resources#index', as: :root  # ✅ Creates /resources
+
+    get 'films-and-audio', to: 'resources#films_and_audio'  # ✅ Creates /resources/films-and-audio
+    get 'texts', to: 'resources#texts'
+    get 'texts/:subcategory', to: 'resources#texts_subcategory',
+        as: :texts_subcategory,
+        constraints: { subcategory: /(critical-essays|interviews|selected-reviews|the-artists-words)/ }
+    get 'publications', to: 'resources#publications'
+    get 'publications/:subcategory', to: 'resources#publications_subcategory',
+        as: :publications_subcategory,
+        constraints: { subcategory: /(posters-postcards|selected-books|selected-catalogues)/ }
+    get 'chronology', to: 'resources#chronology'
+
+    get 'exhibitions', to: 'exhibitions#index'
+    get 'exhibitions/:exhibition_type', to: 'exhibitions#by_type', as: :exhibitions_by_type
     get 'collections', to: 'collections#index'
   end
 
-  # Individual resource - cleaner URL outside of namespace
+  # Individual resource
   get 'resource/:slug', to: 'resources#show', as: :resource
 
-  # Individual collection - cleaner URL outside of namespace
+  # Individual collection
   get 'collection/:slug', to: 'collections#show', as: :collection
 
-  # Exhibitions
-  get '/resources/exhibitions', to: 'exhibitions#index', as: :resources_exhibitions
-  
-  get '/resources/exhibitions/:exhibition_type', to: 'exhibitions#by_type',
-    as: :resources_exhibitions_by_type,
-    constraints: { exhibition_type: /(solo-shows|group-shows|paintings|prints|other)/ }
-
+  # Individual exhibition
   get 'exhibition/:slug', to: 'exhibitions#show', as: :exhibition
 
   # News

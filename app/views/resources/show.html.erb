@@ -6,7 +6,7 @@
         <!-- breadcrumbs -->
         <nav class="text-sm text-gray-500 mb-4">
           <ul class="flex items-center gap-2">
-            <li><%= link_to "Resources", resources_path, class: "hover:text-blue-800" %></li>
+            <li><%= link_to "Resources", resources_root_path, class: "hover:text-blue-800" %></li>
             <li>></li>
             <li><%= link_to "Texts", resources_texts_path, class: "hover:text-blue-800" %></li>
             <% if @resource.subcategory.present? %>
@@ -222,7 +222,7 @@
           <!-- breadcrumbs -->
           <nav class="text-sm text-gray-500 mb-4">
             <ul class="flex items-center gap-2">
-              <li><%= link_to "Resources", resources_path, class: "hover:text-blue-800" %></li>
+              <li><%= link_to "Resources", resources_root_path, class: "hover:text-blue-800" %></li>
               <li>></li>
               <% if @resource.category == 'publications' %>
                 <li><%= link_to "Publications", resources_publications_path, class: "hover:text-blue-800" %></li>

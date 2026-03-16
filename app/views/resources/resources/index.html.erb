@@ -43,7 +43,7 @@
                 when :publications then resources_publications_path
                 when :chronology then resources_chronology_path
                 when :collections then resources_collections_path
-                else resources_path
+                else resources_root_path
                 end
               %>
               <%= link_to path, class: "group block hover:text-blue-800" do %>
@@ -56,7 +56,7 @@
       </div>
 
     <% else %>
-      <%= render 'category_listing' %>
+      <%= render 'resources/category_listing' %>
     <% end %>
   </div>
 </div>

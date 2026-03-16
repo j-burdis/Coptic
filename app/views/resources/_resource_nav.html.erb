@@ -1,7 +1,7 @@
 <div class="mb-8 hidden sm:flex sm:justify-center">
   <nav>
     <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm">
-      <li><%= link_to "Resources ›", resources_path, class: "text-gray-400 hover:text-blue-800 px-2 py-1" %></li>
+      <li><%= link_to "Resources ›", resources_root_path, class: "text-gray-400 hover:text-blue-800 px-2 py-1" %></li>
       
       <!-- exhibitions -->
       <% exhibitions = @resource_categories&.find { |cat| cat.slug == "exhibitions" } %>

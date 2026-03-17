@@ -1,0 +1,72 @@
+<% if resource.video_type.present? && resource.video_id.present? %>
+  <!-- video -->
+  <div class="aspect-video">
+    <% if resource.video_type == 'youtube' %>
+      <iframe 
+        width="100%" 
+        height="100%" 
+        src="https://www.youtube.com/embed/<%= resource.video_id %>?title=0&byline=0&portrait=0" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+        class="w-full h-full">
+      </iframe>
+    <% elsif resource.video_type == 'vimeo' %>
+      <iframe 
+        src="https://player.vimeo.com/video/<%= resource.video_id %>?title=0&byline=0&portrait=0" 
+        width="100%" 
+        height="100%" 
+        frameborder="0" 
+        allow="autoplay; fullscreen; picture-in-picture" 
+        allowfullscreen
+        class="w-full h-full">
+      </iframe>
+    <% end %>
+  </div>
+  
+<% elsif resource.resource_images.any? %>
+  <!-- carousel or single images -->
+  <div class="<%= resource.resource_images.count > 1 ? '' : 'lg:w-3/5' %> mb-8 lg:mb-0">
+    <div class="sticky top-24">
+      <% if resource.resource_images.count > 1 %>
+        <div data-controller="carousel">
+          <div class="flex items-center">
+            <div class="swiper-button-prev !static flex-shrink-0">
+              <i class="fa-solid fa-chevron-left"></i>
+            </div>
+            
+            <div class="swiper flex-1">
+              <div class="swiper-wrapper">
+                <% resource.resource_images.each do |img| %>
+                  <div class="swiper-slide">
+                    <%= image_tag img.image_url, alt: resource.title, class: "w-full h-auto" %>
+                    <% if img.caption.present? %>
+                      <p class="text-sm text-gray-500 mt-2 italic"><%= img.caption %></p>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            
+            <div class="swiper-button-next !static flex-shrink-0">
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
+          </div>
+          
+          <div class="swiper-pagination"></div>
+        </div>
+      <% else %>
+        <%= image_tag resource.resource_images.first.image_url, alt: resource.title, class: "w-full h-auto" %>
+        <% if resource.resource_images.first.caption.present? %>
+          <p class="text-sm text-gray-500 mt-2 italic"><%= resource.resource_images.first.caption %></p>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  
+<% else %>
+  <!-- placeholder -->
+  <div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
+    <i class="fa-solid fa-file-lines text-6xl text-gray-300"></i>
+  </div>
+<% end %>

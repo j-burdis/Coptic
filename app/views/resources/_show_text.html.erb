@@ -1,0 +1,25 @@
+<div class="lg:w-3/5 lg:mx-auto">
+  <%= render 'resources/breadcrumbs', resource: resource %>
+  
+  <%= render 'resources/header', resource: resource, centered: true %>
+  
+  <!-- content with floated image -->
+  <% if resource.description.present? || resource.summary.present? %>
+    <div class="text-pretty prose prose-sm md:prose max-w-none">
+      <% if resource.resource_images.any? %>
+        <%= image_tag resource.resource_images.first.image_url, 
+            alt: resource.title,
+            class: "float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4" %>
+        <% if resource.resource_images.first.caption.present? %>
+          <p class="text-sm text-gray-500 italic mb-4"><%= resource.resource_images.first.caption %></p>
+        <% end %>
+      <% end %>
+      
+      <%= simple_format(resource.description.presence || resource.summary, class: 'mb-6') %>
+    </div>
+  <% end %>
+  
+  <%= render "shared/share_button" %>
+  
+  <%= render 'resources/related_exhibitions', resource: resource, layout: 'list' if resource.exhibitions.published.any? %>
+</div>

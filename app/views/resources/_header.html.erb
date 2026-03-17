@@ -1,0 +1,66 @@
+<% if centered %>
+  <!-- texts layout - inline author -->
+  <h1 class="text-xl md:text-2xl font-semibold mb-2">
+    <%= resource.title %><% if resource.author.present? %>, 
+    <span class="text-gray-500">by <%= resource.author %></span>
+    <% end %>
+  </h1>
+  
+  <div class="text-lg mb-6">
+    <% if resource.publisher.present? %>
+      <span><%= resource.publisher %></span>
+    <% end %>
+    <% if resource.date.present? || resource.year.present? %>
+      <span class="text-gray-500">
+        <% if resource.publisher.present? %>, <% end %><%= resource.date_display %>
+      </span>
+    <% end %>
+  </div>
+  
+  <% if resource.external_url.present? %>
+    <%= link_to resource.external_url, target: "_blank", class: "inline-block group font-medium bg-[#F3D8A5] p-2 my-6" do %>
+      <span class="group-hover:text-blue-800">View Resource</span>
+      <span class="text-gray-500 group-hover:text-blue-400"> ( external link ) <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+    <% end %>
+  <% end %>
+  
+<% else %>
+  <!-- publications/films layout - separate author -->
+  <h1 class="text-2xl md:text-3xl font-semibold mb-4"><%= resource.title %></h1>
+  
+  <% if resource.author.present? %>
+    <p class="text-lg mb-6"><%= resource.author %></p>
+  <% end %>
+  
+  <div class="text-lg mb-4">
+    <% if resource.publisher.present? %>
+      <span class="text-gray-500">Published by </span>
+      <span><%= resource.publisher %></span>
+    <% end %>
+  </div>
+  
+  <% if resource.year.present? || resource.date.present? %>
+    <p class="text-lg md:text-xl font-semibold mb-4">
+      <%= resource.date_display %>
+    </p>
+  <% end %>
+  
+  <% if resource.isbn.present? %>
+    <div class="text-lg mb-4 text-gray-500">
+      <span>ISBN: <%= resource.isbn %></span>
+    </div>
+  <% end %>
+  
+  <% if resource.description.present? || resource.summary.present? %>
+    <div class="text-pretty prose prose-sm md:prose max-w-none">
+      <%= simple_format(resource.description.presence || resource.summary, class: 'mb-6') %>
+    </div>
+  <% end %>
+  
+  <% if resource.external_url.present? %>
+    <%= link_to resource.external_url, target: "_blank", class: "inline-block group font-medium bg-[#F3D8A5] p-2 my-6" do %>
+      <span class="group-hover:text-blue-800">View Resource</span>
+      <span class="text-gray-500 group-hover:text-blue-400"> ( external link ) <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+    <% end %>
+  <% end %>
+<% end %>

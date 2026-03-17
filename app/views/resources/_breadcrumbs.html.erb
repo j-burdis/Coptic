@@ -1,0 +1,33 @@
+<nav class="text-sm text-gray-500 mb-4">
+  <ul class="flex items-center gap-2">
+    <li><%= link_to "Resources", resources_root_path, class: "hover:text-blue-800" %></li>
+    <li>></li>
+    
+    <% case resource.category %>
+    <% when 'texts' %>
+      <li><%= link_to "Texts", resources_texts_path, class: "hover:text-blue-800" %></li>
+      <% if resource.subcategory.present? %>
+        <li>></li>
+        <li>
+          <%= link_to resource.subcategory.titleize, 
+              resources_texts_subcategory_path(subcategory: resource.subcategory), 
+              class: "hover:text-blue-800" %>
+        </li>
+      <% end %>
+      
+    <% when 'publications' %>
+      <li><%= link_to "Publications", resources_publications_path, class: "hover:text-blue-800" %></li>
+      <% if resource.subcategory.present? %>
+        <li>></li>
+        <li>
+          <%= link_to resource.subcategory.titleize, 
+              resources_publications_subcategory_path(subcategory: resource.subcategory), 
+              class: "hover:text-blue-800" %>
+        </li>
+      <% end %>
+      
+    <% when 'films_and_audio' %>
+      <li><%= link_to "Films & Audio", resources_films_and_audio_path, class: "hover:text-blue-800" %></li>
+    <% end %>
+  </ul>
+</nav>

@@ -10,10 +10,8 @@ class Resource < ApplicationRecord
   accepts_nested_attributes_for :resource_images, allow_destroy: true
 
   enum category: {
-    films_and_audio: 0,
-    texts: 1,
-    publications: 2,
-    chronology: 3
+    films_and_audio: 0, texts: 1,
+    publications: 2, chronology: 3
   }
 
   TEXT_SUBCATEGORIES = [
@@ -38,6 +36,7 @@ class Resource < ApplicationRecord
   # helper method for getting the resource URL path
   def path
     return nil if chronology?
+
     Rails.application.routes.url_helpers.resource_path(slug)
   end
 
@@ -51,9 +50,9 @@ class Resource < ApplicationRecord
 
   # helper for cloudinary image URLs (optional - only if you use images)
   def thumbnail_url(width: 800, height: 600, crop: :fill)
-    if resource_images.any?
-      resource_images.first.thumbnail_url(width: width, height: height, crop: crop)
-    end
+    return unless resource_images.any?
+
+    resource_images.first.thumbnail_url(width: width, height: height, crop: crop)
   end
 
   def image_url
@@ -95,8 +94,7 @@ class Resource < ApplicationRecord
      "summary", "description", "content", "external_url",
      "cloudinary_public_id", "original_filename",
      "video_type", "video_id", "embed_code", "duration_seconds",
-     "published", "is_indian_collection",
-     "created_at", "updated_at"]
+     "published", "is_indian_collection", "created_at", "updated_at"]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -106,9 +104,9 @@ class Resource < ApplicationRecord
   private
 
   def set_chronology_title
-    if title.blank?
-      self.title = year_display.presence || "Chronology Entry"
-    end
+    return unless title.blank?
+
+    self.title = year_display.presence || "Chronology Entry"
   end
 
   def clear_slug_for_chronology
@@ -124,8 +122,6 @@ class Resource < ApplicationRecord
     else "#{day}th"
     end
   end
-
-  private
 
   def generate_slug
     self.slug = title.parameterize

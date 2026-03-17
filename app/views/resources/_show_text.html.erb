@@ -3,19 +3,68 @@
   
   <%= render 'resources/header', resource: resource, centered: true %>
   
-  <!-- content with floated image -->
   <% if resource.description.present? || resource.summary.present? %>
     <div class="text-pretty prose prose-sm md:prose max-w-none">
-      <% if resource.resource_images.any? %>
-        <%= image_tag resource.resource_images.first.image_url, 
-            alt: resource.title,
-            class: "float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4" %>
-        <% if resource.resource_images.first.caption.present? %>
-          <p class="text-sm text-gray-500 italic mb-4"><%= resource.resource_images.first.caption %></p>
-        <% end %>
-      <% end %>
+      <% 
+        content = resource.description.presence || resource.summary
+        first_image = resource.resource_images[0]
+        second_image = resource.resource_images[1]
+      %>
       
-      <%= simple_format(resource.description.presence || resource.summary, class: 'mb-6') %>
+      <% if second_image.present? %>
+        <!-- two images - split paragraphs -->
+        <% 
+          paragraphs = content.gsub(/\r\n/, "\n").split(/\n\n+/).map(&:strip).reject(&:blank?)
+          mid_point = (paragraphs.length / 2.0).ceil
+        %>
+        
+        <!-- first image -->
+        <% if first_image.present? %>
+          <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
+            <%= image_tag first_image.image_url, 
+                alt: resource.title,
+                class: "w-full" %>
+            <% if first_image.caption.present? %>
+              <p class="text-sm text-gray-500 mt-2"><%= first_image.caption %></p>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <!-- first half of paragraphs -->
+        <% paragraphs[0...mid_point].each do |paragraph| %>
+          <p class="mb-4"><%= paragraph %></p>
+        <% end %>
+        
+        <!-- second image -->
+        <div class="clear-both w-full md:w-2/3 my-8 mx-auto">
+          <%= image_tag second_image.image_url, 
+              alt: resource.title,
+              class: "w-full" %>
+          <% if second_image.caption.present? %>
+            <p class="text-sm text-gray-500 mt-2"><%= second_image.caption %></p>
+          <% end %>
+        </div>
+        
+        <!-- second half of paragraphs -->
+        <% paragraphs[mid_point..-1].each do |paragraph| %>
+          <p class="mb-4"><%= paragraph %></p>
+        <% end %>
+        
+      <% else %>
+        <!-- one/no images -->
+        <% if first_image.present? %>
+          <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
+            <%= image_tag first_image.image_url, 
+                alt: resource.title,
+                class: "w-full" %>
+            <% if first_image.caption.present? %>
+              <p class="text-sm text-gray-500 italic mt-2"><%= first_image.caption %></p>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <%= simple_format(content, class: 'mb-6') %>
+      <% end %>
     </div>
   <% end %>
   

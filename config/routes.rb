@@ -103,6 +103,10 @@ Rails.application.routes.draw do
   get 'indian-collection/resource/:slug', to: 'indian_collection/resources#show', 
       as: :indian_collection_resource
   
+  get '*path', to: 'application#route_not_found', constraints: lambda { |req|
+    !req.path.start_with?('/rails/', '/assets/', '/admin')
+  }
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

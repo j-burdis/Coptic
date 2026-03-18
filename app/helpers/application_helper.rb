@@ -1,4 +1,12 @@
 module ApplicationHelper
+  def page_title
+    if content_for?(:title)
+      "#{content_for(:title)} - Howard Hodgkin".html_safe
+    else
+      "Howard Hodgkin"
+    end
+  end
+
   def flash_class(type)
     case type.to_sym
     when :notice, :success

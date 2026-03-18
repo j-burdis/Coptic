@@ -201,7 +201,7 @@ module Gallery
     def design_subcategory
       @category_page = CategoryPage.published.design_subcategory.find_by(slug: params[:subcategory])
       @artworks = @artworks.design.where(subcategory: params[:subcategory])
-      @category_title = "Design - #{params[:subcategory].titleize}"
+      @category_title = "#{params[:subcategory].titleize}"
       @show_date_filter = false
       @hide_search_filter = true
       @design_subcategories = Artwork::DESIGN_SUBCATEGORIES

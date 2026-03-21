@@ -1,0 +1,46 @@
+<div class="mb-8 hidden sm:flex sm:justify-center">
+  <nav>
+    <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm">
+      <li><%= link_to "Gallery (Indian Collection) ›", indian_collection_gallery_root_path, class: "text-gray-400 hover:text-blue-800 px-2 py-1" %></li>
+      
+      <% portrait = @gallery_categories&.find { |cat| cat.slug == "portrait" } %>
+      <% if portrait.present? || defined?(indian_collection_gallery_portrait_path) %>
+        <li>
+          <%= link_to portrait&.path || indian_collection_gallery_portrait_path, 
+              class: "p-1 #{request.path == indian_collection_gallery_portrait_path ? 'border-b-2 border-black' : 'hover:text-blue-800'}" do %>
+            Portrait
+            <% if portrait.present? %>
+              <span>(<%= portrait.artwork_count %>)</span>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+      
+      <% elephants = @gallery_categories&.find { |cat| cat.slug == "elephants" } %>
+      <% if elephants.present? || defined?(indian_collection_gallery_elephants_path) %>
+        <li>
+          <%= link_to elephants&.path || indian_collection_gallery_elephants_path, 
+              class: "p-1 #{request.path == indian_collection_gallery_elephants_path ? 'border-b-2 border-black' : 'hover:text-blue-800'}" do %>
+            Elephants
+            <% if elephants.present? %>
+              <span>(<%= elephants.artwork_count %>)</span>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+      
+      <% flora_fauna = @gallery_categories&.find { |cat| cat.slug == "flora-fauna" } %>
+      <% if flora_fauna.present? || defined?(indian_collection_gallery_flora_fauna_path) %>
+        <li>
+          <%= link_to flora_fauna&.path || indian_collection_gallery_flora_fauna_path, 
+              class: "p-1 #{request.path == indian_collection_gallery_flora_fauna_path ? 'border-b-2 border-black' : 'hover:text-blue-800'}" do %>
+            Flora & Fauna
+            <% if flora_fauna.present? %>
+              <span>(<%= flora_fauna.artwork_count %>)</span>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</div>

@@ -1,6 +1,12 @@
-<% content_for :title, "Indian Collection" %>
+<% content_for :title, @category_title || "Indian Collection Gallery" %>
 
-<div>
-  <h1 class="font-bold text-4xl">IndianCollection:: Gallery:: Artworks#index</h1>
-  <p>Find me in app/views/indian_collection/gallery/ artworks/index.html.erb</p>
+<div class="bg-white">
+  <div class="container mx-auto px-2 lg:px-0">
+    <%= render 'indian_collection/gallery/artworks/category_nav' %>
+
+    <div class="lg:flex lg:gap-8">
+      <%= render 'indian_collection/gallery/artworks/sidebar_filters' %>
+      <%= render 'indian_collection/gallery/artworks/artwork_grid', artworks: @artworks %>
+    </div>
+  </div>
 </div>

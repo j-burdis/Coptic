@@ -1,0 +1,45 @@
+<%
+  category_page ||= @category_page
+  category_title ||= @category_title
+  show_date_filter ||= @show_date_filter
+%>
+
+<aside class="lg:w-80 mb-8 p-6 bg-[#e6e6e6]">
+  <div class="sticky top-24">
+    <% if category_page.present? %>
+      <h1 class="text-2xl font-semibold mb-4"><%= category_page.title %></h1>
+      <% if category_page.description.present? %>
+        <p class="text-md text-pretty mb-6"><%= category_page.description %></p>
+      <% end %>
+    <% else %>
+      <h1 class="text-2xl font-semibold mb-6"><%= category_title %></h1>
+    <% end %>
+    
+    <%= form_with url: request.path, method: :get, class: "space-y-6" do |f| %>
+
+      <div>
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Search</h2>
+        <%= f.text_field :s, 
+            value: params[:s], 
+            placeholder: "Keyword",
+            class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]" %>
+      </div>
+
+      <% if show_date_filter %>
+        <div>
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Dates</h2>
+          <%= f.select :dates, 
+              options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
+              {},
+              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+              onchange: "this.form.submit()" %>
+        </div>
+      <% end %>
+
+      <% if params[:s].present? || params[:dates].present? %>
+        <%= link_to "Clear filters", request.path.split('?').first, class: "block text-sm text-gray-600 hover:text-blue-800" %>
+      <% end %>
+
+    <% end %>
+  </div>
+</aside>

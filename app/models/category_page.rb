@@ -7,7 +7,8 @@ class CategoryPage < ApplicationRecord
     special_collection: 2,
     resource_category: 3,
     resource_subcategory: 4,
-    indian_collection_category: 5
+    indian_collection_category: 5,
+    indian_collection_gallery_category: 6
   }
 
   # map slugs to their corresponding artwork categories/scopes
@@ -83,6 +84,10 @@ class CategoryPage < ApplicationRecord
     when 'indian-collection-resources' then Rails.application.routes.url_helpers.indian_collection_resources_path
     when 'indian-collection-exhibitions' then Rails.application.routes.url_helpers.indian_collection_exhibition_exhibitions_list_path
 
+    when 'portrait' then Rails.application.routes.url_helpers.indian_collection_gallery_portrait_path
+    when 'elephants' then Rails.application.routes.url_helpers.indian_collection_gallery_elephants_path
+    when 'flora-fauna' then Rails.application.routes.url_helpers.indian_collection_gallery_flora_fauna_path
+
     else
       # deisgn and resource subcategories
       if resource_subcategory?
@@ -128,6 +133,19 @@ class CategoryPage < ApplicationRecord
     # design subcategories
     elsif design_subcategory?
       Artwork.published.main_collection.design.where(subcategory: slug).count
+
+    # indian collection gallery categories  <--- ADD THIS SECTION
+    elsif indian_collection_gallery_category?
+      case slug
+      when 'portrait'
+        Artwork.published.indian_collection.where(indian_collection_category: 'portrait').count
+      when 'elephants'
+        Artwork.published.indian_collection.where(indian_collection_category: 'elephants').count
+      when 'flora-fauna'
+        Artwork.published.indian_collection.where(indian_collection_category: 'flora_fauna').count
+      else
+        0
+      end
 
     # resource categories
     elsif resource_category?

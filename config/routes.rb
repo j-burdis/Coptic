@@ -94,7 +94,7 @@ Rails.application.routes.draw do
     get 'resources', to: 'resources#index'
     
     # Exhibition list - static page
-    get 'exhibition/exhibition-list', to: 'exhibitions#list'
+    get 'exhibition/exhibitions-list', to: 'exhibitions#list'
   end
 
   # Individual Indian Collection items - cleaner URL outside of namespace

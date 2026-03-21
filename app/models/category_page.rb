@@ -6,7 +6,8 @@ class CategoryPage < ApplicationRecord
     design_subcategory: 1,
     special_collection: 2,
     resource_category: 3,
-    resource_subcategory: 4
+    resource_subcategory: 4,
+    indian_collection_category: 5
   }
 
   # map slugs to their corresponding artwork categories/scopes
@@ -77,6 +78,10 @@ class CategoryPage < ApplicationRecord
     when 'publications' then Rails.application.routes.url_helpers.resources_publications_path
     when 'chronology' then Rails.application.routes.url_helpers.resources_chronology_path
     when 'collections' then Rails.application.routes.url_helpers.resources_collections_path
+
+    when 'indian-collection-gallery' then Rails.application.routes.url_helpers.indian_collection_gallery_root_path
+    when 'indian-collection-resources' then Rails.application.routes.url_helpers.indian_collection_resources_path
+    when 'indian-collection-exhibitions' then Rails.application.routes.url_helpers.indian_collection_exhibition_exhibitions_list_path
 
     else
       # deisgn and resource subcategories

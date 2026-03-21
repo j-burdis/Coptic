@@ -15,11 +15,14 @@ class Quote < ApplicationRecord
   scope :gallery_landing, -> { where(page_location: 'gallery_landing') }
   scope :design_landing, -> { where(page_location: 'design_landing') }
   scope :resources_landing, -> { where(page_location: 'resources_landing') }
+  scope :indian_collection_landing, -> { where(page_location: 'indian_collection_landing') }
 
   def self.page_locations
     {
       'Gallery Landing' => 'gallery_landing',
-      'Design Landing' => 'design_landing'
+      'Design Landing' => 'design_landing',
+      # 'Resources Landing' => 'resources_landing',
+      'Indian Collection Landing' => 'indian_collection_landing'
     }
   end
 end

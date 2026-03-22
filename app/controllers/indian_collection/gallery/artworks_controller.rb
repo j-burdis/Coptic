@@ -1,6 +1,8 @@
 module IndianCollection
   module Gallery
     class ArtworksController < ApplicationController
+      layout 'indian_collection'
+
       before_action :set_base_query, only: [:index, :portrait, :elephants, :flora_fauna]
       before_action :load_category_pages
 

@@ -4,7 +4,7 @@
   show_date_filter ||= @show_date_filter
 %>
 
-<aside class="lg:w-80 mb-8 p-6 bg-[#e6e6e6]">
+<aside class="lg:w-80 mb-8 p-6 indian-collection-sidebar">
   <div class="sticky top-24">
     <% if category_page.present? %>
       <h1 class="text-2xl font-semibold mb-4"><%= category_page.title %></h1>
@@ -22,7 +22,7 @@
         <%= f.text_field :s, 
             value: params[:s], 
             placeholder: "Keyword",
-            class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]" %>
+            class: "w-full px-3 py-2 border border-black indian-collection-sidebar" %>
       </div>
 
       <% if show_date_filter %>
@@ -31,7 +31,7 @@
           <%= f.select :dates, 
               options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
               {},
-              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+              class: "w-full px-3 py-2 border border-black indian-collection-sidebar",
               onchange: "this.form.submit()" %>
         </div>
       <% end %>

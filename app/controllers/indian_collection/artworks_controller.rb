@@ -1,4 +1,6 @@
 class IndianCollection::ArtworksController < ApplicationController
+  layout 'indian_collection'
+
   def index
   end
 

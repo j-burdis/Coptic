@@ -1,5 +1,7 @@
 module IndianCollection
   class PagesController < ApplicationController
+    layout 'indian_collection'
+
     def index
       @show_landing = true
 

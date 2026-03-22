@@ -1,5 +1,7 @@
 module IndianCollection
   class ResourcesController < ApplicationController
+    layout 'indian_collection'
+
     def index
       @resources = Resource.published.indian_collection.order(year: :desc, title: :asc)
       @category_title = "Indian Collection Resources"

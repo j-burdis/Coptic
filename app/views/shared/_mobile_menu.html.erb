@@ -1,3 +1,7 @@
+<%
+  indian_collection ||= false
+%>
+
 <!-- Mobile Menu Overlay (dimmed background) -->
 <div class="fixed inset-0 bg-black/50 hidden lg:hidden pointer-events-none opacity-0 transition-opacity duration-300" 
      style="z-index: 45;"
@@ -6,8 +10,8 @@
 </div>
 
 <!-- Mobile Menu Sidebar (outside pageWrapper) -->
-<div class="fixed top-0 bottom-0 w-80 bg-white overflow-y-auto lg:hidden transition-all duration-300 ease-in-out"
-     style="right: -320px; z-index: 60;"
+<div class="fixed top-0 bottom-0 w-80 <%= indian_collection ? 'indian-collection-nav' : 'bg-white' %> overflow-y-auto lg:hidden transition-all duration-300 ease-in-out"
+     style="right: -320px; z-index: 60; background-color: <%= indian_collection ? '#D9C4AD' : '#ffffff' %>;"
      data-mobile-menu-target="sidebar">
   <div class="p-6">
     <!-- Close Button -->

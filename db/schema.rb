@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_22_160444) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_23_130242) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,7 +79,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_22_160444) do
     t.string "medium"
     t.text "description"
     t.string "dimensions"
-    t.integer "category", default: 0, null: false
+    t.integer "category"
     t.string "subcategory"
     t.integer "status", default: 0, null: false
     t.boolean "published", default: true, null: false
@@ -90,7 +90,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_22_160444) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "image_caption"
+    t.string "date_display"
     t.index ["category"], name: "index_artworks_on_category"
+    t.index ["date_display"], name: "index_artworks_on_date_display"
     t.index ["is_indian_collection"], name: "index_artworks_on_is_indian_collection"
     t.index ["published"], name: "index_artworks_on_published"
     t.index ["slug"], name: "index_artworks_on_slug", unique: true

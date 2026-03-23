@@ -62,18 +62,23 @@ class Artwork < ApplicationRecord
   scope :main_collection, -> { where(is_indian_collection: false) }
   scope :indian_collection, -> { where(is_indian_collection: true) }
 
-  validates :title, :slug, :category, presence: true
+  validates :title, :slug, presence: true
+  validates :category, presence: true, unless: :is_indian_collection?
   validates :slug, uniqueness: true
 
   def path
-    Rails.application.routes.url_helpers.artwork_path(slug)
+    if is_indian_collection?
+      Rails.application.routes.url_helpers.indian_collection_artwork_path(slug)
+    else
+      Rails.application.routes.url_helpers.artwork_path(slug)
+    end
   end
 
   def self.ransackable_attributes(auth_object = nil)
     ["id", "title", "slug", "year", "year_end", "medium", "description", "dimensions",
      "category", "subcategory", "status", "published", "is_indian_collection",
      "indian_collection_category", "cloudinary_public_id", "original_filename",
-     "artwork_relations_id", "related_to_id",
+     "date_display", "artwork_relations_id", "related_to_id",
      "created_at", "updated_at"]
   end
 
@@ -121,10 +126,22 @@ class Artwork < ApplicationRecord
     )
   end
 
-  def year_range
-    return year.to_s unless year_end.present? && year_end != year
+  # def year_range
+  #   return year.to_s unless year_end.present? && year_end != year
 
-    "#{year} - #{year_end}"
+  #   "#{year} - #{year_end}"
+  # end
+
+  def year_range
+    if date_display.present?
+      date_display
+    elsif year_end.present? && year_end != year
+      "#{year} - #{year_end}"
+    elsif year.present?
+      year.to_s
+    else
+      nil
+    end
   end
 
   private

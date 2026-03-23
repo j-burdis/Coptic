@@ -2,7 +2,7 @@ ActiveAdmin.register Artwork do
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 
-  permit_params :title, :slug, :year, :year_end, :medium, :description, :dimensions,
+  permit_params :title, :slug, :year, :year_end, :date_display, :medium, :description, :dimensions,
                 :category, :subcategory, :status, :published, :is_indian_collection,
                 :indian_collection_category, :image, :cloudinary_public_id, :original_filename,
                 :image_caption, collection_ids: [], exhibition_ids: []
@@ -183,12 +183,29 @@ ActiveAdmin.register Artwork do
       end
 
       column do
+        f.inputs "Indian Collection" do
+          f.input :is_indian_collection, 
+                  label: 'Indian Collection Artwork',
+                  hint: 'Check if this is part of the Indian Collection'
+          
+          f.input :indian_collection_category, 
+                  as: :select,
+                  collection: Artwork::INDIAN_COLLECTION_CATEGORIES,
+                  include_blank: true
+        end
+
         f.inputs "Basic Information" do
           f.input :title
           f.input :slug, hint: 'Leave blank to auto-generate from title'
-          f.input :year
-          f.input :year_end, hint: 'Leave blank if same as year'
           f.input :published
+        end
+
+        f.inputs "Date Information" do
+          para "For <strong>Main Collection</strong>: Use Year fields (numeric).<br>For <strong>Indian Collection</strong>: Use Date Display (text) for flexible dates like 'c. 1650' or 'late 19th century'.".html_safe
+          
+          f.input :year, hint: 'Numeric year (e.g., 1950)'
+          f.input :year_end, hint: 'Leave blank if same as year'
+          f.input :date_display, hint: 'Text date for Indian Collection (e.g., "c. 1650", "late 19th century")'
         end
 
         f.inputs "Details" do
@@ -197,11 +214,15 @@ ActiveAdmin.register Artwork do
           f.input :description, as: :text, input_html: { rows: 6 }
         end
 
-        f.inputs "Categorization" do
+        f.inputs "Main Collection Categorization", 
+                html: { style: f.object.is_indian_collection? ? 'opacity: 0.5; pointer-events: none;' : '' } do
+          para "Not required for Indian Collection artworks" if f.object.is_indian_collection?
+          
           f.input :category,
                   as: :select,
                   collection: Artwork.categories.keys,
-                  include_blank: false
+                  include_blank: true,
+                  required: !f.object.is_indian_collection?
 
           f.input :subcategory,
                   as: :select,
@@ -215,14 +236,7 @@ ActiveAdmin.register Artwork do
                   include_blank: false
         end
 
-        f.inputs "Indian Collection" do
-          f.input :is_indian_collection
-          f.input :indian_collection_category, 
-                  as: :select,
-                  collection: Artwork::INDIAN_COLLECTION_CATEGORIES,
-                  hint: 'Only for Indian Collection items',
-                  include_blank: true
-        end
+        
       end
     end
 
@@ -290,7 +304,7 @@ ActiveAdmin.register Artwork do
 
     def artwork_params
       params.require(:artwork).permit(
-        :title, :slug, :year, :year_end, :medium, :description, :dimensions,
+        :title, :slug, :year, :year_end, :date_display, :medium, :description, :dimensions,
         :category, :subcategory, :status, :published, :is_indian_collection,
         :indian_collection_category, :image, collection_ids: [], exhibition_ids: []
       )

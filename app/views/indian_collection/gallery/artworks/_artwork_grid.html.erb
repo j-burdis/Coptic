@@ -24,7 +24,7 @@
   <% end %>
 
   <% if artworks.present? && artworks.count > 0 %>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+    <div class="items-end grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
       <% artworks.each do |artwork| %>
         <%= render partial: 'shared/artwork_card', locals: { artwork: artwork, indian_collection: true } %>
       <% end %>

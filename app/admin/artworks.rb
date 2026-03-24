@@ -306,7 +306,7 @@ ActiveAdmin.register Artwork do
       params.require(:artwork).permit(
         :title, :slug, :year, :year_end, :date_display, :medium, :description, :dimensions,
         :category, :subcategory, :status, :published, :is_indian_collection,
-        :indian_collection_category, :image, collection_ids: [], exhibition_ids: []
+        :indian_collection_category, :image, :image_caption, collection_ids: [], exhibition_ids: []
       )
     end
 

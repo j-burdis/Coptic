@@ -1,5 +1,10 @@
+<%
+  indian_collection ||= false
+  artwork_path_url = indian_collection ? indian_collection_artwork_path(artwork.slug) : artwork_path(artwork.slug)
+%>
+
 <%= link_to artwork_path(artwork.slug), class: "group block" do %>
-  <div class="relative mb-3 bg-white overflow-hidden">
+  <div class="relative mb-3 bg-white overflow-hidden flex-shrink-0">
     <% if artwork.cloudinary_public_id.present? %>
       <%= image_tag artwork.large_url, 
           alt: artwork.title,
@@ -14,12 +19,8 @@
   <div class="space-y-1">
     <h3 class="font-semibold text-lg group-hover:text-blue-800"><%= artwork.title %></h3>
     
-    <% if artwork.year.present? %>
+    <% if artwork.year_range.present? %>
       <p class="text-sm text-gray-500 group-hover:text-blue-400"><%= artwork.year_range %></p>
     <% end %>
-    
-    <%# if artwork.medium.present? %>
-      <%# <p class="text-sm group-hover:text-blue-400"><%= truncate(artwork.medium, length: 60) </p> %>
-    <%# end %>
   </div>
 <% end %>

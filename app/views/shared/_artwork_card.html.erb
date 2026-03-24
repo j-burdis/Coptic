@@ -1,6 +1,7 @@
 <%
   indian_collection ||= false
   artwork_path_url = indian_collection ? indian_collection_artwork_path(artwork.slug) : artwork_path(artwork.slug)
+  date_color = indian_collection ? 'text-yellow-700' : 'text-gray-500'
 %>
 
 <%= link_to artwork_path(artwork.slug), class: "group block" do %>
@@ -20,7 +21,7 @@
     <h3 class="font-semibold text-lg group-hover:text-blue-800"><%= artwork.title %></h3>
     
     <% if artwork.year_range.present? %>
-      <p class="text-sm text-gray-500 group-hover:text-blue-400"><%= artwork.year_range %></p>
+      <p class="text-sm <%= date_color %> group-hover:text-blue-400"><%= artwork.year_range %></p>
     <% end %>
   </div>
 <% end %>

@@ -1,7 +1,7 @@
 <div class="mb-8 hidden sm:flex sm:justify-center">
   <nav>
     <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm">
-      <li><%= link_to "Gallery (Indian Collection) ›", indian_collection_gallery_root_path, class: "text-gray-400 hover:text-blue-800 px-2 py-1" %></li>
+      <li><%= link_to "Gallery (Indian Collection) ›", indian_collection_gallery_root_path, class: "text-yellow-700 hover:text-blue-800 px-2 py-1" %></li>
       
       <% portrait = @gallery_categories&.find { |cat| cat.slug == "portrait" } %>
       <% if portrait.present? || defined?(indian_collection_gallery_portrait_path) %>

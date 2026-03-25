@@ -43,6 +43,16 @@ module ApplicationHelper
     end
   end
 
+  def indian_collection_category_path_for(category)
+    case category
+    when 'portrait' then indian_collection_gallery_portrait_path
+    when 'elephants' then indian_collection_gallery_elephants_path
+    when 'flora_fauna' then indian_collection_gallery_flora_fauna_path
+    else
+      indian_collection_gallery_root_path
+    end
+  end
+
   private
 
   def truncate_words(text, word_count, options = {})

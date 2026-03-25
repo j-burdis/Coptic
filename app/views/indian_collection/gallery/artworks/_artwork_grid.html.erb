@@ -37,10 +37,10 @@
     <% end %>
   <% else %>
     <div class="text-center py-16">
-      <i class="fa-solid fa-image text-6xl text-gray-300 mb-4"></i>
-      <p class="text-xl text-gray-600">No artworks found</p>
+      <i class="fa-solid fa-image text-6xl text-gray-500 mb-4"></i>
+      <p class="text-xl text-gray-500">No artworks found</p>
       <% if params[:s].present? || params[:dates].present? %>
-        <%= link_to "Clear filters", request.path, class: "inline-block mt-4 text-black hover:underline" %>
+        <%= link_to "Clear filters", request.path, class: "inline-block mt-4 text-yellow-700 hover:text-blue-800" %>
       <% end %>
     </div>
   <% end %>

@@ -17,7 +17,10 @@ module IndianCollection
                                       .max
 
         apply_search_and_date_filters
-        @artworks = @artworks.page(params[:page]).per(12)
+        @artworks = @artworks.sort_by { |a| [-sort_year_for(a), a.title] }
+        @artworks = Kaminari.paginate_array(
+          @artworks.sort_by { |a| [-sort_year_for(a), a.title] }
+        ).page(params[:page]).per(12)
       end
 
       def portrait
@@ -33,7 +36,10 @@ module IndianCollection
                                       .max
 
         apply_search_and_date_filters
-        @artworks = @artworks.page(params[:page]).per(12)
+        @artworks = @artworks.sort_by { |a| [-sort_year_for(a), a.title] }
+        @artworks = Kaminari.paginate_array(
+          @artworks.sort_by { |a| [-sort_year_for(a), a.title] }
+        ).page(params[:page]).per(12)
         render :index
       end
 
@@ -50,7 +56,10 @@ module IndianCollection
                                       .max
 
         apply_search_and_date_filters
-        @artworks = @artworks.page(params[:page]).per(12)
+        @artworks = @artworks.sort_by { |a| [-sort_year_for(a), a.title] }
+        @artworks = Kaminari.paginate_array(
+          @artworks.sort_by { |a| [-sort_year_for(a), a.title] }
+        ).page(params[:page]).per(12)
         render :index
       end
 
@@ -67,14 +76,24 @@ module IndianCollection
                                       .max
 
         apply_search_and_date_filters
-        @artworks = @artworks.page(params[:page]).per(12)
+        @artworks = @artworks.sort_by { |a| [-sort_year_for(a), a.title] }
+        @artworks = Kaminari.paginate_array(
+          @artworks.sort_by { |a| [-sort_year_for(a), a.title] }
+        ).page(params[:page]).per(12)
         render :index
       end
 
       private
 
       def set_base_query
-        @artworks = Artwork.published.indian_collection.order(year: :desc, title: :asc)
+        @artworks = Artwork.published.indian_collection
+      end
+
+      def sort_year_for(artwork)
+        return artwork.year if artwork.year.present?
+        return resolve_date_display(artwork.date_display) if artwork.date_display.present?
+
+        0
       end
 
       def load_category_pages

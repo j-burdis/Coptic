@@ -66,6 +66,13 @@
             </div>
           <% end %>
 
+          <% if @artwork.external_url.present? %>
+            <%= link_to @artwork.external_url, target: "_blank", class: "inline-block group font-medium bg-[#CCB091] p-2 mb-6" do %>
+              <span class="group-hover:text-blue-800">View Artwork</span>
+              <span class="text-yellow-700 group-hover:text-blue-400"> ( external link ) <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            <% end %>
+          <% end %>
+
           <%= render "shared/share_button", indian_collection: true %>
         </div>
       </div>

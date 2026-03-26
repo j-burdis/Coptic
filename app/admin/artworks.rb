@@ -5,7 +5,7 @@ ActiveAdmin.register Artwork do
   permit_params :title, :slug, :year, :year_end, :date_display, :medium, :description, :dimensions,
                 :category, :subcategory, :status, :published, :is_indian_collection,
                 :indian_collection_category, :image, :cloudinary_public_id, :original_filename,
-                :image_caption, collection_ids: [], exhibition_ids: []
+                :image_caption, :external_url, collection_ids: [], exhibition_ids: []
 
   index do
     selectable_column
@@ -123,6 +123,9 @@ ActiveAdmin.register Artwork do
             row :medium
             row :description
             row :dimensions
+            row :external_url do |artwork|
+              link_to artwork.external_url, artwork.external_url, target: '_blank' if artwork.external_url.present?
+            end
             row :category do
               status_tag artwork.category
             end
@@ -187,7 +190,7 @@ ActiveAdmin.register Artwork do
           f.input :is_indian_collection, 
                   label: 'Indian Collection Artwork',
                   hint: 'Check if this is part of the Indian Collection'
-          
+
           f.input :indian_collection_category, 
                   as: :select,
                   collection: Artwork::INDIAN_COLLECTION_CATEGORIES,
@@ -202,7 +205,7 @@ ActiveAdmin.register Artwork do
 
         f.inputs "Date Information" do
           para "For <strong>Main Collection</strong>: Use Year fields (numeric).<br>For <strong>Indian Collection</strong>: Use Date Display (text) for flexible dates like 'c. 1650' or 'late 19th century'.".html_safe
-          
+
           f.input :year, hint: 'Numeric year (e.g., 1950)'
           f.input :year_end, hint: 'Leave blank if same as year'
           f.input :date_display, hint: 'Text date for Indian Collection (e.g., "c. 1650", "late 19th century")'
@@ -212,12 +215,13 @@ ActiveAdmin.register Artwork do
           f.input :medium
           f.input :dimensions, hint: 'e.g., 100 x 80 cm'
           f.input :description, as: :text, input_html: { rows: 6 }
+          f.input :external_url, hint: 'Optional external link for this artwork'
         end
 
         f.inputs "Main Collection Categorization", 
                 html: { style: f.object.is_indian_collection? ? 'opacity: 0.5; pointer-events: none;' : '' } do
           para "Not required for Indian Collection artworks" if f.object.is_indian_collection?
-          
+
           f.input :category,
                   as: :select,
                   collection: Artwork.categories.keys,
@@ -235,8 +239,6 @@ ActiveAdmin.register Artwork do
                   collection: Artwork.statuses.keys,
                   include_blank: false
         end
-
-        
       end
     end
 
@@ -305,8 +307,8 @@ ActiveAdmin.register Artwork do
     def artwork_params
       params.require(:artwork).permit(
         :title, :slug, :year, :year_end, :date_display, :medium, :description, :dimensions,
-        :category, :subcategory, :status, :published, :is_indian_collection,
-        :indian_collection_category, :image, :image_caption, collection_ids: [], exhibition_ids: []
+        :category, :subcategory, :status, :published, :is_indian_collection, :indian_collection_category,
+        :image, :image_caption, :external_url, collection_ids: [], exhibition_ids: []
       )
     end
 

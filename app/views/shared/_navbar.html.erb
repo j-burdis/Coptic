@@ -23,7 +23,7 @@
             <%= raw '&nbsp;' %>
             <i class="fa-solid fa-caret-down"></i>
           </button>
-          <div id="gallery-dropdown" class="absolute top-full left-0 w-full py-2 z-50 overflow-hidden transition-[max-height] duration-300 ease-in-out hidden" style="max-height: 0px; background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.95)' : 'rgba(255, 255, 255, 0.95)' %>;">
+          <div id="gallery-dropdown" class="absolute left-0 w-full pb-6 z-50 overflow-hidden transition-[max-height] duration-300 ease-in-out hidden" style="max-height: 0px; background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.95)' : 'rgba(255, 255, 255, 0.95)' %>;">
             <div data-dropdown-content>
               <%= link_to "Explore", gallery_root_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
               <%= link_to "Paintings", gallery_paintings_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
@@ -45,7 +45,7 @@
             <%= raw '&nbsp;' %>
             <i class="fa-solid fa-caret-down"></i>
           </button>
-          <div id="resources-dropdown" class="absolute top-full left-0 w-full py-2 z-50 overflow-hidden transition-[max-height] duration-300 ease-in-out hidden" style="max-height: 0px; background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.95)' : 'rgba(255, 255, 255, 0.95)' %>;">
+          <div id="resources-dropdown" class="absolute left-0 w-full pb-6 z-50 overflow-hidden transition-[max-height] duration-300 ease-in-out hidden" style="max-height: 0px; background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.95)' : 'rgba(255, 255, 255, 0.95)' %>;">
             <div data-dropdown-content>
               <%= link_to "Explore", resources_root_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
               <%= link_to "Exhibitions", resources_exhibitions_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
@@ -66,7 +66,7 @@
             <i class="fa-solid fa-caret-down"></i>
           </button>
 
-          <div id="indian-collection-dropdown" class="absolute top-full left-0 w-full py-2 z-50 overflow-hidden transition-[max-height] duration-300 ease-in-out hidden" style="max-height: 0px; background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.95)' : 'rgba(255, 255, 255, 0.95)' %>;">
+          <div id="indian-collection-dropdown" class="absolute left-0 w-full pb-6 z-50 overflow-hidden transition-[max-height] duration-300 ease-in-out hidden" style="max-height: 0px; background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.95)' : 'rgba(255, 255, 255, 0.95)' %>;">
             <div data-dropdown-content>
               <%= link_to "Explore", indian_collection_root_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>
               <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block px-4 py-1 hover:text-blue-800 transition-colors text-lg" %>

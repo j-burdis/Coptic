@@ -33,9 +33,11 @@ export default class extends Controller {
   open(menu) {
     const button = menu.previousElementSibling
     const buttonRect = button.getBoundingClientRect()
+    const headerRect = this.element.getBoundingClientRect()
     
     menu.classList.remove('hidden')
     menu.style.maxHeight = menu.scrollHeight + "px"
+    menu.style.top = `${buttonRect.bottom - headerRect.top}px`
     
     // find the inner content div and offset it to align under the button
     const content = menu.querySelector('[data-dropdown-content]')

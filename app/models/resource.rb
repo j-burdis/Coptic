@@ -37,7 +37,11 @@ class Resource < ApplicationRecord
   def path
     return nil if chronology?
 
-    Rails.application.routes.url_helpers.resource_path(slug)
+    if is_indian_collection?
+      Rails.application.routes.url_helpers.indian_collection_resource_path(slug)
+    else
+      Rails.application.routes.url_helpers.resource_path(slug)
+    end
   end
 
   def chronology?

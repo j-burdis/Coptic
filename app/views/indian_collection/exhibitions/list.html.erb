@@ -6,16 +6,24 @@
       
       <h1 class="text-3xl font-semibold mb-8">Exhibitions List</h1>
 
-      <% if @exhibition_list.present? %>
-        <div class="prose prose-sm md:prose max-w-none exhibition-list-content">
-          <%= sanitize @exhibition_list.content, 
-              tags: %w(p b i em strong ul li h1 h2 h3 span),
-              attributes: %w(style aria-level) %>
-        </div>
+      <% if @decades.present? %>
+        <% @decades.each do |decade, exhibitions| %>
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-3"><%= decade %></h2>
+            <ul class="space-y-2">
+              <% exhibitions.each do |exhibition| %>
+                <li class="text-md pl-4 border-l-2 border-yellow-700 text-pretty">
+                    <% parts = exhibition.split(',', 2) %>
+                    <em><%= parts[0] %></em><% if parts[1] %>,<%= parts[1] %><% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
       <% else %>
         <p class="text-gray-600">No exhibition list available.</p>
       <% end %>
-      
+
     </div>
   </div>
 </div>

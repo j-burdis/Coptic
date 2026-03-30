@@ -1,5 +1,10 @@
-<%= link_to resource.path, class: "group block" do %>
-  <div class="relative mb-3 bg-white overflow-hidden">
+<%
+  indian_collection ||= false
+  date_color = indian_collection ? 'text-yellow-700' : 'text-gray-500'
+%>
+
+<%= link_to resource.path, class: "group row-span-2 grid", style: "grid-row: span 2; grid-template-rows: subgrid; gap: 0.75rem;" do %>
+  <div class="self-end">
     <% if resource.resource_images.any? %>
       <%= image_tag resource.resource_images.first.thumbnail_url, 
           alt: resource.title,
@@ -13,24 +18,20 @@
   
   <div class="space-y-1">
     <% if resource.year.present? %>
-      <p class="text-sm group-hover:text-blue-400"><%= resource.year %></p>
+      <p class="text-sm <%= date_color %> group-hover:text-blue-400"><%= resource.year %></p>
     <% end %>
 
     <h3 class="font-semibold text-lg group-hover:text-blue-800">
       <% if resource.video_type.present? && resource.video_id.present? %>
-        <span>
-          <i class="fa-solid fa-video text-md"></i> 
-        </span>
+        <i class="fa-solid fa-video text-md"></i>
       <% else %>
-        <span>
-          <i class="fa-solid fa-volume-high text-md"></i> 
-        </span>
+        <i class="fa-solid fa-volume-high text-md"></i>
       <% end %>
       <%= resource.title %>
     </h3>
     
     <% if resource_preview(resource).present? %>
-      <p class="text-sm text-pretty text-gray-600 group-hover:text-blue-400"><%= resource_preview(resource) %></p>
+      <p class="text-sm text-pretty <%= date_color %> group-hover:text-blue-400"><%= resource_preview(resource) %></p>
     <% end %>
   </div>
 <% end %>

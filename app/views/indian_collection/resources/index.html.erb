@@ -9,9 +9,9 @@
 
     <div class="flex-1">
       <% if @resources.present? && @resources.count > 0 %>
-        <div class="items-start grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8" style="grid-auto-rows: auto;">
           <% @resources.each do |resource| %>
-            <%= render partial: 'shared/resource_card', locals: { resource: resource } %>
+            <%= render partial: 'shared/resource_card', locals: { resource: resource, indian_collection: true } %>
           <% end %>
         </div>
         

@@ -1,6 +1,11 @@
 <% content_for :title, @resource.title %>
 
 <div>
-  <h1 class="font-bold text-4xl">IndianCollection:: Resources#show</h1>
-  <p>Find me in app/views/indian_collection/ resources/show.html.erb</p>
+  <div class="container mx-auto px-4 lg:px-0 pt-4 pb-16">
+    <% if @resource.category == 'texts' %>
+      <%= render 'indian_collection/resources/show_text', resource: @resource %>
+    <% else %>
+      <%= render 'indian_collection/resources/show_media', resource: @resource %>
+    <% end %>
+  </div>
 </div>

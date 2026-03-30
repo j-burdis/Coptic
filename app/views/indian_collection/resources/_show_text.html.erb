@@ -1,0 +1,66 @@
+<div class="lg:w-3/5 lg:mx-auto">
+  <nav class="mb-4">
+    <ul class="flex items-center text-sm text-gray-600 space-x-2">
+      <li><%= link_to "Indian Collection", indian_collection_root_path, class: "hover:text-blue-800" %></li>
+      <li><span class="text-gray-400">›</span></li>
+      <li><%= link_to "Resources", indian_collection_resources_path, class: "hover:text-blue-800" %></li>
+    </ul>
+  </nav>
+
+  <%= render 'resources/header', resource: resource, centered: true %>
+
+  <% if resource.description.present? || resource.summary.present? %>
+    <div class="text-pretty prose prose-sm md:prose max-w-none">
+      <% 
+        content = resource.description.presence || resource.summary
+        first_image = resource.resource_images[0]
+        second_image = resource.resource_images[1]
+      %>
+
+      <% if second_image.present? %>
+        <% 
+          paragraphs = content.gsub(/\r\n/, "\n").split(/\n\n+/).map(&:strip).reject(&:blank?)
+          mid_point = (paragraphs.length / 2.0).ceil
+        %>
+
+        <% if first_image.present? %>
+          <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
+            <%= image_tag first_image.image_url, alt: resource.title, class: "w-full" %>
+            <% if first_image.caption.present? %>
+              <p class="text-sm text-yellow-700 mt-2"><%= first_image.caption %></p>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% paragraphs[0...mid_point].each do |paragraph| %>
+          <p class="mb-4"><%= paragraph %></p>
+        <% end %>
+
+        <div class="clear-both w-full md:w-2/3 my-8 mx-auto">
+          <%= image_tag second_image.image_url, alt: resource.title, class: "w-full" %>
+          <% if second_image.caption.present? %>
+            <p class="text-sm text-yellow-700 mt-2"><%= second_image.caption %></p>
+          <% end %>
+        </div>
+
+        <% paragraphs[mid_point..-1].each do |paragraph| %>
+          <p class="mb-4"><%= paragraph %></p>
+        <% end %>
+
+      <% else %>
+        <% if first_image.present? %>
+          <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
+            <%= image_tag first_image.image_url, alt: resource.title, class: "w-full" %>
+            <% if first_image.caption.present? %>
+              <p class="text-sm text-yellow-700 italic mt-2"><%= first_image.caption %></p>
+            <% end %>
+          </div>
+        <% end %>
+
+        <%= simple_format(content, class: 'mb-6') %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= render "shared/share_button", indian_collection: true %>
+</div>

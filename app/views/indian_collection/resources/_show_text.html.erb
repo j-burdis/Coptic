@@ -1,13 +1,13 @@
 <div class="lg:w-3/5 lg:mx-auto">
   <nav class="mb-4">
-    <ul class="flex items-center text-sm text-gray-600 space-x-2">
+    <ul class="flex items-center text-sm text-yellow-700 space-x-2">
       <li><%= link_to "Indian Collection", indian_collection_root_path, class: "hover:text-blue-800" %></li>
-      <li><span class="text-gray-400">›</span></li>
+      <li><span class="text-yellow-700">›</span></li>
       <li><%= link_to "Resources", indian_collection_resources_path, class: "hover:text-blue-800" %></li>
     </ul>
   </nav>
 
-  <%= render 'resources/header', resource: resource, centered: true %>
+  <%= render 'resources/header', resource: resource, centered: true, indian_collection: true %>
 
   <% if resource.description.present? || resource.summary.present? %>
     <div class="text-pretty prose prose-sm md:prose max-w-none">

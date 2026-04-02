@@ -44,7 +44,7 @@
     <% end %>
 
     <% if indian_collection && resource.year.present? %>
-      <p class="text-sm pb-4">
+      <p class="text-sm">
         <% if resource.publisher.present? %>
           <span class="group-hover:text-blue-800"><%= resource.publisher %>, </span>
         <% end %>
@@ -53,7 +53,7 @@
     <% end %>
 
     <% if resource_preview(resource).present? %>
-      <p class="text-sm text-pretty group-hover:text-blue-800"><%= resource_preview(resource) %></p>
+      <p class="text-sm text-pretty group-hover:text-blue-800 pt-4"><%= resource_preview(resource) %></p>
     <% end %>
   </div>
 <% end %>

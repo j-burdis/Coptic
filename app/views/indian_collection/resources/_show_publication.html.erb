@@ -1,9 +1,21 @@
 <div class="lg:w-3/5 lg:mx-auto">
+
+  <% if resource.resource_images.any? %>
+    <div class="w-full mb-6">
+      <%= image_tag resource.resource_images.first.image_url,
+          alt: resource.title,
+          class: "w-full h-auto" %>
+      <% if resource.resource_images.first.caption.present? %>
+        <p class="text-sm text-yellow-700 mt-2"><%= resource.resource_images.first.caption %></p>
+      <% end %>
+    </div>
+  <% end %>
+
   <nav class="mb-4">
-    <ul class="flex items-center text-sm text-yellow-700 space-x-2">
-      <li><%= link_to "Indian Collection", indian_collection_root_path, class: "hover:text-blue-800" %></li>
+    <ul class="flex items-center text-sm space-x-2">
+      <li><%= link_to "Indian Collection", indian_collection_root_path, class: "text-yellow-700 hover:text-blue-800" %></li>
       <li><span class="text-yellow-700">›</span></li>
-      <li><%= link_to "Resources", indian_collection_resources_path, class: "hover:text-blue-800" %></li>
+      <li><%= link_to "Resources", indian_collection_resources_path, class: "text-yellow-700 hover:text-blue-800" %></li>
     </ul>
   </nav>
 
@@ -17,15 +29,6 @@
         has_placeholders = content.match?(/\[image:\d+\]/)
         parts = content.split(/(\[image:\d+\])/)
       %>
-
-      <% if !has_placeholders && images.first.present? %>
-        <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
-          <%= image_tag images.first.image_url, alt: resource.title, class: "w-full" %>
-          <% if images.first.caption.present? %>
-            <p class="text-sm text-yellow-700 italic mt-2"><%= images.first.caption %></p>
-          <% end %>
-        </div>
-      <% end %>
 
       <% parts.each do |part| %>
         <% if part.match?(/\[image:(\d+)\]/) %>

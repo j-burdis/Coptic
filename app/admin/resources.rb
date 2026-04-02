@@ -1,8 +1,9 @@
 ActiveAdmin.register Resource do
-  permit_params :title, :slug, :category, :subcategory, :year, :year_end, :date, :show_day, 
-                :author, :publisher, :isbn, :summary, :description, :external_url, 
-                :video_type, :video_id, :is_indian_collection, :published, exhibition_ids: [],
-                resource_images_attributes: [:id, :cloudinary_public_id, :original_filename, :caption, :position, :_destroy]
+  permit_params :title, :slug, :category, :subcategory, :year, :year_end, :date, :show_day,
+                :author, :publisher, :isbn, :summary, :description, :external_url,
+                :video_type, :video_id, :is_indian_collection, :published,
+                exhibition_ids: [],
+                resource_images_attributes: %i[id cloudinary_public_id original_filename caption position _destroy]
 
   # Sidebar filters
   filter :title
@@ -154,11 +155,11 @@ ActiveAdmin.register Resource do
                 i.input :cloudinary_public_id, as: :hidden
                 i.input :original_filename, as: :hidden
                 i.input :position, as: :hidden, input_html: { value: index }
-                
+
                 li do
                   image_tag img.image_url, style: 'max-width: 100%; height: auto; margin: 10px 0;'
                 end
-                
+
                 i.input :caption, as: :text, input_html: { rows: 2 }
                 i.input :_destroy, as: :boolean, label: 'Delete this image'
               end
@@ -209,7 +210,7 @@ ActiveAdmin.register Resource do
           f.input :summary, as: :text, input_html: { rows: 3 },
                             hint: 'Brief summary (shown in previews)'
           f.input :description, as: :text, input_html: { rows: 6 },
-                                hint: 'Full description (used if summary not provided)'
+                                hint: 'Full description (used if summary not provided). To insert an image at a specific position, add [image:1], [image:2] etc. where you want it to appear.'
           f.input :external_url, hint: 'Link to purchase publication or view full text'
         end
 
@@ -231,7 +232,7 @@ ActiveAdmin.register Resource do
       if params[:resource][:new_images].present?
         params[:resource][:new_images].each_with_index do |uploaded_file, index|
           next if uploaded_file.blank?
-          
+
           result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'resources')
           @resource.resource_images.build(
             cloudinary_public_id: result['public_id'],
@@ -254,10 +255,10 @@ ActiveAdmin.register Resource do
       # handle new images
       if params[:resource][:new_images].present?
         current_max_position = @resource.resource_images.maximum(:position) || -1
-        
+
         params[:resource][:new_images].each_with_index do |uploaded_file, index|
           next if uploaded_file.blank?
-          
+
           result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'resources')
           @resource.resource_images.create(
             cloudinary_public_id: result['public_id'],

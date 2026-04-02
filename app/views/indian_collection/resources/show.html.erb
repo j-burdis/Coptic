@@ -4,6 +4,8 @@
   <div class="container mx-auto px-4 lg:px-0 pt-4 pb-16">
     <% if @resource.category == 'texts' %>
       <%= render 'indian_collection/resources/show_text', resource: @resource %>
+    <% elsif @resource.category == 'publications' %>
+      <%= render 'indian_collection/resources/show_publication', resource: @resource %>
     <% else %>
       <%= render 'indian_collection/resources/show_media', resource: @resource %>
     <% end %>

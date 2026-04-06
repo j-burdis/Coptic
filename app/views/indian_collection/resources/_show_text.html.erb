@@ -10,36 +10,35 @@
   <%= render 'resources/header', resource: resource, centered: true, indian_collection: true %>
 
   <% if resource.description.present? || resource.summary.present? %>
+    <%
+      content = resource.description.presence || resource.summary
+      images = resource.resource_images.order(:position)
+      parts = content.split(/(\[image:\d+\])/)
+    %>
+
     <div class="text-pretty prose prose-sm md:prose max-w-none">
-      <%
-        content = resource.description.presence || resource.summary
-        images = resource.resource_images.order(:position)
-        has_placeholders = content.match?(/\[image:\d+\]/)
-        parts = content.split(/(\[image:\d+\])/)
-      %>
-
-      <% if !has_placeholders && images.first.present? %>
-        <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
-          <%= image_tag images.first.image_url, alt: resource.title, class: "w-full" %>
-          <% if images.first.caption.present? %>
-            <p class="text-sm text-yellow-700 italic mt-2"><%= images.first.caption %></p>
-          <% end %>
-        </div>
-      <% end %>
-
-      <% parts.each do |part| %>
+      <% parts.each_with_index do |part, i| %>
         <% if part.match?(/\[image:(\d+)\]/) %>
           <%
             index = part.match(/\[image:(\d+)\]/)[1].to_i - 1
             img = images[index]
           %>
           <% if img.present? %>
-            <div class="clear-both w-full md:w-2/3 my-8 mx-auto">
-              <%= image_tag img.image_url, alt: resource.title, class: "w-full" %>
-              <% if img.caption.present? %>
-                <p class="text-sm text-yellow-700 mt-2"><%= img.caption %></p>
-              <% end %>
-            </div>
+            <% if i == 0 || (i == 1 && parts[0].strip.blank?) %>
+              <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
+                <%= image_tag img.image_url, alt: resource.title, class: "w-full" %>
+                <% if img.caption.present? %>
+                  <p class="text-sm text-yellow-700 italic mt-2"><%= img.caption %></p>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="clear-both w-full md:w-2/3 my-8 mx-auto">
+                <%= image_tag img.image_url, alt: resource.title, class: "w-full" %>
+                <% if img.caption.present? %>
+                  <p class="text-sm text-yellow-700 mt-2"><%= img.caption %></p>
+                <% end %>
+              </div>
+            <% end %>
           <% end %>
         <% else %>
           <%= simple_format(part, class: 'mb-4') %>

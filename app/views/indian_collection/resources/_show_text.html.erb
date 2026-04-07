@@ -40,7 +40,7 @@
               </div>
             <% end %>
           <% end %>
-        <% else %>
+        <% elsif part.strip.present? %>
           <%= simple_format(part, class: 'mb-4') %>
         <% end %>
       <% end %>

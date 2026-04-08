@@ -169,8 +169,15 @@ ActiveAdmin.register Resource do
           # upload image(s)
           li do
             label 'Upload New Images'
-            text_node '<input name="resource[new_images][]" type="file" multiple="multiple" accept="image/*" style="margin: 10px 0;" />'.html_safe
-            para "Select multiple images", class: 'inline-hints'
+            (1..5).each do |n|
+              div style: 'margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;' do
+                text_node "<strong>Image #{n}</strong>".html_safe
+                text_node '<br>'.html_safe
+                text_node "<input name=\"resource[new_image_files][#{n}]\" type=\"file\" accept=\"image/*\" style=\"margin: 5px 0;\" />".html_safe
+                text_node '<br>'.html_safe
+                text_node "<input name=\"resource[new_image_captions][#{n}]\" type=\"text\" placeholder=\"Caption (optional)\" style=\"width: 100%; padding: 4px; margin-top: 5px;\" />".html_safe
+              end
+            end
           end
         end
 
@@ -229,15 +236,18 @@ ActiveAdmin.register Resource do
       @resource = Resource.new(permitted_params[:resource])
 
       # handle new images
-      if params[:resource][:new_images].present?
-        params[:resource][:new_images].each_with_index do |uploaded_file, index|
+      if params[:resource][:new_image_files].present?
+        params[:resource][:new_image_files].each do |n, uploaded_file|
           next if uploaded_file.blank?
 
+          caption = params[:resource][:new_image_captions]&.dig(n)
           result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'resources')
+
           @resource.resource_images.build(
             cloudinary_public_id: result['public_id'],
             original_filename: uploaded_file.original_filename,
-            position: index
+            caption: caption,
+            position: @resource.resource_images.length
           )
         end
       end
@@ -253,17 +263,18 @@ ActiveAdmin.register Resource do
       @resource = Resource.find(params[:id])
 
       # handle new images
-      if params[:resource][:new_images].present?
-        current_max_position = @resource.resource_images.maximum(:position) || -1
-
-        params[:resource][:new_images].each_with_index do |uploaded_file, index|
+      if params[:resource][:new_image_files].present?
+        params[:resource][:new_image_files].each do |n, uploaded_file|
           next if uploaded_file.blank?
 
+          caption = params[:resource][:new_image_captions]&.dig(n)
           result = Cloudinary::Uploader.upload(uploaded_file.tempfile.path, folder: 'resources')
-          @resource.resource_images.create(
+
+          @resource.resource_images.build(
             cloudinary_public_id: result['public_id'],
             original_filename: uploaded_file.original_filename,
-            position: current_max_position + index + 1
+            caption: caption,
+            position: @resource.resource_images.length
           )
         end
       end

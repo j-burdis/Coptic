@@ -1,6 +1,44 @@
 <% content_for :title, @news_item.title %>
 
-<div>
-  <h1 class="font-bold text-4xl">News#show</h1>
-  <p>Find me in app/views/news/show.html.erb</p>
+<div class="container mx-auto px-4 lg:px-0 pt-4 pb-16">
+  <div class="lg:w-3/5 lg:mx-auto">
+
+    <% if @news_item.date.present? %>
+      <p class="text-md text-gray-500 mb-2">
+        <%= @news_item.date.strftime("%-d %B %Y") %>
+      </p>
+    <% end %>
+
+    <h1 class="text-xl md:text-2xl font-semibold mb-6">
+      <%= @news_item.title %>
+    </h1>
+
+    <% if @news_item.content.present? %>
+      <div class="text-pretty prose prose-sm md:prose max-w-none">
+        <% if @news_item.cloudinary_public_id.present? %>
+          <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
+            <%= image_tag @news_item.large_url,
+                alt: @news_item.title,
+                class: "w-full h-auto" %>
+            <% if @news_item.image_caption.present? %>
+              <p class="text-sm text-gray-500 italic mt-2"><%= @news_item.image_caption %></p>
+            <% end %>
+          </div>
+        <% end %>
+
+        <%= simple_format(@news_item.content, class: 'mb-4') %>
+      </div>
+    <% end %>
+
+    <% if @news_item.external_url.present? %>
+      <%= link_to @news_item.external_url, target: "_blank", rel: "noopener noreferrer",
+          class: "inline-block group font-medium bg-[#F3D8A5] p-2 my-2" do %>
+        <span class="group-hover:text-blue-800">More information</span>
+        <span class="text-gray-500 group-hover:text-blue-400"> ( external link ) <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+      <% end %>
+    <% end %>
+
+    <%= render "shared/share_button" %>
+
+  </div>
 </div>

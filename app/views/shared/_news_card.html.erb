@@ -2,8 +2,8 @@
   <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
 
     <% if news_item.cloudinary_public_id.present? %>
-      <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
-        <%= image_tag news_item.thumbnail_url,
+      <div class="flex-shrink-0 w-full md:w-56 lg:w-64">
+        <%= image_tag news_item.card_url,
             alt: news_item.title,
             class: "w-full h-auto" %>
       </div>
@@ -23,7 +23,7 @@
       <% preview = news_item.excerpt.presence || news_item.content %>
       <% if preview.present? %>
         <p class="text-sm text-pretty text-gray-700 group-hover:text-blue-400">
-          <%= truncate(strip_tags(preview), length: 200) %>
+          <%= truncate_words(strip_tags(preview), 50, omission: ' [...]') %>
         </p>
       <% end %>
     </div>

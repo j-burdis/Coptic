@@ -6,7 +6,7 @@ class NewsItem < ApplicationRecord
 
   before_validation :generate_slug, if: -> { slug.blank? && title.present? }
 
-  scope :published, -> { where(published: true).order(published_at: :desc) }
+  scope :published, -> { where(published: true).order(date: :desc, created_at: :desc) }
 
   def path
     Rails.application.routes.url_helpers.news_path(slug)
@@ -19,6 +19,17 @@ class NewsItem < ApplicationRecord
       width: 400,
       height: 300,
       crop: "fill",
+      quality: "auto",
+      fetch_format: "auto"
+    )
+  end
+
+  def card_url
+    return nil unless cloudinary_public_id.present?
+    Cloudinary::Utils.cloudinary_url(
+      cloudinary_public_id,
+      width: 600,
+      crop: "limit",
       quality: "auto",
       fetch_format: "auto"
     )

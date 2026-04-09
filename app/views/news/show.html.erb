@@ -32,7 +32,7 @@
 
     <% if @news_item.external_url.present? %>
       <%= link_to @news_item.external_url, target: "_blank", rel: "noopener noreferrer",
-          class: "inline-block group font-medium bg-[#F3D8A5] p-2 my-2" do %>
+          class: "inline-block group font-medium bg-[#F3D8A5] p-2 my-6" do %>
         <span class="group-hover:text-blue-800">More information</span>
         <span class="text-gray-500 group-hover:text-blue-400"> ( external link ) <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
       <% end %>

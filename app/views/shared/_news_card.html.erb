@@ -1,0 +1,32 @@
+<%= link_to news_item.path, class: "group block" do %>
+  <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
+
+    <% if news_item.cloudinary_public_id.present? %>
+      <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
+        <%= image_tag news_item.thumbnail_url,
+            alt: news_item.title,
+            class: "w-full h-auto" %>
+      </div>
+    <% end %>
+
+    <div class="flex-1 space-y-1">
+      <% if news_item.published_at.present? %>
+        <p class="text-sm text-gray-500 group-hover:text-blue-400">
+          <%= news_item.published_at.strftime("%-d %B %Y") %>
+        </p>
+      <% end %>
+
+      <h2 class="font-semibold text-lg group-hover:text-blue-800">
+        <%= news_item.title %>
+      </h2>
+
+      <% preview = news_item.excerpt.presence || news_item.content %>
+      <% if preview.present? %>
+        <p class="text-sm text-pretty text-gray-700 group-hover:text-blue-400">
+          <%= truncate(strip_tags(preview), length: 200) %>
+        </p>
+      <% end %>
+    </div>
+
+  </div>
+<% end %>

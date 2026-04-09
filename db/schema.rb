@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_26_080603) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_09_190047) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -200,6 +200,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_26_080603) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "image_caption"
+    t.string "external_url"
+    t.date "date"
+    t.string "original_filename"
     t.index ["published"], name: "index_news_items_on_published"
     t.index ["published_at"], name: "index_news_items_on_published_at"
     t.index ["slug"], name: "index_news_items_on_slug", unique: true

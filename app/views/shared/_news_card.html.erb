@@ -10,9 +10,9 @@
     <% end %>
 
     <div class="flex-1 space-y-1">
-      <% if news_item.published_at.present? %>
+      <% if news_item.date.present? %>
         <p class="text-sm text-gray-500 group-hover:text-blue-400">
-          <%= news_item.published_at.strftime("%-d %B %Y") %>
+          <%= news_item.date.strftime("%-d %B %Y") %>
         </p>
       <% end %>
 

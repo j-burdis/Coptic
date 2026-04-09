@@ -1,4 +1,6 @@
 class NewsItem < ApplicationRecord
+  attr_accessor :image
+
   validates :title, :slug, presence: true
   validates :slug, uniqueness: true
 

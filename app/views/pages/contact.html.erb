@@ -1,3 +1,89 @@
 <% content_for :title, "Contact" %>
 
-<h1>Contact</h1>
+<div class="container mx-auto px-4 lg:px-0 py-8">
+  <div class="lg:w-3/4 lg:mx-auto">
+
+    <h1 class="text-3xl font-semibold mb-8 text-center">Contact</h1>
+
+    <div class="text-center mb-12 space-y-2">
+      <div>
+        <%= link_to "Image Rights and Requests", "mailto:licensing@dacs.org.uk",
+            class: "text-xl font-semibold hover:text-blue-800" %>
+      </div>
+      <div>
+        <%= link_to "Email Us", "mailto:admin@howard-hodgkin.com",
+            class: "text-xl font-semibold hover:text-blue-800" %>
+      </div>
+      <div>
+        <%= link_to "Facebook", "https://www.facebook.com/Howard.Hodgkin",
+            target: "_blank", rel: "noopener noreferrer",
+            class: "text-xl font-semibold hover:text-blue-800" %>
+      </div>
+      <div>
+        <%= link_to "Twitter", "https://twitter.com/howardhodgkin",
+            target: "_blank", rel: "noopener noreferrer",
+            class: "text-xl font-semibold hover:text-blue-800" %>
+      </div>
+    </div>
+
+    <% Contact::CATEGORIES.each do |category| %>
+      <% contacts = @contacts_by_category[category] %>
+      <% next if contacts.blank? %>
+
+      <div class="mb-12">
+        <h2 class="text-xl font-semibold mb-6 text-center">
+          <%= category.titleize %>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <% contacts.each do |contact| %>
+            <div>
+              <h3 class="font-semibold mb-2"><%= contact.name %></h3>
+
+              <div class="space-y-1 text-sm">
+                <% if contact.address.present? %>
+                  <p class="text-gray-600">
+                    <i class="fa-solid fa-location-dot mr-1"></i>
+                    <%= contact.address %>
+                  </p>
+                <% end %>
+
+                <% if contact.phone.present? %>
+                  <p class="text-gray-600">
+                    <i class="fa-solid fa-phone mr-1"></i>
+                    <%= contact.phone %>
+                  </p>
+                <% end %>
+
+                <% if contact.fax.present? %>
+                  <p class="text-gray-600">
+                    <i class="fa-solid fa-fax mr-1"></i>
+                    <%= contact.fax %>
+                  </p>
+                <% end %>
+
+                <% if contact.email.present? %>
+                  <p>
+                    <i class="fa-solid fa-envelope mr-1 text-gray-600"></i>
+                    <%= link_to contact.email, "mailto:#{contact.email}",
+                        class: "hover:text-blue-800" %>
+                  </p>
+                <% end %>
+
+                <% if contact.website.present? %>
+                  <p>
+                    <i class="fa-solid fa-globe mr-1 text-gray-600"></i>
+                    <%= link_to contact.website, contact.website,
+                        target: "_blank", rel: "noopener noreferrer",
+                        class: "hover:text-blue-800 break-all" %>
+                  </p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>

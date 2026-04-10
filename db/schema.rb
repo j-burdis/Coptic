@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_09_190047) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_10_072038) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -135,6 +135,20 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_09_190047) do
     t.index ["published"], name: "index_collections_on_published"
     t.index ["region"], name: "index_collections_on_region"
     t.index ["slug"], name: "index_collections_on_slug", unique: true
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "name"
+    t.string "category"
+    t.text "address"
+    t.string "phone"
+    t.string "fax"
+    t.string "email"
+    t.string "website"
+    t.integer "position"
+    t.boolean "published"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "exhibition_images", force: :cascade do |t|

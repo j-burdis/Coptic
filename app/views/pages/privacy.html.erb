@@ -1,3 +1,22 @@
 <% content_for :title, "Privacy" %>
 
-<h1>Privacy</h1>
+<div class="container mx-auto px-4 lg:px-0 py-8">
+  <div class="lg:w-3/5 lg:mx-auto">
+
+    <h1 class="text-3xl font-semibold mb-8">Privacy</h1>
+
+    <% if @page&.content.present? %>
+      <div class="prose prose-sm md:prose max-w-none">
+        <%
+          paragraphs = @page.content.gsub(/\r\n/, "\n").split(/\n\n+/).map(&:strip).reject(&:blank?)
+        %>
+        <% paragraphs.each do |paragraph| %>
+          <p class="mb-4"><%= sanitize(paragraph, tags: %w(a b i em strong br span), attributes: %w(href target rel class)) %></p>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-500">Content coming soon.</p>
+    <% end %>
+
+  </div>
+</div>

@@ -9,8 +9,10 @@ class PagesController < ApplicationController
   end
 
   def copyright_permissions
+    @page = Page.find_by(slug: 'copyright-permissions')
   end
 
   def privacy
+    @page = Page.find_by(slug: 'privacy')
   end
 end

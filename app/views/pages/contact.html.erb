@@ -31,11 +31,11 @@
       <% next if contacts.blank? %>
 
       <div class="mb-12">
-        <h2 class="text-xl font-semibold mb-6 text-center">
+        <h2 class="text-xl font-semibold mb-6 text-center bg-gray-200">
           <%= category.titleize %>
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
           <% contacts.each do |contact| %>
             <div>
               <h3 class="font-semibold mb-2"><%= contact.name %></h3>

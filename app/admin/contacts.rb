@@ -1,6 +1,6 @@
 ActiveAdmin.register Contact do
   permit_params :name, :category, :address, :phone, :fax, :email, 
-                :website, :position, :published
+                :website, :secondary_websites, :position, :published
 
   index do
     selectable_column
@@ -41,6 +41,10 @@ ActiveAdmin.register Contact do
           f.input :fax
           f.input :email
           f.input :website
+          f.input :secondary_websites,
+                  as: :text,
+                  input_html: { rows: 5 },
+                  hint: 'Enter one URL per line for additional websites'
         end
       end
     end
@@ -59,6 +63,13 @@ ActiveAdmin.register Contact do
       row :website do
         if contact.website.present?
           link_to contact.website, contact.website, target: '_blank'
+        end
+      end
+      row :secondary_websites do
+        if contact.secondary_websites.present?
+          contact.secondary_websites.split("\n").map(&:strip).reject(&:blank?).each do |url|
+            para link_to(url, url, target: '_blank')
+          end
         end
       end
       row :position

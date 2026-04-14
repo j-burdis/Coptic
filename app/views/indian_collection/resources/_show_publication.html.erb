@@ -12,7 +12,7 @@
   <% end %>
 
   <nav class="mb-4">
-    <ul class="flex items-center text-sm space-x-2">
+    <ul class="flex items-center text-md text-yellow-700 space-x-2">
       <li><%= link_to "Indian Collection", indian_collection_root_path, class: "text-yellow-700 hover:text-blue-800" %></li>
       <li><span class="text-yellow-700">›</span></li>
       <li><%= link_to "Resources", indian_collection_resources_path, class: "text-yellow-700 hover:text-blue-800" %></li>
@@ -22,7 +22,7 @@
   <%= render 'resources/header', resource: resource, centered: true, indian_collection: true %>
 
   <% if resource.description.present? || resource.summary.present? %>
-    <div class="text-pretty prose prose-sm md:prose max-w-none">
+    <div class="text-pretty text-lg md:text-xl max-w-none">
       <%
         content = resource.description.presence || resource.summary
         images = resource.resource_images.order(:position)

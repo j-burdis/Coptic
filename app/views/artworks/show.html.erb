@@ -23,7 +23,7 @@
       <div class="lg:w-2/5">
         <!-- breadcrumbs -->
         <nav class="mb-4">
-          <ul class="flex items-center text-sm text-gray-600 space-x-2">
+          <ul class="flex items-center text-md text-gray-600 space-x-2">
             <li><%= link_to "Gallery", gallery_root_path, class: "hover:text-blue-800" %></li>
             <% if @artwork.category.present? %>
               <li><span class="text-gray-400">›</span></li>
@@ -43,23 +43,25 @@
         <div class="max-w-xl">
           <h1 class="text-2xl md:text-3xl font-semibold mb-6"><%= @artwork.title %></h1>
           
-          <div class="space-y-1 mb-6 text-md md:text-lg text-pretty">
+          <div class="space-y-2 mb-6 text-pretty">
             <% if @artwork.year.present? %>
-              <p><%= @artwork.year_range %></p>
+              <div class="text-xl md:text-2xl font-semibold">
+                <p><%= @artwork.year_range %></p>
+              </div>
             <% end %>
             
             <% if @artwork.dimensions.present? %>
-              <p><%= @artwork.dimensions %></p>
+              <p class="text-lg md:text-xl"><%= @artwork.dimensions %></p>
             <% end %>
             
             <% if @artwork.medium.present? %>
-              <p><%= @artwork.medium %></p>
+              <p class="text-lg md:text-xl"><%= @artwork.medium %></p>
             <% end %>
           </div>
 
           <!-- description -->
           <% if @artwork.description.present? %>
-            <div class="mb-6 text-md md:text-lg text-pretty">
+            <div class="mb-6 text-lg md:text-xl text-pretty">
               <%= simple_format(@artwork.description) %>
             </div>
           <% end %>

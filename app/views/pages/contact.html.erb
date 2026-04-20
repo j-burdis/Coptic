@@ -1,7 +1,7 @@
 <% content_for :title, "Contact" %>
 
 <div class="container mx-auto px-4 lg:px-0 py-8">
-  <div class="lg:w-3/4 lg:mx-auto">
+  <div class="lg:mx-auto">
 
     <h1 class="text-3xl font-semibold mb-8 text-center">Contact</h1>
 
@@ -31,16 +31,16 @@
       <% next if contacts.blank? %>
 
       <div class="mb-12">
-        <h2 class="text-xl font-semibold mb-6 text-center bg-gray-200">
+        <h2 class="text-3xl font-semibold py-1 mb-6 text-center bg-gray-200 rounded">
           <%= category.titleize %>
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
           <% contacts.each do |contact| %>
             <div>
-              <h3 class="font-semibold mb-2"><%= contact.name %></h3>
+              <h3 class="font-semibold mb-2 text-xl"><%= contact.name %></h3>
 
-              <div class="space-y-2 text-sm">
+              <div class="space-y-2 text-base">
                 <% if contact.address.present? %>
                   <p class="text-gray-600">
                     <i class="fa-solid fa-location-dot mr-1"></i>

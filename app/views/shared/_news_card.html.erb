@@ -11,18 +11,18 @@
 
     <div class="flex-1 space-y-1">
       <% if news_item.date.present? %>
-        <p class="text-sm text-gray-500 group-hover:text-blue-400">
+        <p class="text-sm md:text-base text-gray-500 group-hover:text-blue-400">
           <%= news_item.date.strftime("%-d %B %Y") %>
         </p>
       <% end %>
 
-      <h2 class="font-semibold text-lg group-hover:text-blue-800">
+      <h2 class="font-semibold text-pretty text-lg md:text-2xl group-hover:text-blue-800">
         <%= news_item.title %>
       </h2>
 
       <% preview = news_item.excerpt.presence || news_item.content %>
       <% if preview.present? %>
-        <p class="text-sm text-pretty text-gray-700 group-hover:text-blue-400">
+        <p class="text pretty text-sm md:text-base text-pretty text-gray-700 group-hover:text-blue-400">
           <%= truncate_words(strip_tags(preview), 50, omission: ' [...]') %>
         </p>
       <% end %>

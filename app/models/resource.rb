@@ -9,7 +9,7 @@ class Resource < ApplicationRecord
   has_many :resource_images, -> { order(position: :asc) }, dependent: :destroy
   accepts_nested_attributes_for :resource_images, allow_destroy: true
 
-  enum category: {
+  enum :category, {
     films_and_audio: 0, texts: 1,
     publications: 2, chronology: 3
   }

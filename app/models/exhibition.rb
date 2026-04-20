@@ -10,7 +10,7 @@ class Exhibition < ApplicationRecord
   has_many :exhibition_images, -> { order(position: :asc) }, dependent: :destroy
   accepts_nested_attributes_for :exhibition_images, allow_destroy: true
 
-  enum exhibition_type: {
+  enum :exhibition_type, {
     solo_shows: 0,
     group_shows: 1,
     paintings: 2,

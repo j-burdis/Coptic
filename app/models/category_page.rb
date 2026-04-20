@@ -1,7 +1,7 @@
 class CategoryPage < ApplicationRecord
   attr_accessor :image
 
-  enum page_type: {
+  enum :page_type, {
     gallery_category: 0,
     design_subcategory: 1,
     special_collection: 2,

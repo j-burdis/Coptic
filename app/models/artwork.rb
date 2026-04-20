@@ -10,7 +10,7 @@ class Artwork < ApplicationRecord
   has_many :artwork_relations, dependent: :destroy
   has_many :related_to, through: :artwork_relations, source: :related_artwork
 
-  enum category: {
+  enum :category, {
     paintings: 0,
     prints: 1,
     design: 2,
@@ -21,11 +21,11 @@ class Artwork < ApplicationRecord
     other: 7
   }
 
-  enum status: {
+  enum :status, {
     active: 0,
     missing: 1,
     destroyed: 2
-  }, _prefix: true
+  }, prefix: true
 
   DESIGN_SUBCATEGORIES = [
     ['artplate', 'Artplate'],

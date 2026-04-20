@@ -11,17 +11,17 @@
     
     <!-- text content -->
     <div class="flex-1 space-y-1">
-      <h3 class="font-semibold text-base md:text-lg group-hover:text-blue-800">
+      <h3 class="font-semibold text-lg md:text-xl group-hover:text-blue-800">
         <%= resource.title %>
       </h3>
       
       <% if resource.author.present? %>
-        <h3 class="font-semibold text-base md:text-lg text-gray-500 group-hover:text-blue-400">
-          By <%= resource.author %>
+        <h3 class="font-semibold text-lg md:text-xl text-gray-500 group-hover:text-blue-400">
+          by <%= resource.author %>
         </h3>
       <% end %>
       
-      <p class="text-xs md:text-sm">
+      <p class="text-md md:text-lg">
         <% if resource.publisher.present? %>
           <span class="group-hover:text-blue-800">
             <%= resource.publisher %>, 
@@ -35,7 +35,7 @@
       </p>
       
       <% if resource_preview(resource, words: 50).present? %>
-        <p class="text-xs md:text-sm text-pretty group-hover:text-blue-800 md:w-2/3">
+        <p class="text-sm md:text-md text-pretty group-hover:text-blue-800 md:w-2/3">
           <%= resource_preview(resource, words: 50) %>
         </p>
       <% end %>

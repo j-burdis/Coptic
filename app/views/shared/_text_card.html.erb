@@ -21,7 +21,7 @@
         </h3>
       <% end %>
       
-      <p class="text-md md:text-lg">
+      <p class="text-base md:text-lg">
         <% if resource.publisher.present? %>
           <span class="group-hover:text-blue-800">
             <%= resource.publisher %>, 
@@ -35,7 +35,7 @@
       </p>
       
       <% if resource_preview(resource, words: 50).present? %>
-        <p class="text-sm md:text-md text-pretty group-hover:text-blue-800 md:w-2/3">
+        <p class="text-sm md:text-base text-pretty group-hover:text-blue-800 md:w-2/3">
           <%= resource_preview(resource, words: 50) %>
         </p>
       <% end %>

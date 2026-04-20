@@ -30,9 +30,9 @@
 
     <h3 class="font-semibold text-lg md:text-xl group-hover:text-blue-800">
       <% if resource.video_type.present? && resource.video_id.present? %>
-        <i class="fa-solid fa-video text-md"></i>
+        <i class="fa-solid fa-video text-base"></i>
       <% elsif !indian_collection %>
-        <i class="fa-solid fa-volume-high text-md"></i>
+        <i class="fa-solid fa-volume-high text-base"></i>
       <% end %>
       <%= resource.title %>
     </h3>
@@ -44,7 +44,7 @@
     <% end %>
 
     <% if indian_collection && resource.year.present? %>
-      <p class="text-md md:text-lg">
+      <p class="text-base md:text-lg">
         <% if resource.publisher.present? %>
           <span class="group-hover:text-blue-800"><%= resource.publisher %>, </span>
         <% end %>
@@ -53,7 +53,7 @@
     <% end %>
 
     <% if resource_preview(resource).present? %>
-      <p class="text-sm md:text-md text-pretty group-hover:text-blue-800 pt-4"><%= resource_preview(resource) %></p>
+      <p class="text-sm md:text-base text-pretty group-hover:text-blue-800 pt-4"><%= resource_preview(resource) %></p>
     <% end %>
   </div>
 <% end %>

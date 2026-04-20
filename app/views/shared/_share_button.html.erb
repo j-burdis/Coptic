@@ -6,7 +6,7 @@
 <div data-controller="share">
   <button 
     data-action="click->share#toggle"
-    class="flex items-center gap-2 text-md md:text-lg font-semibold <%= text_color %> hover:text-blue-800 transition-colors"
+    class="flex items-center gap-2 text-base md:text-lg font-semibold <%= text_color %> hover:text-blue-800 transition-colors"
   >
     Share
     <i class="fa-solid fa-share-nodes"></i>
@@ -20,12 +20,12 @@
     <div class="flex gap-6">
       <a href="https://twitter.com/intent/tweet?url=<%= CGI.escape(request.original_url) %>" 
          target="_blank"
-         class="text-md md:text-lg hover:text-blue-800">
+         class="text-base md:text-lg hover:text-blue-800">
         <i class="fa-brands fa-x-twitter"></i> Twitter
       </a>
       <a href="https://www.facebook.com/sharer/sharer.php?u=<%= CGI.escape(request.original_url) %>"
          target="_blank"
-         class="text-md md:text-lg hover:text-blue-800">
+         class="text-base md:text-lg hover:text-blue-800">
         <i class="fa-brands fa-facebook"></i> Facebook
       </a>
     </div>

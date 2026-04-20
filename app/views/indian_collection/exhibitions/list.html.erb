@@ -12,7 +12,7 @@
             <h2 class="text-xl font-semibold mb-3"><%= decade %></h2>
             <ul class="space-y-2">
               <% exhibitions.each do |exhibition| %>
-                <li class="text-md pl-4 border-l-2 border-yellow-700 text-pretty">
+                <li class="text-base pl-4 border-l-2 border-yellow-700 text-pretty">
                     <% parts = exhibition.split(',', 2) %>
                     <em><%= parts[0] %></em><% if parts[1] %>,<%= parts[1] %><% end %>
                 </li>

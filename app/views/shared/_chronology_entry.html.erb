@@ -7,7 +7,7 @@
     <!-- content full width if no image, half width if image present -->
     <div class="<%= resource.resource_images.any? ? 'w-1/2' : 'w-full' %>">
       <% if resource.description.present? %>
-        <div class="prose-lg md:prose-xl max-w-none text-pretty">
+        <div class="text-pretty text-lg md:text-xl leading-relaxed max-w-none">
           <%= simple_format(resource.description) %>
         </div>
       <% end %>

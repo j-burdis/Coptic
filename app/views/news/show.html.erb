@@ -14,7 +14,7 @@
     </h1>
 
     <% if @news_item.content.present? %>
-      <div class="text-pretty prose prose-sm md:prose max-w-none">
+      <div class="text-pretty text-sm md:text-base leading-relaxed max-w-none">
         <% if @news_item.cloudinary_public_id.present? %>
           <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
             <%= image_tag @news_item.large_url,

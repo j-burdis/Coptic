@@ -6,7 +6,7 @@
     <h1 class="text-3xl font-semibold mb-8">Privacy</h1>
 
     <% if @page&.content.present? %>
-      <div class="prose prose-sm md:prose max-w-none">
+      <div class="text-sm md:text-base leading-relaxed max-w-none">
         <%
           paragraphs = @page.content.gsub(/\r\n/, "\n").split(/\n\n+/).map(&:strip).reject(&:blank?)
         %>

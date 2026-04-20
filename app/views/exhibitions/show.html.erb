@@ -35,7 +35,7 @@
 
         <!-- description -->
         <% if @exhibition.description.present? %>
-          <div class="prose prose-sm md:prose max-w-none">
+          <div class="text-sm md:text-base leading-relaxed max-w-none">
             <%= simple_format(@exhibition.description, class: 'mb-6') %>
           </div>
         <% end %>

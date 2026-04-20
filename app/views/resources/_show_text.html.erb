@@ -4,7 +4,7 @@
   <%= render 'resources/header', resource: resource, centered: true %>
   
   <% if resource.description.present? || resource.summary.present? %>
-    <div class="text-pretty prose prose-sm md:prose max-w-none">
+    <div class="text-pretty text-sm md:text-base leading-relaxed max-w-none">
       <% 
         content = resource.description.presence || resource.summary
         first_image = resource.resource_images[0]

@@ -109,7 +109,7 @@
     <!-- Search Overlay -->
     <div data-search-target="overlay"
         class="hidden absolute inset-0 items-center px-6 lg:px-8"
-        style="background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.98)' : 'rgba(255, 255, 255, 0.98)' %>; z-index: 70;">
+        style="background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.98)' : 'rgba(244, 244, 244, 0.98)' %>; z-index: 70;">
       
       <!-- logo placeholder to maintain left spacing -->
       <div class="flex-shrink-0 lg:px-4">
@@ -119,16 +119,16 @@
       </div>
 
       <!-- search input -->
-      <div class="flex-1 flex items-center ml-8">
-        <i class="fa-solid fa-magnifying-glass text-gray-400 mr-4"></i>
+      <div class="flex-1 flex items-center ml-64 mr-16 border border-black">
+        <%# <i class="fa-solid fa-magnifying-glass text-gray-400 mr-4"></i> %>
         <input data-search-target="input"
               data-action="input->search#search"
               type="text"
-              placeholder="Search anything..."
-              class="flex-1 text-xl bg-transparent outline-none"
-              style="background: transparent;">
+              placeholder="search anything"
+              class="flex-1 text-xl font-semibold bg-transparent outline-none py-2 px-4 border-r border-black"
+              style="background: white;">
         <button data-action="click->search#close"
-                class="ml-4 hover:text-blue-800 transition-colors">
+                class="px-4 hover:text-blue-800 transition-colors">
           <i class="fa-solid fa-xmark text-xl"></i>
         </button>
       </div>

@@ -33,7 +33,20 @@
     </style>
   </head>
 
-  <body class="min-h-screen flex flex-col overflow-x-hidden relative" style="background-color: #D9C4AD;" data-controller="mobile-menu">
+  <body class="min-h-screen flex flex-col overflow-x-hidden relative"
+        style="background-color: #D9C4AD;"
+        data-controller="mobile-menu search"
+        data-action="keydown->search#closeOnEscape">
+
+    <div id="search-page-overlay"
+        data-search-target="pageOverlay"
+        class="hidden fixed inset-0"
+        style="z-index: 50; top: 80px; background-color: rgba(217, 196, 173, 0.97);">
+      <div class="container mx-auto max-w-3xl px-4 pt-8">
+        <div data-search-target="results" class="overflow-y-auto" style="max-height: calc(100vh - 160px);"></div>
+      </div>
+    </div>
+
     <div id="page-wrapper" class="min-h-screen flex flex-col transition-transform duration-300 ease-in-out w-full relative pt-20 md:pt-32" style="background-color: #D9C4AD;" data-mobile-menu-target="pageWrapper">
       <%= render 'shared/navbar', indian_collection: true %>
       <%= render 'shared/flash_messages' %>

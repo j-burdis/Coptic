@@ -3,7 +3,9 @@
 %>
 
 <div>
-  <header class="fixed top-0 left-0 right-0 <%= indian_collection ? 'indian-collection-nav' : 'bg-white' %> p-6 lg:p-8" data-controller="dropdown" style="z-index: 60;">
+  <header class="fixed top-0 left-0 right-0 <%= indian_collection ? 'indian-collection-nav' : 'bg-white' %> p-6 lg:p-8" 
+          data-controller="dropdown" 
+          style="z-index: 60;">
     <div class="flex items-center justify-between w-full">
 
       <div class="flex-shrink-0 lg:px-4 sm:pr-4">
@@ -81,7 +83,8 @@
         </div>
         
         <!-- Search Icon -->
-        <button class="flex items-center hover:text-blue-800 transition-opacity cursor-pointer">
+        <button class="flex items-center hover:text-blue-800 transition-opacity cursor-pointer"
+                data-action="click->search#open">
           <i class="fa-solid fa-magnifying-glass text-base px-4 py-3"></i>
         </button>
 
@@ -102,5 +105,34 @@
         <i class="fa-solid fa-bars text-2xl"></i>
       </button>
     </div>
+
+    <!-- Search Overlay -->
+    <div data-search-target="overlay"
+        class="hidden absolute inset-0 items-center px-6 lg:px-8"
+        style="background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.98)' : 'rgba(255, 255, 255, 0.98)' %>; z-index: 70;">
+      
+      <!-- logo placeholder to maintain left spacing -->
+      <div class="flex-shrink-0 lg:px-4">
+        <%= link_to root_path, data: { action: "click->search#close" } do %>
+          <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "w-60" %>
+        <% end %>
+      </div>
+
+      <!-- search input -->
+      <div class="flex-1 flex items-center ml-8">
+        <i class="fa-solid fa-magnifying-glass text-gray-400 mr-4"></i>
+        <input data-search-target="input"
+              data-action="input->search#search"
+              type="text"
+              placeholder="Search anything..."
+              class="flex-1 text-xl bg-transparent outline-none"
+              style="background: transparent;">
+        <button data-action="click->search#close"
+                class="ml-4 hover:text-blue-800 transition-colors">
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+      </div>
+    </div>
+
   </header>
 </div>

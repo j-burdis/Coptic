@@ -23,7 +23,19 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   </head>
 
-  <body class="min-h-screen flex flex-col overflow-x-hidden bg-white relative" data-controller="mobile-menu">
+  <body class="min-h-screen flex flex-col overflow-x-hidden bg-white relative"
+        data-controller="mobile-menu search"
+        data-action="keydown->search#closeOnEscape">
+    
+    <div id="search-page-overlay" 
+         data-search-target="pageOverlay"
+         class="hidden fixed inset-0 bg-gray-50 bg-opacity-95"
+         style="z-index: 50; top: 80px;">
+      <div class="container mx-auto max-w-3xl px-4 pt-8">
+        <div data-search-target="results" class="overflow-y-auto" style="max-height: calc(100vh - 160px);"></div>
+      </div>
+    </div>
+
     <!-- Wrapper for sliding page content -->
     <div id="page-wrapper" class="min-h-screen flex flex-col transition-transform duration-300 ease-in-out w-full bg-white relative pt-20 md:pt-32" data-mobile-menu-target="pageWrapper">
       <%= render 'shared/navbar' %>

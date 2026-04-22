@@ -15,7 +15,6 @@ export default class extends Controller {
     document.documentElement.style.overflow = "hidden"
     const pageWrapper = document.getElementById("page-wrapper")
     if (pageWrapper) pageWrapper.style.overflow = "hidden"
-    // document.querySelector('header').style.backgroundColor = "#F4F4F4"
     setTimeout(() => this.inputTarget.focus(), 50)
   }
 
@@ -27,7 +26,6 @@ export default class extends Controller {
     document.documentElement.style.overflow = ""
     const pageWrapper = document.getElementById("page-wrapper")
     if (pageWrapper) pageWrapper.style.overflow = ""
-    // document.querySelector('header').style.backgroundColor = ""
     this.inputTarget.value = ""
     this.resultsTarget.innerHTML = ""
   }

@@ -4,14 +4,14 @@
       <%= total_count %> result<%= total_count == 1 ? '' : 's' %> for "<%= query %>"
     </p>
 
-    <div class="space-y-6 pb-16">
+    <div class="space-y-20 pb-16">
 
       <% artworks.each do |artwork| %>
         <%= link_to artwork.path, class: "group block" do %>
           <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
             <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
               <% if artwork.cloudinary_public_id.present? %>
-                <%= image_tag artwork.thumbnail_url, alt: artwork.title, class: "w-full h-auto" %>
+                <%= image_tag artwork.large_url, alt: artwork.title, class: "w-full h-auto" %>
               <% else %>
                 <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
                   <i class="fa-solid fa-image text-2xl text-gray-300"></i>
@@ -36,7 +36,7 @@
           <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
             <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
               <% if resource.resource_images.any? %>
-                <%= image_tag resource.resource_images.first.thumbnail_url, alt: resource.title, class: "w-full h-auto" %>
+                <%= image_tag resource.resource_images.first.image_url, alt: resource.title, class: "w-full h-auto" %>
               <% else %>
                 <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
                   <i class="fa-solid fa-file-lines text-2xl text-gray-300"></i>
@@ -62,7 +62,7 @@
           <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
             <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
               <% if news_item.cloudinary_public_id.present? %>
-                <%= image_tag news_item.thumbnail_url, alt: news_item.title, class: "w-full h-auto" %>
+                <%= image_tag news_item.large_url, alt: news_item.title, class: "w-full h-auto" %>
               <% else %>
                 <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
                   <i class="fa-solid fa-newspaper text-2xl text-gray-300"></i>
@@ -88,7 +88,7 @@
           <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
             <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
               <% if exhibition.exhibition_images.any? %>
-                <%= image_tag exhibition.exhibition_images.first.thumbnail_url, alt: exhibition.title, class: "w-full h-auto" %>
+                <%= image_tag exhibition.exhibition_images.first.image_url, alt: exhibition.title, class: "w-full h-auto" %>
               <% else %>
                 <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
                   <i class="fa-solid fa-palette text-2xl text-gray-300"></i>

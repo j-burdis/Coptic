@@ -22,8 +22,8 @@
               <p class="text-xs text-gray-400"><%= artwork.is_indian_collection? ? 'Indian Collection' : 'Artwork' %></p>
               <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= artwork.title %></h2>
               <% if artwork.description.present? %>
-                <p class="text-sm md:text-base text-gray-700 group-hover:text-blue-400">
-                  <%= truncate_words(strip_tags(artwork.description), 30, omission: ' [...]') %>
+                <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
+                  <%= search_excerpt(artwork.description, query) %>
                 </p>
               <% end %>
             </div>
@@ -48,8 +48,8 @@
               <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= resource.title %></h2>
               <% preview = resource.summary.presence || resource.description %>
               <% if preview.present? %>
-                <p class="text-sm md:text-base text-gray-700 group-hover:text-blue-400">
-                  <%= truncate_words(strip_tags(preview), 30, omission: ' [...]') %>
+                <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
+                  <%= search_excerpt(resource.description, query) %>
                 </p>
               <% end %>
             </div>
@@ -74,8 +74,8 @@
               <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= news_item.title %></h2>
               <% preview = news_item.excerpt.presence || news_item.content %>
               <% if preview.present? %>
-                <p class="text-sm md:text-base text-gray-700 group-hover:text-blue-400">
-                  <%= truncate_words(strip_tags(preview), 30, omission: ' [...]') %>
+                <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
+                  <%= search_excerpt(news_item.description, query) %>
                 </p>
               <% end %>
             </div>
@@ -99,8 +99,8 @@
               <p class="text-xs text-gray-400">Exhibition</p>
               <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= exhibition.title %></h2>
               <% if exhibition.description.present? %>
-                <p class="text-sm md:text-base text-gray-700 group-hover:text-blue-400">
-                  <%= truncate_words(strip_tags(exhibition.description), 30, omission: ' [...]') %>
+                <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
+                  <%= search_excerpt(news_item.description, query) %>
                 </p>
               <% end %>
             </div>
@@ -120,8 +120,8 @@
               <p class="text-xs text-gray-400">Collection</p>
               <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= collection.name %></h2>
               <% if collection.description.present? %>
-                <p class="text-sm md:text-base text-gray-700 group-hover:text-blue-400">
-                  <%= truncate_words(strip_tags(collection.description), 30, omission: ' [...]') %>
+                <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
+                  <%= search_excerpt(collection.description, query) %>
                 </p>
               <% end %>
             </div>

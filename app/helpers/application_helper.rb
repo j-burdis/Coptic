@@ -43,6 +43,36 @@ module ApplicationHelper
     end
   end
 
+  def search_excerpt(text, query, before: 10, after: 20)
+    return '' if text.blank? || query.blank?
+
+    clean_text = strip_tags(text).gsub(/\s+/, ' ').strip
+    words = clean_text.split(' ')
+
+    match_index = words.index { |word| word.downcase.include?(query.downcase) }
+    return truncate_words(clean_text, after, omission: ' [...]') if match_index.nil?
+
+    start_index = [match_index - before, 0].max
+    end_index = [match_index + after, words.length - 1].min
+
+    excerpt_words = words[start_index..end_index].map do |word|
+      if word.downcase.include?(query.downcase)
+        ERB::Util.html_escape(word).gsub(
+          /#{Regexp.escape(query)}/i,
+          "<span style=\"color: #EC5840;\">\\0</span>"
+        ).html_safe
+      else
+        ERB::Util.html_escape(word)
+      end
+    end
+
+    excerpt = excerpt_words.join(' ')
+    excerpt = '... ' + excerpt if start_index > 0
+    excerpt = excerpt + ' ...' if end_index < words.length - 1
+    
+    excerpt.html_safe
+  end
+
   def indian_collection_category_path_for(category)
     case category
     when 'portrait' then indian_collection_gallery_portrait_path

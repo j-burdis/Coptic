@@ -19,7 +19,7 @@
               <% end %>
             </div>
             <div class="flex-1 space-y-1">
-              <p class="text-xs text-gray-400"><%= artwork.is_indian_collection? ? 'Indian Collection' : 'Artwork' %></p>
+              <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400"><%= artwork.is_indian_collection? ? 'Indian Collection' : 'Artwork' %></p>
               <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= artwork.title %></h2>
               <% if artwork.description.present? %>
                 <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
@@ -44,7 +44,7 @@
               <% end %>
             </div>
             <div class="flex-1 space-y-1">
-              <p class="text-xs text-gray-400"><%= resource.is_indian_collection? ? 'Indian Collection' : 'Resource' %></p>
+              <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400"><%= resource.is_indian_collection? ? 'Indian Collection' : 'Resource' %></p>
               <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= resource.title %></h2>
               <% preview = resource.summary.presence || resource.description %>
               <% if preview.present? %>
@@ -70,7 +70,7 @@
               <% end %>
             </div>
             <div class="flex-1 space-y-1">
-              <p class="text-xs text-gray-400">News</p>
+              <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400">News</p>
               <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= news_item.title %></h2>
               <% preview = news_item.excerpt.presence || news_item.content %>
               <% if preview.present? %>
@@ -96,7 +96,7 @@
               <% end %>
             </div>
             <div class="flex-1 space-y-1">
-              <p class="text-xs text-gray-400">Exhibition</p>
+              <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400">Exhibition</p>
               <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= exhibition.title %></h2>
               <% if exhibition.description.present? %>
                 <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
@@ -117,7 +117,7 @@
               </div>
             </div>
             <div class="flex-1 space-y-1">
-              <p class="text-xs text-gray-400">Collection</p>
+              <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400">Collection</p>
               <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= collection.name %></h2>
               <% if collection.description.present? %>
                 <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">

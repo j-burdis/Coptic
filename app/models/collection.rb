@@ -1,4 +1,6 @@
 class Collection < ApplicationRecord
+  attr_accessor :image
+
   has_many :artwork_collections, dependent: :destroy
   has_many :artworks, through: :artwork_collections
 
@@ -25,9 +27,32 @@ class Collection < ApplicationRecord
     artworks.published.count
   end
 
+  def thumbnail_url
+    return nil unless cloudinary_public_id.present?
+    Cloudinary::Utils.cloudinary_url(
+      cloudinary_public_id,
+      width: 400,
+      height: 300,
+      crop: "fill",
+      quality: "auto",
+      fetch_format: "auto"
+    )
+  end
+
+  def large_url
+    return nil unless cloudinary_public_id.present?
+    Cloudinary::Utils.cloudinary_url(
+      cloudinary_public_id,
+      width: 1200,
+      crop: "limit",
+      quality: "auto",
+      fetch_format: "auto"
+    )
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     ["id", "name", "slug", "location", "region", "description", "website", "published",
-     "created_at", "updated_at"]
+    "cloudinary_public_id", "original_filename", "created_at", "updated_at"]
   end
 
   def self.ransackable_associations(auth_object = nil)

@@ -9,6 +9,7 @@ class Resources::ExhibitionsController < ApplicationController
     @exhibition_types = Exhibition::EXHIBITION_TYPES
 
     @earliest_year = @exhibitions.where.not(start_date: nil).minimum("EXTRACT(YEAR FROM start_date)::integer")
+    @latest_year = @exhibitions.where.not(end_date: nil).maximum("EXTRACT(YEAR FROM end_date)::integer")
 
     apply_search_and_date_filters
     @exhibitions = @exhibitions.page(params[:page]).per(12)
@@ -22,6 +23,7 @@ class Resources::ExhibitionsController < ApplicationController
     @active_type = params[:exhibition_type]
 
     @earliest_year = @exhibitions.where.not(start_date: nil).minimum("EXTRACT(YEAR FROM start_date)::integer")
+    @latest_year = @exhibitions.where.not(end_date: nil).maximum("EXTRACT(YEAR FROM end_date)::integer")
     @exhibitions = @exhibitions.where(exhibition_type: params[:exhibition_type].gsub('-', '_'))
 
     apply_search_and_date_filters
@@ -81,16 +83,15 @@ class Resources::ExhibitionsController < ApplicationController
       return []
     end
 
-    earliest_exhibition = @exhibitions.minimum(:start_date)
     earliest_year = @earliest_year || Date.current.year
-    current_year = Date.current.year
+    latest_year = @latest_year || Date.current.year
 
     start_decade = (earliest_year / 10) * 10
 
     decades = []
-    (start_decade..current_year).step(10) do |year|
+    (start_decade..latest_year).step(10) do |year|
       decade_start = year
-      decade_end = [year + 9, current_year].min
+      decade_end = [year + 9, latest_year].min
       decades << ["#{decade_start}-#{decade_end}", "#{decade_start}-#{decade_end}"]
     end
 

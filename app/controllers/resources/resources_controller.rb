@@ -42,6 +42,7 @@ class Resources::ResourcesController < ApplicationController
 
     @earliest_year = @resources.minimum(:year) || 
                 @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @latest_year = @resources.maximum(:year)
 
     apply_search_filters
     @resources = @resources.page(params[:page]).per(12)
@@ -58,6 +59,7 @@ class Resources::ResourcesController < ApplicationController
 
     @earliest_year = @resources.minimum(:year) || 
                    @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @latest_year = @resources.maximum(:year)
 
     apply_search_and_date_filters
     @resources = @resources.page(params[:page]).per(12)
@@ -75,6 +77,7 @@ class Resources::ResourcesController < ApplicationController
 
     @earliest_year = @resources.minimum(:year) || 
                 @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @latest_year = @resources.maximum(:year)
 
     apply_search_and_date_filters
     @resources = @resources.page(params[:page]).per(12)
@@ -91,6 +94,7 @@ class Resources::ResourcesController < ApplicationController
 
     @earliest_year = @resources.minimum(:year) || 
                    @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @latest_year = @resources.maximum(:year)
 
     apply_search_and_date_filters
     @resources = @resources.page(params[:page]).per(12)
@@ -108,6 +112,7 @@ class Resources::ResourcesController < ApplicationController
 
     @earliest_year = @resources.minimum(:year) || 
                    @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @latest_year = @resources.maximum(:year)
 
     apply_search_and_date_filters
     @resources = @resources.page(params[:page]).per(12)
@@ -123,6 +128,7 @@ class Resources::ResourcesController < ApplicationController
 
     @earliest_year = @resources.minimum(:year) || 
                    @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @latest_year = @resources.maximum(:year)
 
     apply_search_and_date_filters
     @resources = @resources.reorder(year: :asc, title: :asc)
@@ -189,14 +195,14 @@ class Resources::ResourcesController < ApplicationController
     end
 
     earliest_year = @earliest_year || @resources.minimum(:year) || Date.current.year
-    current_year = Date.current.year
+    latest_year = @latest_year || Date.current.year
 
     start_decade = (earliest_year / 10) * 10
 
     decades = []
-    (start_decade..current_year).step(10) do |year|
+    (start_decade..latest_year).step(10) do |year|
       decade_start = year
-      decade_end = [year + 9, current_year].min
+      decade_end = [year + 9, latest_year].min
       decades << ["#{decade_start}-#{decade_end}", "#{decade_start}-#{decade_end}"]
     end
 

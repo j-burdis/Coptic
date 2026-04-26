@@ -57,6 +57,7 @@ module Gallery
       @show_date_filter = true
 
       @earliest_year = @artworks.minimum(:year)
+      @latest_year = @artworks.maximum(:year)
 
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
@@ -70,6 +71,7 @@ module Gallery
       @show_date_filter = true
 
       @earliest_year = @artworks.minimum(:year)
+      @latest_year = @artworks.maximum(:year)
 
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
@@ -102,6 +104,7 @@ module Gallery
       @fixed_year = "1986"
 
       @earliest_year = @artworks.minimum(:year)
+      @latest_year = @artworks.maximum(:year)
 
       render :index
     end
@@ -113,6 +116,7 @@ module Gallery
       @show_date_filter = true
 
       @earliest_year = @artworks.minimum(:year)
+      @latest_year = @artworks.maximum(:year)
 
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
@@ -140,6 +144,7 @@ module Gallery
       @status_filter = "missing"
 
       @earliest_year = @artworks.minimum(:year)
+      @latest_year = @artworks.maximum(:year)
 
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
@@ -155,6 +160,7 @@ module Gallery
       @status_filter = "destroyed"
 
       @earliest_year = @artworks.minimum(:year)
+      @latest_year = @artworks.maximum(:year)
 
       render :index
     end
@@ -187,6 +193,7 @@ module Gallery
         end
 
         @earliest_year = @artworks.minimum(:year)
+        @latest_year = @artworks.maximum(:year)
 
         # apply search and date filters
         apply_search_and_date_filters
@@ -208,6 +215,7 @@ module Gallery
       @active_subcategory = params[:subcategory]
 
       @earliest_year = @artworks.minimum(:year)
+      @latest_year = @artworks.maximum(:year)
 
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
@@ -222,6 +230,7 @@ module Gallery
       @show_date_filter = true
 
       @earliest_year = @artworks.minimum(:year)
+      @latest_year = @artworks.maximum(:year)
 
       apply_search_and_date_filters
       @artworks = @artworks.page(params[:page]).per(12)
@@ -302,14 +311,14 @@ module Gallery
       end
 
       earliest_year = @earliest_year || Date.current.year
-      current_year = Date.current.year
+      latest_year = @latest_year || Date.current.year
 
       start_decade = (earliest_year / 10) * 10
 
       decades = []
-      (start_decade..current_year).step(10) do |year|
+      (start_decade..latest_year).step(10) do |year|
         decade_start = year
-        decade_end = [year + 9, current_year].min
+        decade_end = [year + 9, latest_year].min
         decades << ["#{decade_start}-#{decade_end}", "#{decade_start}-#{decade_end}"]
       end
 

@@ -46,10 +46,25 @@
             <div class="flex-1 space-y-1">
               <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400"><%= resource.is_indian_collection? ? 'Indian Collection' : 'Resource' %></p>
               <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= resource.title %></h2>
-              <% preview = resource.summary.presence || resource.description %>
-              <% if preview.present? %>
-                <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
-                  <%= search_excerpt(preview, query) %>
+              <%
+                use_summary = resource.summary.present? && resource.summary.downcase.include?(query.downcase)
+                use_description = !use_summary && resource.description.present? && resource.description.downcase.include?(query.downcase)
+                
+                preview_text = if use_summary
+                  resource.summary
+                elsif use_description
+                  resource.description
+                else
+                  resource.summary.presence || resource.description
+                end
+              %>
+              <% if preview_text.present? %>
+                <p class="text-sm md:text-base <%= use_summary ? 'font-semibold' : '' %> text-gray-700 group-hover:text-blue-400">
+                  <% if use_summary %>
+                    <%= raw highlight_query(preview_text, query) %>
+                  <% else %>
+                    <%= search_excerpt(preview_text, query) %>
+                  <% end %>
                 </p>
               <% end %>
             </div>
@@ -75,7 +90,7 @@
               <% preview = news_item.excerpt.presence || news_item.content %>
               <% if preview.present? %>
                 <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
-                  <%= search_excerpt(preview, query) %>
+                  <%= search_excerpt(news_item.content, query) %>
                 </p>
               <% end %>
             </div>

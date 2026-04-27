@@ -5,33 +5,43 @@ class SearchController < ApplicationController
     if @query.length >= 3
       search_term = "%#{@query}%"
 
-      @artworks = Artwork.published.where(
-        "title ILIKE ? OR description ILIKE ? OR medium ILIKE ?",
-        search_term, search_term, search_term
-      ).limit(5)
+      @artworks = prioritised_results(
+        Artwork.published,
+        title_fields: ["title ILIKE ?"],
+        body_fields: ["description ILIKE ?", "medium ILIKE ?"],
+        term: search_term
+      )
 
-      @resources = Resource.published.where(
-        "title ILIKE ? OR description ILIKE ? OR summary ILIKE ? OR author ILIKE ?",
-        search_term, search_term, search_term, search_term
-      ).limit(5)
+      @resources = prioritised_results(
+        Resource.published,
+        title_fields: ["title ILIKE ?"],
+        body_fields: ["description ILIKE ?", "summary ILIKE ?", "author ILIKE ?"],
+        term: search_term
+      )
 
-      @news_items = NewsItem.published.where(
-        "title ILIKE ? OR content ILIKE ? OR excerpt ILIKE ?",
-        search_term, search_term, search_term
-      ).limit(5)
+      @news_items = prioritised_results(
+        NewsItem.published,
+        title_fields: ["title ILIKE ?"],
+        body_fields: ["content ILIKE ?", "excerpt ILIKE ?"],
+        term: search_term
+      )
 
-      @exhibitions = Exhibition.published.where(
-        "title ILIKE ? OR description ILIKE ? OR venue ILIKE ?",
-        search_term, search_term, search_term
-      ).limit(5)
+      @exhibitions = prioritised_results(
+        Exhibition.published,
+        title_fields: ["title ILIKE ?"],
+        body_fields: ["description ILIKE ?", "venue ILIKE ?", "location ILIKE ?"],
+        term: search_term
+      )
 
-      @collections = Collection.published.where(
-        "name ILIKE ? OR description ILIKE ? OR location ILIKE ?",
-        search_term, search_term, search_term
-      ).limit(5)
+      @collections = prioritised_results(
+        Collection.published,
+        title_fields: ["name ILIKE ?"],
+        body_fields: ["description ILIKE ?", "location ILIKE ?"],
+        term: search_term
+      )
 
       @total_count = [@artworks, @resources, @news_items, @exhibitions, @collections]
-                       .sum(&:count)
+                       .sum(&:length)
     end
 
     respond_to do |format|
@@ -54,5 +64,25 @@ class SearchController < ApplicationController
         }
       end
     end
+  end
+
+  private
+
+  def prioritised_results(scope, title_fields:, body_fields:, term:)
+    title_matches = scope.where(
+      title_fields.map { |f| "(#{f})" }.join(" OR "),
+      *Array.new(title_fields.length, term)
+    )
+
+    all_fields = title_fields + body_fields
+    all_matches = scope.where(
+      all_fields.map { |f| "(#{f})" }.join(" OR "),
+      *Array.new(all_fields.length, term)
+    )
+
+    body_only_ids = all_matches.pluck(:id) - title_matches.pluck(:id)
+    body_matches = scope.where(id: body_only_ids)
+
+    title_matches.to_a + body_matches.to_a
   end
 end

@@ -73,6 +73,16 @@ module ApplicationHelper
     excerpt.html_safe
   end
 
+  def highlight_query(text, query)
+    return '' if text.blank? || query.blank?
+    
+    clean_text = strip_tags(text)
+    ERB::Util.html_escape(clean_text).gsub(
+      /#{Regexp.escape(query)}/i,
+      "<span style=\"color: #EC5840;\">\\0</span>"
+    ).html_safe
+  end
+
   def indian_collection_category_path_for(category)
     case category
     when 'portrait' then indian_collection_gallery_portrait_path

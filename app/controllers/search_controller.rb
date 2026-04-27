@@ -18,7 +18,7 @@ class SearchController < ApplicationController
       )
 
       @resources = prioritised_results(
-        Resource.published,
+        Resource.published.where.not(category: :chronology),
         title_fields: ["title ILIKE ?"],
         date_fields: [
           "CAST(year AS TEXT) ILIKE ?",

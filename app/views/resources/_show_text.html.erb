@@ -4,66 +4,49 @@
   <%= render 'resources/header', resource: resource, centered: true %>
   
   <% if resource.description.present? || resource.summary.present? %>
-    <div class="text-pretty text-sm md:text-base leading-relaxed max-w-none">
-      <% 
-        content = resource.description.presence || resource.summary
-        first_image = resource.resource_images[0]
-        second_image = resource.resource_images[1]
-      %>
-      
-      <% if second_image.present? %>
-        <!-- two images - split paragraphs -->
-        <% 
-          paragraphs = content.gsub(/\r\n/, "\n").split(/\n\n+/).map(&:strip).reject(&:blank?)
-          mid_point = (paragraphs.length / 2.0).ceil
-        %>
-        
-        <!-- first image -->
-        <% if first_image.present? %>
-          <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
-            <%= image_tag first_image.image_url, 
-                alt: resource.title,
-                class: "w-full" %>
-            <% if first_image.caption.present? %>
-              <p class="text-sm text-gray-500 mt-2"><%= first_image.caption %></p>
-            <% end %>
-          </div>
-        <% end %>
-        
-        <!-- first half of paragraphs -->
-        <% paragraphs[0...mid_point].each do |paragraph| %>
-          <p class="mb-4"><%= paragraph %></p>
-        <% end %>
-        
-        <!-- second image -->
-        <div class="clear-both w-full md:w-2/3 my-8 mx-auto">
-          <%= image_tag second_image.image_url, 
-              alt: resource.title,
-              class: "w-full" %>
-          <% if second_image.caption.present? %>
-            <p class="text-sm text-gray-500 mt-2"><%= second_image.caption %></p>
+    <%
+      content = resource.description.presence || resource.summary
+      images = resource.resource_images.order(:position)
+      has_placeholders = content.match?(/\[image:\d+\]/)
+      parts = content.split(/(\[image:\d+\])/)
+    %>
+
+    <div class="text-pretty text-base md:text-lg leading-relaxed max-w-none">
+      <% if !has_placeholders && images.first.present? %>
+        <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
+          <%= image_tag images.first.image_url, alt: resource.title, class: "w-full" %>
+          <% if images.first.caption.present? %>
+            <p class="text-sm text-gray-500 mt-2"><%= images.first.caption %></p>
           <% end %>
         </div>
-        
-        <!-- second half of paragraphs -->
-        <% paragraphs[mid_point..-1].each do |paragraph| %>
-          <p class="mb-4"><%= paragraph %></p>
-        <% end %>
-        
-      <% else %>
-        <!-- one/no images -->
-        <% if first_image.present? %>
-          <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
-            <%= image_tag first_image.image_url, 
-                alt: resource.title,
-                class: "w-full" %>
-            <% if first_image.caption.present? %>
-              <p class="text-sm text-gray-500 italic mt-2"><%= first_image.caption %></p>
+      <% end %>
+
+      <% parts.each_with_index do |part, i| %>
+        <% if part.match?(/\[image:(\d+)\]/) %>
+          <%
+            index = part.match(/\[image:(\d+)\]/)[1].to_i - 1
+            img = images[index]
+          %>
+          <% if img.present? %>
+            <% if i == 0 || (i == 1 && parts[0].strip.blank?) %>
+              <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
+                <%= image_tag img.image_url, alt: resource.title, class: "w-full" %>
+                <% if img.caption.present? %>
+                  <p class="text-sm text-gray-500 mt-2"><%= img.caption %></p>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="clear-both w-full md:w-2/3 my-8 mx-auto">
+                <%= image_tag img.image_url, alt: resource.title, class: "w-full" %>
+                <% if img.caption.present? %>
+                  <p class="text-sm text-gray-500 mt-2"><%= img.caption %></p>
+                <% end %>
+              </div>
             <% end %>
-          </div>
+          <% end %>
+        <% elsif part.strip.present? %>
+          <%= simple_format(part, class: 'mb-4') %>
         <% end %>
-        
-        <%= simple_format(content, class: 'mb-6') %>
       <% end %>
     </div>
   <% end %>

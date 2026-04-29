@@ -34,13 +34,16 @@ module ApplicationHelper
   end
 
   def resource_preview(resource, words: 50)
-    if resource.summary.present?
-      resource.summary
-    elsif resource.description.present?
-      truncate_words(resource.description, words, omission: ' [...]')
-    else
-      ''
-    end
+    text = if resource.summary.present?
+             strip_tags(resource.summary)
+           elsif resource.description.present?
+             strip_tags(resource.description).gsub(/\[image:\d+\]/, '')
+           else
+             ''
+           end
+
+    clean = text.gsub(/\s+/, ' ').strip
+    truncate_words(clean, words, omission: ' ...')
   end
 
   def search_excerpt(text, query, before: 10, after: 20)

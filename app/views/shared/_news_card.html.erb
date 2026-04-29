@@ -23,7 +23,7 @@
       <% preview = news_item.excerpt.presence || news_item.content %>
       <% if preview.present? %>
         <p class="text pretty text-sm md:text-base text-pretty text-gray-700 group-hover:text-blue-400">
-          <%= truncate_words(strip_tags(preview), 50, omission: ' [...]') %>
+          <%= truncate_words(strip_tags(preview).gsub(/\[image:\d+\]/, ''), 50, omission: ' [...]') %>
         </p>
       <% end %>
     </div>

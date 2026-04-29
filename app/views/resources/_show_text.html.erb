@@ -45,7 +45,7 @@
             <% end %>
           <% end %>
         <% elsif part.strip.present? %>
-          <%= simple_format(part, class: 'mb-4') %>
+          <%= simple_format(part, { class: 'mb-4' }, sanitize: false ) %>
         <% end %>
       <% end %>
     </div>

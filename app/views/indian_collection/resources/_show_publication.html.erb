@@ -45,7 +45,7 @@
             </div>
           <% end %>
         <% else %>
-          <%= simple_format(part, class: 'mb-4') %>
+          <%= simple_format(part, { class: 'mb-4' }, sanitize: false ) %>
         <% end %>
       <% end %>
     </div>

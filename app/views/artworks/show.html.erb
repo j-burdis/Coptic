@@ -22,10 +22,21 @@
       <!-- right col - details -->
       <div class="lg:w-2/5">
         <!-- breadcrumbs -->
-        <nav class="mb-4">
-          <ul class="flex items-center text-base text-gray-600 space-x-2">
+        <nav class="text-base text-gray-600 mb-4">
+          <ul class="flex items-center space-x-2">
             <li><%= link_to "Gallery", gallery_root_path, class: "hover:text-blue-800" %></li>
-            <% if @artwork.category.present? %>
+            <% if @artwork.status_missing? || @artwork.status_destroyed? %>
+              <li><span class="text-gray-400">›</span></li>
+              <% if @artwork.status_missing? %>
+                <li><%= link_to "Missing Works", gallery_missing_works_path, class: "hover:text-blue-800" %></li>
+              <% else %>
+                <li><%= link_to "Destroyed", gallery_destroyed_path, class: "hover:text-blue-800" %></li>
+              <% end %>
+              <% if @artwork.category.present? %>
+                <li><span class="text-gray-400">›</span></li>
+                <li><%= link_to @artwork.category.titleize, category_path_for(@artwork.category), class: "hover:text-blue-800" %></li>
+              <% end %>
+            <% elsif @artwork.category.present? %>
               <li><span class="text-gray-400">›</span></li>
               <li><%= link_to @artwork.category.titleize, category_path_for(@artwork.category), class: "hover:text-blue-800" %></li>
               <% if @artwork.category == 'design' && @artwork.subcategory.present? %>

@@ -46,6 +46,10 @@ module ApplicationHelper
     truncate_words(clean, words, omission: ' ...')
   end
 
+  def clean_for_preview(text)
+    strip_tags(text.to_s).gsub(/\[image:\d+\]/, '').gsub(/\s+/, ' ').strip
+  end
+
   def search_excerpt(text, query, before: 10, after: 20)
     return '' if text.blank? || query.blank?
 

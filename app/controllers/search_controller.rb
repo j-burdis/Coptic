@@ -1,11 +1,14 @@
 class SearchController < ApplicationController
+  PER_PAGE = 12
+
   def index
     @query = params[:s].to_s.strip
+    @page = (params[:page] || 1).to_i
 
     if @query.length >= 3
       search_term = "%#{@query}%"
 
-      @artworks = prioritised_results(
+      all_artworks = prioritised_results(
         Artwork.published,
         title_fields: ["title ILIKE ?"],
         date_fields: [
@@ -17,7 +20,7 @@ class SearchController < ApplicationController
         term: search_term
       )
 
-      @resources = prioritised_results(
+      all_resources = prioritised_results(
         Resource.published.where.not(category: :chronology),
         title_fields: ["title ILIKE ?"],
         date_fields: [
@@ -29,7 +32,7 @@ class SearchController < ApplicationController
         term: search_term
       )
 
-      @news_items = prioritised_results(
+      all_news_items = prioritised_results(
         NewsItem.published,
         title_fields: ["title ILIKE ?"],
         date_fields: [
@@ -39,7 +42,7 @@ class SearchController < ApplicationController
         term: search_term
       )
 
-      @exhibitions = prioritised_results(
+      all_exhibitions = prioritised_results(
         Exhibition.published,
         title_fields: ["title ILIKE ?"],
         date_fields: [
@@ -50,7 +53,7 @@ class SearchController < ApplicationController
         term: search_term
       )
 
-      @collections = prioritised_results(
+      all_collections = prioritised_results(
         Collection.published,
         title_fields: ["name ILIKE ?"],
         date_fields: [],
@@ -58,8 +61,13 @@ class SearchController < ApplicationController
         term: search_term
       )
 
-      @total_count = [@artworks, @resources, @news_items, @exhibitions, @collections]
-                       .sum(&:length)
+      # combine all results maintaining priority order
+      all_results = all_artworks + all_resources + all_news_items + all_exhibitions + all_collections
+
+      @total_count = all_results.length
+      @total_pages = (@total_count.to_f / PER_PAGE).ceil
+      offset = (@page - 1) * PER_PAGE
+      @results = all_results[offset, PER_PAGE] || []
     end
 
     respond_to do |format|
@@ -71,12 +79,10 @@ class SearchController < ApplicationController
             formats: [:html],
             locals: {
               query: @query,
-              artworks: @artworks || [],
-              resources: @resources || [],
-              news_items: @news_items || [],
-              exhibitions: @exhibitions || [],
-              collections: @collections || [],
-              total_count: @total_count || 0
+              results: @results || [],
+              total_count: @total_count || 0,
+              total_pages: @total_pages || 0,
+              current_page: @page
             }
           )
         }

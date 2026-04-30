@@ -5,6 +5,8 @@ export default class extends Controller {
 
   connect() {
     this.debounceTimer = null
+    this.currentQuery = ''
+    this.currentPage = 1
   }
 
   open() {
@@ -28,6 +30,8 @@ export default class extends Controller {
     if (pageWrapper) pageWrapper.style.overflow = ""
     this.inputTarget.value = ""
     this.resultsTarget.innerHTML = ""
+    this.currentQuery = ''
+    this.currentPage = 1
   }
 
   search() {
@@ -36,18 +40,34 @@ export default class extends Controller {
 
     if (query.length < 3) {
       this.resultsTarget.innerHTML = ""
+      this.currentQuery = ''
+      this.currentPage = 1
       return
     }
 
+    this.currentQuery = query
+    this.currentPage = 1
+
     this.debounceTimer = setTimeout(() => {
-      fetch(`/search?s=${encodeURIComponent(query)}`, {
-        headers: { "Accept": "application/json" }
-      })
-      .then(response => response.json())
-      .then(data => {
-        this.resultsTarget.innerHTML = data.html
-      })
+      this.fetchResults(query, 1)
     }, 300)
+  }
+
+  goToPage(event) {
+    const page = parseInt(event.currentTarget.dataset.page)
+    this.currentPage = page
+    this.pageOverlayTarget.scrollTop = 0
+    this.fetchResults(this.currentQuery, page)
+  }
+
+  fetchResults(query, page) {
+    fetch(`/search?s=${encodeURIComponent(query)}&page=${page}`, {
+      headers: { "Accept": "application/json" }
+    })
+    .then(response => response.json())
+    .then(data => {
+      this.resultsTarget.innerHTML = data.html
+    })
   }
 
   closeOnEscape(event) {

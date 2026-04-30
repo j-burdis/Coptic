@@ -1,154 +1,216 @@
 <% if query.length >= 3 %>
   <% if total_count > 0 %>
-    <p class="text-sm text-gray-500 mb-6">
-      <%= total_count %> result<%= total_count == 1 ? '' : 's' %> for "<%= query %>"
+    <p class="text-xl font-semibold pb-16">
+      Result<%= total_count == 1 ? '' : 's' %> for "<%= query %>"
+      <span class="text-gray-500">(<%= total_count %>)</span>
     </p>
 
     <div class="space-y-20 pb-16">
+      <% results.each do |result| %>
+        <% case result %>
+        <% when Artwork %>
+          <%= link_to result.path, class: "group block" do %>
+            <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
+              <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
+                <% if result.cloudinary_public_id.present? %>
+                  <%= image_tag result.large_url, alt: result.title, class: "w-full h-auto" %>
+                <% else %>
+                  <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
+                    <i class="fa-solid fa-image text-2xl text-gray-300"></i>
+                  </div>
+                <% end %>
+              </div>
+              <div class="flex-1 space-y-1">
+                <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400"><%= result.is_indian_collection? ? 'Indian Collection' : 'Artwork' %></p>
+                <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= result.title %></h2>
+                <% if result.description.present? %>
+                  <p class="text-sm md:text-base text-gray-700 group-hover:text-blue-400">
+                    <%= search_excerpt(clean_for_preview(result.description), query) %>
+                  </p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
 
-      <% artworks.each do |artwork| %>
-        <%= link_to artwork.path, class: "group block" do %>
-          <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
-            <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
-              <% if artwork.cloudinary_public_id.present? %>
-                <%= image_tag artwork.large_url, alt: artwork.title, class: "w-full h-auto" %>
-              <% else %>
-                <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
-                  <i class="fa-solid fa-image text-2xl text-gray-300"></i>
-                </div>
-              <% end %>
+        <% when Resource %>
+          <%= link_to result.path, class: "group block" do %>
+            <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
+              <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
+                <% if result.resource_images.any? %>
+                  <%= image_tag result.resource_images.first.image_url, alt: result.title, class: "w-full h-auto" %>
+                <% else %>
+                  <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
+                    <i class="fa-solid fa-file-lines text-2xl text-gray-300"></i>
+                  </div>
+                <% end %>
+              </div>
+              <div class="flex-1 space-y-1">
+                <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400"><%= result.is_indian_collection? ? 'Indian Collection' : 'Resource' %></p>
+                <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= result.title %></h2>
+                <%
+                  use_summary = result.summary.present? && clean_for_preview(result.summary).downcase.include?(query.downcase)
+                  use_description = !use_summary && result.description.present? && clean_for_preview(result.description).downcase.include?(query.downcase)
+                  preview_text = if use_summary
+                    clean_for_preview(result.summary)
+                  elsif use_description
+                    clean_for_preview(result.description)
+                  else
+                    clean_for_preview(result.summary.presence || result.description.to_s)
+                  end
+                %>
+                <% if preview_text.present? %>
+                  <p class="text-sm md:text-base text-gray-700 group-hover:text-blue-400">
+                    <% if use_summary %>
+                      <%= sanitize(highlight_query(preview_text, query), tags: %w(span), attributes: %w(style)) %>
+                    <% else %>
+                      <%= search_excerpt(preview_text, query) %>
+                    <% end %>
+                  </p>
+                <% end %>
+              </div>
             </div>
-            <div class="flex-1 space-y-1">
-              <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400"><%= artwork.is_indian_collection? ? 'Indian Collection' : 'Artwork' %></p>
-              <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= artwork.title %></h2>
-              <% if artwork.description.present? %>
-                <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
-                  <%= search_excerpt(artwork.description, query) %>
-                </p>
-              <% end %>
+          <% end %>
+
+        <% when NewsItem %>
+          <%= link_to result.path, class: "group block" do %>
+            <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
+              <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
+                <% if result.cloudinary_public_id.present? %>
+                  <%= image_tag result.large_url, alt: result.title, class: "w-full h-auto" %>
+                <% else %>
+                  <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
+                    <i class="fa-solid fa-newspaper text-2xl text-gray-300"></i>
+                  </div>
+                <% end %>
+              </div>
+              <div class="flex-1 space-y-1">
+                <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400">News</p>
+                <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= result.title %></h2>
+                <% preview = result.excerpt.presence || result.content %>
+                <% if preview.present? %>
+                  <p class="text-sm md:text-base text-gray-700 group-hover:text-blue-400">
+                    <%= search_excerpt(clean_for_preview(preview), query) %>
+                  </p>
+                <% end %>
+              </div>
             </div>
-          </div>
+          <% end %>
+
+        <% when Exhibition %>
+          <%= link_to exhibition_path(result.slug), class: "group block" do %>
+            <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
+              <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
+                <% if result.exhibition_images.any? %>
+                  <%= image_tag result.exhibition_images.first.image_url, alt: result.title, class: "w-full h-auto" %>
+                <% else %>
+                  <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
+                    <i class="fa-solid fa-palette text-2xl text-gray-300"></i>
+                  </div>
+                <% end %>
+              </div>
+              <div class="flex-1 space-y-1">
+                <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400">Exhibition</p>
+                <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= result.title %></h2>
+                <% if result.description.present? %>
+                  <p class="text-sm md:text-base text-gray-700 group-hover:text-blue-400">
+                    <%= search_excerpt(clean_for_preview(result.description), query) %>
+                  </p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+        <% when Collection %>
+          <%= link_to collection_path(result.slug), class: "group block" do %>
+            <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
+              <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
+                <% if result.cloudinary_public_id.present? %>
+                  <%= image_tag result.large_url, alt: result.name, class: "w-full h-auto" %>
+                <% else %>
+                  <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
+                    <i class="fa-solid fa-building-columns text-2xl text-gray-300"></i>
+                  </div>
+                <% end %>
+              </div>
+              <div class="flex-1 space-y-1">
+                <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400">Collection</p>
+                <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= result.name %></h2>
+                <% if result.description.present? %>
+                  <p class="text-sm md:text-base text-gray-700 group-hover:text-blue-400">
+                    <%= search_excerpt(clean_for_preview(result.description), query) %>
+                  </p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
-
-      <% resources.each do |resource| %>
-        <%= link_to resource.path, class: "group block" do %>
-          <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
-            <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
-              <% if resource.resource_images.any? %>
-                <%= image_tag resource.resource_images.first.image_url, alt: resource.title, class: "w-full h-auto" %>
-              <% else %>
-                <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
-                  <i class="fa-solid fa-file-lines text-2xl text-gray-300"></i>
-                </div>
-              <% end %>
-            </div>
-            <div class="flex-1 space-y-1">
-              <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400"><%= resource.is_indian_collection? ? 'Indian Collection' : 'Resource' %></p>
-              <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= resource.title %></h2>
-              <%
-                use_summary = resource.summary.present? && resource.summary.downcase.include?(query.downcase)
-                use_description = !use_summary && resource.description.present? && resource.description.downcase.include?(query.downcase)
-                
-                preview_text = if use_summary
-                  resource.summary
-                elsif use_description
-                  resource.description
-                else
-                  resource.summary.presence || resource.description
-                end
-              %>
-              <% if preview_text.present? %>
-                <p class="text-sm md:text-base <%= use_summary ? 'font-semibold' : '' %> text-gray-700 group-hover:text-blue-400">
-                  <% if use_summary %>
-                    <%= raw highlight_query(preview_text, query) %>
-                  <% else %>
-                    <%= search_excerpt(preview_text, query) %>
-                  <% end %>
-                </p>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
-
-      <% news_items.each do |news_item| %>
-        <%= link_to news_item.path, class: "group block" do %>
-          <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
-            <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
-              <% if news_item.cloudinary_public_id.present? %>
-                <%= image_tag news_item.large_url, alt: news_item.title, class: "w-full h-auto" %>
-              <% else %>
-                <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
-                  <i class="fa-solid fa-newspaper text-2xl text-gray-300"></i>
-                </div>
-              <% end %>
-            </div>
-            <div class="flex-1 space-y-1">
-              <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400">News</p>
-              <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= news_item.title %></h2>
-              <% preview = news_item.excerpt.presence || news_item.content %>
-              <% if preview.present? %>
-                <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
-                  <%= search_excerpt(news_item.content, query) %>
-                </p>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
-
-      <% exhibitions.each do |exhibition| %>
-        <%= link_to exhibition_path(exhibition.slug), class: "group block" do %>
-          <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
-            <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
-              <% if exhibition.exhibition_images.any? %>
-                <%= image_tag exhibition.exhibition_images.first.image_url, alt: exhibition.title, class: "w-full h-auto" %>
-              <% else %>
-                <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
-                  <i class="fa-solid fa-palette text-2xl text-gray-300"></i>
-                </div>
-              <% end %>
-            </div>
-            <div class="flex-1 space-y-1">
-              <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400">Exhibition</p>
-              <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= exhibition.title %></h2>
-              <% if exhibition.description.present? %>
-                <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
-                  <%= search_excerpt(exhibition.description, query) %>
-                </p>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
-
-      <% collections.each do |collection| %>
-        <%= link_to collection_path(collection.slug), class: "group block" do %>
-          <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
-            <div class="flex-shrink-0 w-full md:w-40 lg:w-48">
-              <% if collection.cloudinary_public_id.present? %>
-                <%= image_tag collection.large_url, alt: collection.name, class: "w-full h-auto" %>
-              <% else %>
-                <div class="w-full aspect-[3/2] bg-gray-100 flex items-center justify-center">
-                  <i class="fa-solid fa-building-columns text-2xl text-gray-300"></i>
-                </div>
-              <% end %>
-            </div>
-            <div class="flex-1 space-y-1">
-              <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400">Collection</p>
-              <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= collection.name %></h2>
-              <% if collection.description.present? %>
-                <p class="text-sm md:text-base font-semibold text-gray-700 group-hover:text-blue-400">
-                  <%= search_excerpt(collection.description, query) %>
-                </p>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
-
     </div>
+
+    <% if total_pages > 1 %>
+      <nav class="flex items-center justify-center gap-1 my-8 pb-16" role="navigation" aria-label="pager">
+        <% if current_page > 1 %>
+          <span class="prev">
+            <button data-action="click->search#goToPage" data-page="<%= current_page - 1 %>"
+                    class="px-3 py-1 text-base hover:text-blue-800 transition-colors">
+              «
+            </button>
+          </span>
+        <% end %>
+
+        <%
+          window_start = [current_page - 2, 1].max
+          window_end = [current_page + 2, total_pages].min
+          window_start = [window_end - 4, 1].max if window_end - window_start < 4
+        %>
+
+        <% if window_start > 1 %>
+          <span class="page">
+            <button data-action="click->search#goToPage" data-page="1"
+                    class="px-3 py-1 text-sm text-black hover:text-blue-800 transition-colors">
+              1
+            </button>
+          </span>
+          <% if window_start > 2 %>
+            <span class="px-2 py-1 text-base cursor-default select-none">&hellip;</span>
+          <% end %>
+        <% end %>
+
+        <% (window_start..window_end).each do |page| %>
+          <span class="page">
+            <% if page == current_page %>
+              <span class="px-3 py-1 text-base border border-black"><%= page %></span>
+            <% else %>
+              <button data-action="click->search#goToPage" data-page="<%= page %>"
+                      class="px-3 py-1 text-sm text-black hover:text-blue-800 transition-colors">
+                <%= page %>
+              </button>
+            <% end %>
+          </span>
+        <% end %>
+
+        <% if window_end < total_pages %>
+          <% if window_end < total_pages - 1 %>
+            <span class="px-2 py-1 text-base cursor-default select-none">&hellip;</span>
+          <% end %>
+          <span class="page">
+            <button data-action="click->search#goToPage" data-page="<%= total_pages %>"
+                    class="px-3 py-1 text-sm text-black hover:text-blue-800 transition-colors">
+              <%= total_pages %>
+            </button>
+          </span>
+        <% end %>
+
+        <% if current_page < total_pages %>
+          <span class="next">
+            <button data-action="click->search#goToPage" data-page="<%= current_page + 1 %>"
+                    class="px-3 py-1 text-base hover:text-blue-800 transition-colors">
+              »
+            </button>
+          </span>
+        <% end %>
+      </nav>
+    <% end %>
 
   <% else %>
     <p class="text-gray-500 text-center">No results found for "<%= query %>"</p>

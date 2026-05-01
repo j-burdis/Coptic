@@ -10,14 +10,9 @@ Rails.application.routes.draw do
   get 'contact', to: 'pages#contact'
   get 'copyright-permissions', to: 'pages#copyright_permissions'
   get 'privacy', to: 'pages#privacy'
-  get 'newsletter', to: redirect('https://howard-hodgkin.us2.list-manage.com/subscribe?u=0456cc82d5128b6c05f63f584&id=29ec9d6d8b')
 
   # Search
   get 'search', to: 'search#index'
-
-  # Mailing list
-  get 'subscribe', to: 'subscriptions#new'
-  post 'subscribe', to: 'subscriptions#create'
 
   # Main collection - gallery/artworks
   namespace :gallery do

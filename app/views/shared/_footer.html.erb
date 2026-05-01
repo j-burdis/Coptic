@@ -13,11 +13,7 @@
         <% end %>
       </div>
 
-      <div class="flex items-center pl-4">
-        <%= link_to subscribe_path, class: "text-gray-700 hover:text-blue-800 transition-colors py-3 px-2 lg:px-4", title: "Mailing List" do %>
-          <i class="fa-regular fa-envelope text-xl"></i>
-        <% end %>
-        
+      <div class="flex items-center pl-4">        
         <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "text-gray-700 hover:text-blue-800 transition-colors py-3 px-4", title: "Instagram" do %>
           <i class="fa-brands fa-instagram text-xl"></i>
         <% end %>
@@ -39,8 +35,6 @@
         <!-- Column 2: Contact & Info -->
         <div class="space-y-3">
           <%= link_to "Contact", contact_path, class: "block text-gray-700 hover:text-blue-800 transition-colors p-1" %>
-          <%# <%= link_to "Newsletter", newsletter_path, target: "_blank", rel: "noopener noreferrer", class: "block text-gray-700 hover:text-blue-800 transition-colors p-1" %>
-          <%= link_to "Newsletter", subscribe_path, class: "block text-gray-700 hover:text-blue-800 transition-colors p-1" %>
           <%= link_to "Copyright & Permissions", copyright_permissions_path, class: "block text-gray-700 hover:text-blue-800 transition-colors p-1 whitespace-nowrap" %>
           <%= link_to "Privacy", privacy_path, class: "block text-gray-700 hover:text-blue-800 transition-colors p-1" %>
         </div>

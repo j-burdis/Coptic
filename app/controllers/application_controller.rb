@@ -2,39 +2,56 @@ class ApplicationController < ActionController::Base
   # only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
+  rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
+
   def route_not_found
     path = params[:path]
 
-    # find matching artwork, resource, exhibition, or collection
     match = find_closest_match(path)
 
     if match
-      redirect_to match[:url], status: :moved_permanently
+      redirect_to match[:url], status: :found
     else
-      # 404 page
-      render file: "#{Rails.root}/public/404.html", status: :not_found, layout: false
+      redirect_to root_path, alert: "No matching page found for \"#{path}\""
+    end
+  end
+
+  def handle_record_not_found
+    path = request.path.gsub(/^\//, '')
+    match = find_closest_match(path)
+
+    if match
+      redirect_to match[:url], status: :found
+    else
+      redirect_to root_path, alert: "No matching page found for \"#{path}\""
     end
   end
 
   private
 
   def find_closest_match(path)
-    # clean the path (remove leading slash, take first segment)
-    query = path.gsub(/^\//, '').split('/').first&.downcase
+    query = path.gsub(/^\//, '').split('/').last&.downcase
     return nil if query.blank?
 
-    artwork = Artwork.published.where("slug LIKE ?", "#{query}%").order(:slug).first
-    return { url: artwork_path(artwork.slug), type: 'artwork' } if artwork
+    candidates = []
 
-    resource = Resource.published.where("slug LIKE ?", "#{query}%").order(:slug).first
-    return { url: resource_path(resource.slug), type: 'resource' } if resource
+    artwork = Artwork.published.where("slug ILIKE ?", "#{query}%").order(:slug).first
+    candidates << { slug: artwork.slug, url: artwork.path } if artwork
 
-    exhibition = Exhibition.published.where("slug LIKE ?", "#{query}%").order(:slug).first
-    return { url: exhibition_path(exhibition.slug), type: 'exhibition' } if exhibition
+    resource = Resource.published.where("slug ILIKE ?", "#{query}%").order(:slug).first
+    candidates << { slug: resource.slug, url: resource.path } if resource
 
-    collection = Collection.published.where("slug LIKE ?", "#{query}%").order(:slug).first
-    return { url: collection_path(collection.slug), type: 'collection' } if collection
+    exhibition = Exhibition.published.where("slug ILIKE ?", "#{query}%").order(:slug).first
+    candidates << { slug: exhibition.slug, url: exhibition_path(exhibition.slug) } if exhibition
 
-    nil
+    collection = Collection.published.where("slug ILIKE ?", "#{query}%").order(:slug).first
+    candidates << { slug: collection.slug, url: collection_path(collection.slug) } if collection
+
+    news_item = NewsItem.published.where("slug ILIKE ?", "#{query}%").order(:slug).first
+    candidates << { slug: news_item.slug, url: news_path(news_item.slug) } if news_item
+
+    return nil if candidates.empty?
+
+    candidates.min_by { |c| c[:slug] }
   end
 end

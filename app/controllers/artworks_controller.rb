@@ -15,7 +15,5 @@ class ArtworksController < ApplicationController
                      else
                        gallery_root_path
                      end
-  rescue ActiveRecord::RecordNotFound
-    redirect_to gallery_root_path, alert: "Artwork not found"
-  end
+  end 
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_25_103700) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_05_062821) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -100,6 +100,18 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_25_103700) do
     t.index ["status"], name: "index_artworks_on_status"
     t.index ["subcategory"], name: "index_artworks_on_subcategory"
     t.index ["year"], name: "index_artworks_on_year"
+  end
+
+  create_table "carousel_slides", force: :cascade do |t|
+    t.bigint "artwork_id"
+    t.string "cloudinary_public_id"
+    t.string "original_filename"
+    t.text "quote_text"
+    t.string "quote_attribution"
+    t.integer "position"
+    t.boolean "published"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "category_pages", force: :cascade do |t|
@@ -196,6 +208,22 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_25_103700) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "home_sections", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "image_cloudinary_public_id"
+    t.string "image_original_filename"
+    t.string "image_caption"
+    t.string "link_url"
+    t.string "link_text"
+    t.string "video_url"
+    t.string "layout"
+    t.integer "position"
+    t.boolean "published"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "indian_collection_exhibition_lists", force: :cascade do |t|

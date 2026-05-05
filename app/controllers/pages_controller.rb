@@ -1,5 +1,7 @@
 class PagesController < ApplicationController
   def home
+    @carousel_slides = CarouselSlide.published.ordered.includes(:artwork)
+    @home_sections = HomeSection.published.ordered
   end
 
   def contact

@@ -95,7 +95,11 @@ export default class extends Controller {
     // currentIndex 1 = real slide 0, currentIndex 2 = real slide 1, etc.
     const realIndex = (this.currentIndex - 1 + this.realCount) % this.realCount
     this.dotTargets.forEach((dot, i) => {
-      dot.style.opacity = i === realIndex ? '1' : '0.5'
+      if (i === realIndex) {
+        dot.style.backgroundColor = 'black'
+      } else {
+        dot.style.backgroundColor = 'white'
+      }
     })
   }
 

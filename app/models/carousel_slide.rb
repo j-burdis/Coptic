@@ -18,7 +18,7 @@ class CarouselSlide < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    ["id", "artwork_id", "quote_text", "quote_attribution", "position", "published", "created_at", "updated_at"]
+    ["id", "artwork_id", "quote_text", "quote_attribution_name", "quote_attribution_date", "position", "published", "created_at", "updated_at"]
   end
 
   def self.ransackable_associations(auth_object = nil)

@@ -1,0 +1,5 @@
+class RemoveQuoteAttributionFromCarouselSlides < ActiveRecord::Migration[7.2]
+  def change
+    remove_column :carousel_slides, :quote_attribution, :string
+  end
+end

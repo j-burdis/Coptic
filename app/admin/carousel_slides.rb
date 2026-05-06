@@ -1,6 +1,7 @@
 ActiveAdmin.register CarouselSlide do
   permit_params :artwork_id, :image, :cloudinary_public_id, :original_filename,
-                :quote_text, :quote_attribution, :position, :published
+                :quote_text, :quote_attribution_name, :quote_attribution_date,
+                :position, :published
 
   index do
     selectable_column
@@ -48,7 +49,8 @@ ActiveAdmin.register CarouselSlide do
         f.inputs "Quote (optional)" do
           f.input :quote_text, as: :text, input_html: { rows: 4 },
                   hint: 'Optional quote to display over the image'
-          f.input :quote_attribution, hint: 'e.g. "Howard Hodgkin, 1995"'
+          f.input :quote_attribution_name, hint: 'e.g. "Howard Hodgkin"'
+          f.input :quote_attribution_date, hint: 'e.g. "1995"'          
         end
       end
 
@@ -89,7 +91,8 @@ ActiveAdmin.register CarouselSlide do
               link_to carousel_slide.artwork.title, admin_artwork_path(carousel_slide.artwork) if carousel_slide.artwork
             end
             row :quote_text
-            row :quote_attribution
+            row :quote_attribution_name
+            row :quote_attribution_date
             row :position
             row :published
             row :created_at

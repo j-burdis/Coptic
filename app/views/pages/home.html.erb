@@ -1,3 +1,4 @@
+<% content_for :full_width, true %>
 <% content_for :title, "Home" %>
 
 <%# Carousel %>
@@ -71,74 +72,76 @@
   </div>
 <% end %>
 
-<%# Intro text %>
-<div class="text-center py-12 px-4">
-  <p class="text-xl md:text-2xl max-w-3xl mx-auto">
-    Sir Gordon Howard Eliot Hodgkin CH CBE (1932 – 2017) was a British painter and printmaker.
-  </p>
-</div>
+<div class="px-4 lg:px-12">
+  <%# Intro text %>
+  <div class="text-center py-12 px-4">
+    <p class="text-xl md:text-2xl max-w-3xl mx-auto">
+      Sir Gordon Howard Eliot Hodgkin CH CBE (1932 – 2017) was a British painter and printmaker.
+    </p>
+  </div>
 
-<%# Home sections %>
-<% @home_sections.each do |section| %>
-  <div class="border-t border-gray-200 py-12 px-4">
-    <div class="max-w-4xl mx-auto">
-      <div class="flex flex-col <%= section.layout == 'image_right' ? 'md:flex-row-reverse' : 'md:flex-row' %> gap-8 md:gap-12 items-start">
+  <%# Home sections %>
+  <% @home_sections.each do |section| %>
+    <div class="border-t border-gray-200 py-12 px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="flex flex-col <%= section.layout == 'image_right' ? 'md:flex-row-reverse' : 'md:flex-row' %> gap-8 md:gap-12 items-start">
 
-        <% if section.image_cloudinary_public_id.present? || section.video_url.present? %>
-          <div class="w-full md:w-1/2 flex-shrink-0">
-            <% if section.video_url.present? %>
-              <div class="relative cursor-pointer group" data-controller="video-modal"
-                   data-video-modal-url-value="<%= section.video_url %>">
-                <% if section.image_cloudinary_public_id.present? %>
-                  <%= image_tag section.image_url, alt: section.title, class: "w-full h-auto" %>
-                <% end %>
-                <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors"
-                     data-action="click->video-modal#open">
-                  <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center">
-                    <i class="fa-solid fa-play text-2xl ml-1"></i>
+          <% if section.image_cloudinary_public_id.present? || section.video_url.present? %>
+            <div class="w-full md:w-1/2 flex-shrink-0">
+              <% if section.video_url.present? %>
+                <div class="relative cursor-pointer group" data-controller="video-modal"
+                    data-video-modal-url-value="<%= section.video_url %>">
+                  <% if section.image_cloudinary_public_id.present? %>
+                    <%= image_tag section.image_url, alt: section.title, class: "w-full h-auto" %>
+                  <% end %>
+                  <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors"
+                      data-action="click->video-modal#open">
+                    <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center">
+                      <i class="fa-solid fa-play text-2xl ml-1"></i>
+                    </div>
                   </div>
                 </div>
-              </div>
-            <% else %>
-              <%= image_tag section.image_url, alt: section.title, class: "w-full h-auto" %>
-            <% end %>
-            <% if section.image_caption.present? %>
-              <p class="text-sm text-gray-500 mt-2"><%= section.image_caption %></p>
-            <% end %>
-          </div>
-        <% end %>
-
-        <div class="flex-1">
-          <% if section.title.present? %>
-            <h2 class="text-2xl md:text-3xl font-semibold mb-4"><%= section.title %></h2>
-          <% end %>
-
-          <% if section.description.present? %>
-            <div class="text-base md:text-lg leading-relaxed mb-6">
-              <%= simple_format(section.description, {}, sanitize: false) %>
+              <% else %>
+                <%= image_tag section.image_url, alt: section.title, class: "w-full h-auto" %>
+              <% end %>
+              <% if section.image_caption.present? %>
+                <p class="text-sm text-gray-500 mt-2"><%= section.image_caption %></p>
+              <% end %>
             </div>
           <% end %>
 
-          <% if section.link_url.present? && section.link_text.present? %>
-            <%= link_to section.link_text, section.link_url,
-                class: "text-base hover:text-blue-800" %>
-          <% end %>
+          <div class="flex-1">
+            <% if section.title.present? %>
+              <h2 class="text-2xl md:text-3xl font-semibold mb-4"><%= section.title %></h2>
+            <% end %>
+
+            <% if section.description.present? %>
+              <div class="text-base md:text-lg leading-relaxed mb-6">
+                <%= simple_format(section.description, {}, sanitize: false) %>
+              </div>
+            <% end %>
+
+            <% if section.link_url.present? && section.link_text.present? %>
+              <%= link_to section.link_text, section.link_url,
+                  class: "text-base hover:text-blue-800" %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
 
-<%# Video modal %>
-<div id="video-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center"
-     style="z-index: 100;"
-     data-action="click->video-modal#closeOnBackdrop">
-  <div class="relative w-full max-w-4xl px-4">
-    <button class="absolute -top-10 right-4 text-white text-3xl hover:opacity-70"
-            data-action="click->video-modal#close">
-      ×
-    </button>
-    <div id="video-modal-content" class="relative aspect-video">
+  <%# Video modal %>
+  <div id="video-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center"
+      style="z-index: 100;"
+      data-action="click->video-modal#closeOnBackdrop">
+    <div class="relative w-full max-w-4xl px-4">
+      <button class="absolute -top-10 right-4 text-white text-3xl hover:opacity-70"
+              data-action="click->video-modal#close">
+        ×
+      </button>
+      <div id="video-modal-content" class="relative aspect-video">
+      </div>
     </div>
   </div>
 </div>

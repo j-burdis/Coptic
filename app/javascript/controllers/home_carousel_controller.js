@@ -17,14 +17,16 @@ export default class extends Controller {
         this.slidesTarget.style.transition = 'none'
         this.currentIndex = 1
         this.slidesTarget.style.transform = `translateX(-${this.currentIndex * 100}%)`
-        this.slidesTarget.getBoundingClientRect()
+        this.slidesTarget.getBoundingClientRect() // force reflow
+        this.updateDots() // <-- update dots after silent snap back to real first slide
       }
       // if we've gone before the first real slide to the cloned last
       if (this.currentIndex === 0) {
         this.slidesTarget.style.transition = 'none'
         this.currentIndex = this.realCount
         this.slidesTarget.style.transform = `translateX(-${this.currentIndex * 100}%)`
-        this.slidesTarget.getBoundingClientRect()
+        this.slidesTarget.getBoundingClientRect() // force reflow
+        this.updateDots() // <-- update dots after silent snap to real last slide
       }
       this.isTransitioning = false
     }
@@ -97,8 +99,10 @@ export default class extends Controller {
     this.dotTargets.forEach((dot, i) => {
       if (i === realIndex) {
         dot.style.backgroundColor = 'black'
+        dot.style.borderColor = 'black'
       } else {
         dot.style.backgroundColor = 'white'
+        dot.style.borderColor = 'black'
       }
     })
   }

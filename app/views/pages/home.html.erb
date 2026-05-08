@@ -89,8 +89,9 @@
           <% if section.image_cloudinary_public_id.present? || section.video_url.present? %>
             <div class="w-full md:w-1/2 flex-shrink-0">
               <% if section.video_url.present? %>
-                <div class="relative cursor-pointer group" data-controller="video-modal"
-                    data-video-modal-url-value="<%= section.video_url %>">
+                <div class="relative cursor-pointer group"
+                     data-action="click->video-modal#open"
+                     data-video-modal-url-value="<%= section.video_url %>">
                   <% if section.image_cloudinary_public_id.present? %>
                     <%= image_tag section.image_url, alt: section.title, class: "w-full h-auto" %>
                   <% end %>
@@ -132,13 +133,14 @@
   <% end %>
 
   <%# Video modal %>
-  <div id="video-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center"
-      style="z-index: 100;"
-      data-action="click->video-modal#closeOnBackdrop">
+  <div id="video-modal" 
+       class="hidden fixed inset-0 bg-black/80 items-center justify-center"
+       style="z-index: 100;"
+       data-action="click->video-modal#closeOnBackdrop">
     <div class="relative w-full max-w-4xl px-4">
       <button class="absolute -top-10 right-4 text-white text-3xl hover:opacity-70"
               data-action="click->video-modal#close">
-        ×
+        <i class="fa-solid fa-xmark"></i>
       </button>
       <div id="video-modal-content" class="relative aspect-video">
       </div>

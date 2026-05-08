@@ -3,11 +3,12 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static values = { url: String }
 
-  open() {
+  open(event) {
+    const url = event.currentTarget.dataset.videoModalUrlValue
     const modal = document.getElementById('video-modal')
     const content = document.getElementById('video-modal-content')
 
-    let embedUrl = this.urlValue
+    let embedUrl = url
     if (embedUrl.includes('vimeo.com')) {
       const id = embedUrl.match(/vimeo\.com\/(\d+)/)?.[1]
       embedUrl = `https://player.vimeo.com/video/${id}?autoplay=1`
@@ -20,6 +21,9 @@ export default class extends Controller {
     modal.classList.remove('hidden')
     modal.classList.add('flex')
     document.body.style.overflow = 'hidden'
+
+    this.boundKeydown = this.handleKeydown.bind(this)
+    document.addEventListener('keydown', this.boundKeydown)
   }
 
   close() {
@@ -29,11 +33,17 @@ export default class extends Controller {
     modal.classList.add('hidden')
     modal.classList.remove('flex')
     document.body.style.overflow = ''
+
+    document.removeEventListener('keydown', this.boundKeydown)
   }
 
   closeOnBackdrop(event) {
     if (event.target === document.getElementById('video-modal')) {
       this.close()
     }
+  }
+
+  handleKeydown(event) {
+    if (event.key === 'Escape') this.close()
   }
 }

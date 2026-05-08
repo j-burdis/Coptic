@@ -97,8 +97,8 @@
                   <% end %>
                   <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors"
                       data-action="click->video-modal#open">
-                    <div class="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center">
-                      <i class="fa-solid fa-play text-2xl ml-1"></i>
+                    <div class="flex items-center justify-center">
+                      <i class="text-white/80 group-hover:text-white fa-solid fa-play text-4xl ml-1"></i>
                     </div>
                   </div>
                 </div>
@@ -134,11 +134,12 @@
 
   <%# Video modal %>
   <div id="video-modal" 
-       class="hidden fixed inset-0 bg-black/80 items-center justify-center"
-       style="z-index: 100;"
-       data-action="click->video-modal#closeOnBackdrop">
+      class="hidden fixed inset-0 bg-black/80 items-center justify-center"
+      style="z-index: 100;"
+      data-controller="video-modal"
+      data-action="click->video-modal#closeOnBackdrop">
     <div class="relative w-full max-w-4xl px-4">
-      <button class="absolute -top-10 right-4 text-white text-3xl hover:opacity-70"
+      <button class="absolute right-20 text-3xl text-white/80 hover:text-white z-10"
               data-action="click->video-modal#close">
         <i class="fa-solid fa-xmark"></i>
       </button>

@@ -20,7 +20,11 @@ export default class extends Controller {
     content.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`
     modal.classList.remove('hidden')
     modal.classList.add('flex')
-    document.body.style.overflow = 'hidden'
+
+    this.scrollY = window.scrollY
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${this.scrollY}px`
+    document.body.style.width = '100%'
 
     this.boundKeydown = this.handleKeydown.bind(this)
     document.addEventListener('keydown', this.boundKeydown)
@@ -29,10 +33,14 @@ export default class extends Controller {
   close() {
     const modal = document.getElementById('video-modal')
     const content = document.getElementById('video-modal-content')
-    content.innerHTML = ''
+    content.querySelector('iframe')?.remove()
     modal.classList.add('hidden')
     modal.classList.remove('flex')
-    document.body.style.overflow = ''
+
+    document.body.style.position = ''
+    document.body.style.top = ''
+    document.body.style.width = ''
+    window.scrollTo(0, this.scrollY || 0)
 
     document.removeEventListener('keydown', this.boundKeydown)
   }

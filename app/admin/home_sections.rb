@@ -24,6 +24,52 @@ ActiveAdmin.register HomeSection do
     actions
   end
 
+  show do
+    columns do
+      column do
+        panel "Image" do
+          if home_section.image_cloudinary_public_id.present?
+            div do
+              image_tag home_section.image_url, style: 'max-width: 100%; height: auto; display: block;'
+            end
+            if home_section.image_caption.present?
+              para home_section.image_caption, class: 'text-sm text-gray-500', style: 'margin-top: 5px;'
+            end
+          else
+            para 'No image uploaded', class: 'text-gray-500'
+          end
+        end
+      end
+
+      column do
+        panel "Details" do
+          attributes_table_for home_section do
+            row :title
+            row :description
+            row :link_url do
+              if home_section.link_url.present?
+                link_to home_section.link_url, home_section.link_url, target: '_blank'
+              end
+            end
+            row :link_text
+            row :video_url do
+              if home_section.video_url.present?
+                link_to home_section.video_url, home_section.video_url, target: '_blank'
+              end
+            end
+            row :layout
+            row :position
+            row :published do
+              status_tag(home_section.published ? 'Yes' : 'No', class: (home_section.published ? 'yes' : 'no'))
+            end
+            row :created_at
+            row :updated_at
+          end
+        end
+      end
+    end
+  end
+
   filter :title
   filter :published
 

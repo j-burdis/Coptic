@@ -30,6 +30,6 @@ class HomeSection < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    ["id", "title", "description", "link_url", "link_text", "video_url", "layout", "position", "published", "created_at", "updated_at"]
+    ["id", "title", "description", "video_url", "layout", "position", "published", "created_at", "updated_at"]
   end
 end

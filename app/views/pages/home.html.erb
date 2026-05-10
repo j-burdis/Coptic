@@ -121,11 +121,6 @@
                 <%= simple_format(section.description, {}, sanitize: false) %>
               </div>
             <% end %>
-
-            <% if section.link_url.present? && section.link_text.present? %>
-              <%= link_to section.link_text, section.link_url,
-                  class: "text-base hover:text-blue-800" %>
-            <% end %>
           </div>
         </div>
       </div>

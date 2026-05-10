@@ -1,7 +1,7 @@
 ActiveAdmin.register HomeSection do
   permit_params :title, :description, :image, :image_cloudinary_public_id,
-                :image_original_filename, :image_caption, :link_url, :link_text,
-                :video_url, :layout, :position, :published
+                :image_original_filename, :image_caption, :video_url,
+                :layout, :position, :published
 
   index do
     selectable_column
@@ -46,12 +46,6 @@ ActiveAdmin.register HomeSection do
           attributes_table_for home_section do
             row :title
             row :description
-            row :link_url do
-              if home_section.link_url.present?
-                link_to home_section.link_url, home_section.link_url, target: '_blank'
-              end
-            end
-            row :link_text
             row :video_url do
               if home_section.video_url.present?
                 link_to home_section.video_url, home_section.video_url, target: '_blank'
@@ -97,8 +91,6 @@ ActiveAdmin.register HomeSection do
           f.input :title
           f.input :description, as: :text, input_html: { rows: 8 },
                   hint: 'HTML supported. Use &lt;a&gt; tags for links within text.'
-          f.input :link_url, hint: 'Primary link URL for this section'
-          f.input :link_text, hint: 'Link text e.g. "Explore Artworks ››"'
           f.input :video_url, hint: 'Vimeo or YouTube URL for video modal (optional)'
         end
 

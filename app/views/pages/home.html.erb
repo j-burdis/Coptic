@@ -19,9 +19,9 @@
             <% if slide.quote_text.present? %>
               <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent">
               </div>
-              <div class="absolute bottom-20 left-0 px-8 md:px-16 text-white max-w-2xl">
+              <div class="absolute bottom-10 left-0 px-8 md:px-0 md:pr-8 md:pl-[20%] text-white md:max-w-[65%]">
                 <blockquote>
-                  <p class="text-2xl md:text-3xl font-semibold mb-3 leading-snug drop-shadow"><%= slide.quote_text %></p>
+                  <p class="text-xl md:text-2xl font-semibold mb-3 leading-snug drop-shadow"><%= slide.quote_text %></p>
                   <% if slide.quote_attribution_name.present? || slide.quote_attribution_date.present? %>
                     <div>
                       <% if slide.quote_attribution_name.present? %>
@@ -37,13 +37,10 @@
             <% end %>
 
             <%# Caption strip %>
-            <div class="absolute bottom-0 left-0 right-0 px-8 md:px-16 py-3"
+            <div class="absolute bottom-0 left-0 right-0 pr-8 pl-[20%] flex text-center justify-start"
                 style="background-color: rgba(255, 255, 255, 0.7);">
-              <%= link_to slide.artwork.path, class: "text-gray-600 text-sm hover:text-blue-800" do %>
-                <%= slide.artwork.title %>
-                <% if slide.artwork.year_range.present? %>
-                  , <%= slide.artwork.year_range %>
-                <% end %>
+              <%= link_to slide.artwork.path, class: "text-gray-600 text-xs hover:text-blue-800 py-1" do %>
+                <%= slide.artwork.title %><% if slide.artwork.year_range.present? %>, <%= slide.artwork.year_range %><% end %>
               <% end %>
             </div>
 
@@ -57,12 +54,12 @@
 
     <%# Dots must be inside the controller element so Stimulus can find them as targets %>
     <% if @carousel_slides.length > 1 %>
-      <div class="flex justify-center gap-3 py-4">
+      <div class="flex justify-center gap-3 py-6">
         <% @carousel_slides.each_with_index do |_, i| %>
           <button data-action="click->home-carousel#goTo"
                   data-index="<%= i %>"
                   data-home-carousel-target="dot"
-                  class="w-4 h-4 rounded-full border-2 border-black transition-all"
+                  class="w-2.5 h-2.5 rounded-full border border-black transition-all"
                   style="background-color: white;">
           </button>
         <% end %>
@@ -74,15 +71,15 @@
 
 <div class="px-4 lg:px-12">
   <%# Intro text %>
-  <div class="text-center py-12 px-4">
-    <p class="text-xl md:text-2xl max-w-3xl mx-auto">
+  <div class="text-center py-4 px-4">
+    <p class="text-md md:text-lg max-w-2xl mx-auto font-semibold text-pretty">
       Sir Gordon Howard Eliot Hodgkin CH CBE (1932 – 2017) was a British painter and printmaker.
     </p>
   </div>
 
   <%# Home sections %>
   <% @home_sections.each do |section| %>
-    <div class="border-t border-gray-200 py-12 px-4">
+    <div class="border-b border-gray-200 py-12 px-4">
       <div class="max-w-4xl mx-auto">
         <div class="flex flex-col <%= section.layout == 'image_right' ? 'md:flex-row-reverse' : 'md:flex-row' %> gap-8 md:gap-12 items-start">
 
@@ -106,18 +103,18 @@
                 <%= image_tag section.image_url, alt: section.title, class: "w-full h-auto" %>
               <% end %>
               <% if section.image_caption.present? %>
-                <p class="text-sm text-gray-500 mt-2"><%= section.image_caption %></p>
+                <p class="text-xs md:text-sm text-gray-500 mt-2"><%= section.image_caption %></p>
               <% end %>
             </div>
           <% end %>
 
           <div class="flex-1">
             <% if section.title.present? %>
-              <h2 class="text-2xl md:text-3xl font-semibold mb-4"><%= section.title %></h2>
+              <h2 class="text-lg md:text-xl font-semibold mb-4 text-pretty"><%= section.title %></h2>
             <% end %>
 
             <% if section.description.present? %>
-              <div class="text-base md:text-lg leading-relaxed mb-6">
+              <div class="text-sm md:text-base leading-relaxed mb-6 text-pretty">
                 <%= simple_format(section.description, {}, sanitize: false) %>
               </div>
             <% end %>

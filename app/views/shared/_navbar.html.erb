@@ -3,14 +3,14 @@
 %>
 
 <div>
-  <header class="fixed top-0 left-0 right-0 <%= indian_collection ? 'indian-collection-nav' : 'bg-white' %> p-6 lg:p-8" 
+  <header class="fixed top-0 left-0 right-0 <%= indian_collection ? 'indian-collection-nav' : 'bg-white' %> p-6 lg:p-8 drop-shadow-sm md:drop-shadow-none" 
           data-controller="dropdown" 
           style="z-index: 60;">
     <div class="flex items-center justify-between w-full">
 
       <div class="flex-shrink-0 lg:px-4 sm:pr-4">
         <%= link_to root_path, title: "Howard Hodgkin", rel: "home" do %>
-          <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "w-60" %>
+          <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "w-48" %>
           <span class="sr-only">Howard Hodgkin</span>
         <% end %>
       </div>
@@ -20,76 +20,76 @@
 
         <!-- Gallery Dropdown -->
         <div class="dropdown-container">
-          <button class="flex items-center cursor-pointer font-semibold hover:text-blue-800 transition-opacity px-6 py-3 whitespace-nowrap" data-action="click->dropdown#toggle">
-            <span class="text-xl">Gallery</span>
+          <button class="flex items-center cursor-pointer font-semibold hover:text-blue-800 transition-opacity px-4 py-2 whitespace-nowrap" data-action="click->dropdown#toggle">
+            <span class="text-base">Gallery</span>
             <%= raw '&nbsp;' %>
             <i class="fa-solid fa-caret-down"></i>
           </button>
           <div id="gallery-dropdown" class="absolute left-0 w-full pb-6 z-50 overflow-hidden transition-[max-height] duration-300 ease-in-out hidden" style="max-height: 0px; background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.95)' : 'rgba(255, 255, 255, 0.95)' %>;">
             <div data-dropdown-content>
-              <%= link_to "Explore", gallery_root_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Paintings", gallery_paintings_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Prints", gallery_prints_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Indian Leaves", gallery_indian_leaves_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Indian Waves", gallery_indian_waves_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Design", gallery_design_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Other", gallery_other_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Missing Works", gallery_missing_works_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "All Artworks", gallery_all_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
+              <%= link_to "Explore", gallery_root_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Paintings", gallery_paintings_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Prints", gallery_prints_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Indian Leaves", gallery_indian_leaves_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Indian Waves", gallery_indian_waves_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Design", gallery_design_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Other", gallery_other_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Missing Works", gallery_missing_works_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "All Artworks", gallery_all_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
             </div>  
           </div>
         </div>
 
         <!-- Resources Dropdown -->
         <div class="dropdown-container">
-          <button class="flex items-center cursor-pointer font-semibold hover:text-blue-800 transition-opacity px-6 py-3 whitespace-nowrap" data-action="click->dropdown#toggle">
-            <span class="text-xl">Resources</span>
+          <button class="flex items-center cursor-pointer font-semibold hover:text-blue-800 transition-opacity px-4 py-2 whitespace-nowrap" data-action="click->dropdown#toggle">
+            <span class="text-base">Resources</span>
             <%= raw '&nbsp;' %>
             <i class="fa-solid fa-caret-down"></i>
           </button>
           <div id="resources-dropdown" class="absolute left-0 w-full pb-6 z-50 overflow-hidden transition-[max-height] duration-300 ease-in-out hidden" style="max-height: 0px; background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.95)' : 'rgba(255, 255, 255, 0.95)' %>;">
             <div data-dropdown-content>
-              <%= link_to "Explore", resources_root_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Exhibitions", resources_exhibitions_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Films and Audio", resources_films_and_audio_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Texts", resources_texts_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Publications", resources_publications_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Chronology", resources_chronology_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Collections", resources_collections_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
+              <%= link_to "Explore", resources_root_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Exhibitions", resources_exhibitions_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Films and Audio", resources_films_and_audio_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Texts", resources_texts_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Publications", resources_publications_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Chronology", resources_chronology_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Collections", resources_collections_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
             </div>
           </div>
         </div>
         
         <!-- Indian Collection Dropdown -->
         <div class="dropdown-container">
-          <button class="flex items-center cursor-pointer font-semibold hover:text-blue-800 transition-opacity px-6 py-3 whitespace-nowrap" data-action="click->dropdown#toggle">
-            <span class="text-xl">Indian Collection</span>
+          <button class="flex items-center cursor-pointer font-semibold hover:text-blue-800 transition-opacity px-4 py-2 whitespace-nowrap" data-action="click->dropdown#toggle">
+            <span class="text-base">Indian Collection</span>
             <%= raw '&nbsp;' %>
             <i class="fa-solid fa-caret-down"></i>
           </button>
 
           <div id="indian-collection-dropdown" class="absolute left-0 w-full pb-6 z-50 overflow-hidden transition-[max-height] duration-300 ease-in-out hidden" style="max-height: 0px; background-color: <%= indian_collection ? 'rgba(217, 196, 173, 0.95)' : 'rgba(255, 255, 255, 0.95)' %>;">
             <div data-dropdown-content>
-              <%= link_to "Explore", indian_collection_root_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
-              <%= link_to "Resources", indian_collection_resources_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-lg" %>
+              <%= link_to "Explore", indian_collection_root_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Artworks", indian_collection_gallery_root_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
+              <%= link_to "Resources", indian_collection_resources_path, class: "block px-4 py-1 font-semibold hover:text-blue-800 transition-colors text-base" %>
             </div>
           </div>
         </div>
         
         <!-- News Link -->
         <div class="flex items-center">
-          <%= link_to "News", news_index_path, class: "font-semibold hover:text-blue-800 transition-opacity text-lg px-6 py-3 whitespace-nowrap" %>
+          <%= link_to "News", news_index_path, class: "font-semibold hover:text-blue-800 transition-opacity text-base px-4 py-2 whitespace-nowrap" %>
         </div>
         
         <!-- Search Icon -->
         <button class="flex items-center hover:text-blue-800 transition-opacity cursor-pointer"
                 data-action="click->search#open">
-          <i class="fa-solid fa-magnifying-glass text-xl px-6 py-3"></i>
+          <i class="fa-solid fa-magnifying-glass text-base px-4 py-2"></i>
         </button>
 
         <!-- Instagram Icon -->
-        <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "flex items-center hover:text-blue-800 transition-opacity text-2xl px-6 py-3" do %>
+        <%= link_to "https://www.instagram.com/howardhodgkin/", target: "_blank", rel: "noopener noreferrer", class: "flex items-center hover:text-blue-800 transition-opacity text-2xl px-4 py-2" do %>
           <i class="fa-brands fa-instagram"></i>
         <% end %>
       </nav>
@@ -119,11 +119,11 @@
               data-action="input->search#search"
               type="text"
               placeholder="search anything"
-              class="flex-1 text-xl font-semibold bg-transparent outline-none py-2 px-4 border-r border-black"
+              class="flex-1 text-base font-semibold bg-transparent outline-none py-2 px-4 border-r border-black"
               style="background: white;">
         <button data-action="click->search#close"
                 class="px-4 hover:text-blue-800 transition-colors">
-          <i class="fa-solid fa-xmark text-xl"></i>
+          <i class="fa-solid fa-xmark text-base"></i>
         </button>
       </div>
     </div>

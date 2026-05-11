@@ -109,12 +109,12 @@
       <!-- logo placeholder to maintain left spacing -->
       <div class="flex-shrink-0 lg:px-4">
         <%= link_to root_path, data: { action: "click->search#close" } do %>
-          <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "w-60" %>
+          <%= image_tag "hh-logo.png", alt: "Howard Hodgkin", class: "w-48" %>
         <% end %>
       </div>
 
       <!-- search input -->
-      <div class="flex-1 flex items-center ml-64 mr-24 border border-black">
+      <div class="flex-1 flex items-center ml-64 mr-16 border border-black">
         <input data-search-target="input"
               data-action="input->search#search"
               type="text"

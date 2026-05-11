@@ -11,9 +11,9 @@
     </div>
     <div class="flex-1 space-y-1">
       <p class="text-sm font-semibold text-gray-400 group-hover:text-blue-400">Collection</p>
-      <h2 class="font-semibold text-lg md:text-xl group-hover:text-blue-800"><%= result.name %></h2>
+      <h2 class="font-semibold text-lg group-hover:text-blue-800"><%= result.name %></h2>
       <% if result.description.present? %>
-        <p class="text-sm md:text-base text-gray-700 group-hover:text-blue-400">
+        <p class="text-sm text-gray-700 group-hover:text-blue-400">
           <%= search_excerpt(clean_for_preview(result.description), query) %>
         </p>
       <% end %>

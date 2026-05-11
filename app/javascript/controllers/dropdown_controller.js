@@ -42,7 +42,7 @@ export default class extends Controller {
     // find the inner content div and offset it to align under the button
     const content = menu.querySelector('[data-dropdown-content]')
     if (content) {
-      content.style.paddingLeft = `${buttonRect.left + 8}px`
+      content.style.paddingLeft = `${buttonRect.left}px`
     }
   }
 

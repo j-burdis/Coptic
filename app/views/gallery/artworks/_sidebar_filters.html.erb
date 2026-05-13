@@ -9,12 +9,12 @@
   fixed_year ||= @fixed_year
 %>
 
-<aside class="lg:w-80 mb-8 p-6 bg-[#e6e6e6]">
+<aside class="lg:w-[272px] mb-8 p-4 bg-[#e6e6e6]">
   <div class="sticky top-24">
     <% if category_page.present? %>
-      <h1 class="text-2xl font-semibold mb-4"><%= category_page.title %></h1>
+      <h1 class="text-lg font-semibold mb-3"><%= category_page.title %></h1>
       <% if category_page.description.present? %>
-        <p class="text-base text-pretty mb-6"><%= category_page.description %></p>
+        <p class="text-sm text-pretty mb-6"><%= category_page.description %></p>
       <% end %>
     <% else %>
       <h1 class="text-2xl font-semibold mb-6"><%= category_title %></h1>
@@ -32,7 +32,7 @@
                 design_subcategories.map { |slug, name| [name, gallery_design_subcategory_path(subcategory: slug)] },
                 @active_subcategory.present? ? gallery_design_subcategory_path(subcategory: active_subcategory) : gallery_design_path
               ),
-              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+              class: "w-full p-2 border border-black bg-[#e6e6e6]",
               onchange: "window.location.href = this.value;" %>
         </div>
       <% end %>
@@ -40,7 +40,7 @@
       <% unless hide_search_filter %>
         <!-- keyword search -->
         <div>
-          <h2 class="text-sm font-semibold text-gray-600 mb-2">Search</h2>
+          <h2 class="text-sm text-gray-600 mb-2">Search</h2>
           <%= f.text_field :s, 
               value: params[:s], 
               placeholder: "Keyword",
@@ -50,11 +50,11 @@
         <!-- date filter -->
         <% if show_date_filter %>
           <div>
-            <h2 class="text-sm font-semibold text-gray-600 mb-2">Dates</h2>
+            <h2 class="text-sm text-gray-600 mb-2">Dates</h2>
             <%= f.select :dates, 
                 options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
                 {},
-                class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+                class: "w-full p-2 border border-black bg-[#e6e6e6]",
                 onchange: "this.form.submit()" %>
           </div>
         <% elsif fixed_year.present? %>

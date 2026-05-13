@@ -5,7 +5,7 @@
 %>
 
 <%= link_to artwork_path_url, class: "group row-span-2 grid gap-0", style: "grid-row: span 2; grid-template-rows: subgrid;" do %>
-  <div class="mb-3 self-end">
+  <div class="mb-2 self-end">
     <% if artwork.cloudinary_public_id.present? %>
       <%= image_tag artwork.large_url, 
           alt: artwork.title,
@@ -17,10 +17,10 @@
     <% end %>
   </div>
   
-  <div class="space-y-1">
-    <h3 class="font-semibold text-lg group-hover:text-blue-800"><%= artwork.title %></h3>
+  <div>
+    <h3 class="font-semibold text-sm group-hover:text-blue-800"><%= artwork.title %></h3>
     <% if artwork.year_range.present? %>
-      <p class="text-sm <%= date_color %> group-hover:text-blue-400"><%= artwork.year_range %></p>
+      <p class="text-xs pt-0.5 <%= date_color %> group-hover:text-blue-400"><%= artwork.year_range %></p>
     <% end %>
   </div>
 <% end %>

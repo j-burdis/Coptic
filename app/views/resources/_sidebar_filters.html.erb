@@ -17,28 +17,28 @@
 %>
 
 <% unless show_grid_view %>
-  <aside class="lg:w-80 mb-8 p-6 bg-[#e6e6e6]">
+  <aside class="lg:w-[272px] mb-8 p-4 bg-[#e6e6e6]">
     <div class="sticky top-24">
       <% if category_page.present? %>
-        <h1 class="text-2xl font-semibold mb-4"><%= category_page.title %></h1>
+        <h1 class="text-lg font-semibold mb-3"><%= category_page.title %></h1>
         <% if category_page.description.present? %>
-          <p class="text-base text-pretty mb-6"><%= category_page.description %></p>
+          <p class="text-sm text-pretty mb-6"><%= category_page.description %></p>
         <% end %>
       <% else %>
-        <h1 class="text-2xl font-semibold mb-6"><%= category_title %></h1>
+        <h1 class="text-lg font-semibold mb-6"><%= category_title %></h1>
       <% end %>
       
       <!-- text subcategories filter -->
       <% if show_subcategory_filter && text_subcategories.present? %>
         <div class="mb-6">
-          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Types</h2>
+          <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
           <%= select_tag 'subcategory_nav',
               options_for_select(
                 [["All Texts", resources_texts_path]] + 
                 text_subcategories.map { |slug, name| [name, resources_texts_subcategory_path(subcategory: slug)] },
                 request.path
               ),
-              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+              class: "w-full p-2 border border-black bg-[#e6e6e6]",
               onchange: "window.location.href = this.value;" %>
         </div>
       <% end %>
@@ -46,14 +46,14 @@
       <!-- publication subcategories filter -->
       <% if show_subcategory_filter && publication_subcategories.present? %>
         <div class="mb-6">
-          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Types</h2>
+          <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
           <%= select_tag 'subcategory_nav',
               options_for_select(
                 [["All Publications", resources_publications_path]] + 
                 publication_subcategories.map { |slug, name| [name, resources_publications_subcategory_path(subcategory: slug)] },
                 request.path
               ),
-              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+              class: "w-full p-2 border border-black bg-[#e6e6e6]",
               onchange: "window.location.href = this.value;" %>
         </div>
       <% end %>
@@ -61,14 +61,14 @@
       <!-- exhibition type filter -->
       <% if show_type_filter && exhibition_types.present? %>
         <div class="mb-6">
-          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Types</h2>
+          <h2 class="text-sm font-semibold text-gray-600 mb-2">Types</h2>
           <%= select_tag 'type_nav',
               options_for_select(
                 [["All Exhibitions", resources_exhibitions_path]] + 
                 exhibition_types.map { |slug, name| [name, resources_exhibitions_by_type_path(exhibition_type: slug.gsub('_', '-'))] },
                 request.path
               ),
-              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+              class: "w-full p-2 border border-black bg-[#e6e6e6]",
               onchange: "window.location.href = this.value;" %>
         </div>
       <% end %>
@@ -76,12 +76,12 @@
       <!-- region filter (for collections) -->
       <% if show_region_filter && regions.present? %>
         <div class="mb-6">
-          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Region</h2>
+          <h2 class="text-sm font-semibold text-gray-600 mb-2">Region</h2>
           <%= form_with url: request.path, method: :get do |f| %>
             <%= f.select :region,
                 options_for_select([["All Regions", ""]] + regions.map { |r| [r, r.downcase] }, active_region),
                 {},
-                class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+                class: "w-full p-2 border border-black bg-[#e6e6e6]",
                 onchange: "this.form.submit()" %>
           <% end %>
         </div>
@@ -91,21 +91,21 @@
 
         <!-- keyword search -->
         <div>
-          <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Search</h2>
+          <h2 class="text-sm font-semibold text-gray-600 mb-2">Search</h2>
           <%= f.text_field :s, 
               value: params[:s], 
               placeholder: "Keyword",
-              class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]" %>
+              class: "w-full p-2 border border-black bg-[#e6e6e6]" %>
         </div>
 
         <!-- date filter -->
         <% if show_date_filter %>
           <div>
-            <h2 class="text-sm font-semibold uppercase tracking-wide text-gray-600 mb-2">Dates</h2>
+            <h2 class="text-sm font-semibold text-gray-600 mb-2">Dates</h2>
             <%= f.select :dates, 
                 options_for_select([["All dates", ""]] + decade_ranges, params[:dates]),
                 {},
-                class: "w-full px-3 py-2 border border-black bg-[#e6e6e6]",
+                class: "w-full p-2 border border-black bg-[#e6e6e6]",
                 onchange: "this.form.submit()" %>
           </div>
         <% end %>

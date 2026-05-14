@@ -17,7 +17,7 @@
     
     <!-- Text on the right -->
     <div class="flex-1 space-y-1">
-      <h3 class="font-semibold text-lg md:text-xl">
+      <h3 class="font-semibold text-lg">
         <% if exhibition.venue.present? %>
           <span class="group-hover:text-blue-800"><%= exhibition.venue %></span>
           <span class="text-gray-500 group-hover:text-blue-400"><%= exhibition.title %></span>
@@ -26,7 +26,7 @@
         <% end %>
       </h3>
       
-      <p class="text-sm md:text-base">
+      <p class="text-sm">
         <% if exhibition.location.present? %>
           <span class="group-hover:text-blue-800"><%= exhibition.location %></span>
         <% end %>
@@ -39,11 +39,3 @@
     </div>
   </div>
 <% end %>
-
-<%# if exhibition.exhibition_type.present? %>
-  <%# <p class="text-xs text-gray-500 mt-1"> %>
-    <%# <span class="inline-block px-2 py-1 bg-gray-200 rounded"> %>
-      <%#= exhibition.exhibition_type.titleize %>
-    <%# </span> %>
-  <%# </p> %>
-<%# end %>

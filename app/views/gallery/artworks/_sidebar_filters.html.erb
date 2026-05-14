@@ -17,7 +17,7 @@
         <p class="text-sm text-pretty mb-6"><%= category_page.description %></p>
       <% end %>
     <% else %>
-      <h1 class="text-2xl font-semibold mb-6"><%= category_title %></h1>
+      <h1 class="text-lg font-semibold mb-6"><%= category_title %></h1>
     <% end %>
     
     <%= form_with url: request.path, method: :get, class: "space-y-6" do |f| %>

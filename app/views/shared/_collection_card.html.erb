@@ -1,10 +1,10 @@
 <%= link_to collection.path, class: "group block" do %>
   <div class="py-1">
     <% if collection.location.present? %>
-      <h3 class="font-semibold text:lg md:text-xl text-gray-500 group-hover:text-blue-400"><%= collection.location %></h3>
+      <h3 class="font-semibold text:lg text-gray-500 group-hover:text-blue-400"><%= collection.location %></h3>
     <% end %>
 
-    <h2 class="font-semibold text:lg md:text-xl group-hover:text-blue-800">
+    <h2 class="font-semibold text:lg group-hover:text-blue-800">
       <%= collection.name %>
     </h2>
   </div>

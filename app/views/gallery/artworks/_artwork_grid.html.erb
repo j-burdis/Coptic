@@ -10,14 +10,14 @@
       <% if params[:s].present? %>
         <h2 class="text-xl font-semibold">
           Results for "<%= params[:s] %>"
-          <span class="text-gray-600 font-normal">
+          <span class="text-gray-600">
             (<%= artworks.total_count %>)
           </span>
         </h2>
       <% elsif params[:dates].present? %>
         <h2 class="text-xl font-semibold">
           <%= params[:dates] %>
-          <span class="text-gray-600 font-normal">
+          <span class="text-gray-600">
             (<%= artworks.total_count %>)
           </span>
         </h2>

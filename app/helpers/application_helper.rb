@@ -43,7 +43,7 @@ module ApplicationHelper
            end
 
     clean = text.gsub(/\s+/, ' ').strip
-    truncate_words(clean, words, omission: ' ...')
+    truncate_words(clean, words, omission: ' [...]')
   end
 
   def clean_for_preview(text)

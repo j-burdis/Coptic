@@ -10,21 +10,21 @@
       <% if params[:s].present? %>
         <h2 class="text-xl font-semibold">
           Results for "<%= params[:s] %>"
-          <span class="text-gray-600 font-normal">
+          <span class="text-gray-600">
             (<%= exhibitions.total_count %>)
           </span>
         </h2>
       <% elsif params[:dates].present? %>
         <h2 class="text-xl font-semibold">
           <%= params[:dates] %>
-          <span class="text-gray-600 font-normal">
+          <span class="text-gray-600">
             (<%= exhibitions.total_count %>)
           </span>
         </h2>
       <% elsif params[:type].present? %>
         <h2 class="text-xl font-semibold">
           <%= params[:type].titleize %>
-          <span class="text-gray-600 font-normal">
+          <span class="text-gray-600">
             (<%= exhibitions.total_count %>)
           </span>
         </h2>
@@ -35,7 +35,7 @@
   <% if exhibitions.present? && exhibitions.count > 0 %>
     <% exhibitions.group_by { |e| e.start_date&.year }.each do |year, year_exhibitions| %>
       <% if year.present? %>
-        <h2 class="text-2xl text-gray-500 font-semibold mb-6 mt-8 first:mt-0"><%= year %></h2>
+        <h2 class="text-xl text-gray-500 font-semibold mb-6"><%= year %></h2>
       <% end %>
       
       <div class="space-y-6 mb-8">

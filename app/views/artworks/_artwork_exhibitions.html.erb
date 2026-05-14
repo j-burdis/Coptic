@@ -4,8 +4,8 @@
 %>
 
 <% if artwork.exhibitions.any? %>
-  <section class="pt-12">
-    <h2 class="text-2xl md:text-3xl font-semibold text-center mb-8">
+  <section class="pt-16">
+    <h2 class="text-xl md:text-2xl font-semibold text-center mb-8">
       <span class="border-b-2 border-black pb-1 inline-block">Exhibitions</span>
     </h2>
 
@@ -31,7 +31,7 @@
               
               <!-- text -->
               <div class="flex-1 space-y-1">
-                <h3 class="font-semibold text-base md:text-lg">
+                <h3 class="font-semibold text-lg">
                   <% if exhibition.venue.present? %>
                     <span class="group-hover:text-blue-800"><%= exhibition.venue %></span>
                     <span class="text-gray-500 group-hover:text-blue-400"> <%= exhibition.title %></span>
@@ -40,7 +40,7 @@
                   <% end %>
                 </h3>
                 
-                <p class="text-xs md:text-sm">
+                <p class="text-sm">
                   <% if exhibition.location.present? %>
                     <span class="group-hover:text-blue-800"><%= exhibition.location %></span>
                   <% end %>

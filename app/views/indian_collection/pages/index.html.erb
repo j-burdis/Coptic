@@ -9,7 +9,7 @@
 
     <div class="mb-16">
       <% if @indian_collection_categories.present? %>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           
           <div class="block">
             <% if @indian_collection_quote.present? && @indian_collection_quote.text.present? %>
@@ -46,7 +46,7 @@
         
       <% elsif @categories_fallback.present? %>
         <!-- fallback tiles -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           
           <div class="block">
             <% if @indian_collection_quote.present? && @indian_collection_quote.text.present? %>

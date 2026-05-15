@@ -11,12 +11,12 @@
       parts = content.split(/(\[image:\d+\])/)
     %>
 
-    <div class="text-pretty text-base md:text-lg leading-relaxed max-w-none">
+    <div class="text-pretty text-base max-w-none">
       <% if !has_placeholders && images.first.present? %>
         <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
           <%= image_tag images.first.image_url, alt: resource.title, class: "w-full" %>
           <% if images.first.caption.present? %>
-            <p class="text-sm text-gray-500 mt-2"><%= images.first.caption %></p>
+            <p class="text-xs text-gray-500 mt-2"><%= images.first.caption %></p>
           <% end %>
         </div>
       <% end %>
@@ -32,14 +32,14 @@
               <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
                 <%= image_tag img.image_url, alt: resource.title, class: "w-full" %>
                 <% if img.caption.present? %>
-                  <p class="text-sm text-gray-500 mt-2"><%= img.caption %></p>
+                  <p class="text-xs text-gray-500 mt-2"><%= img.caption %></p>
                 <% end %>
               </div>
             <% else %>
               <div class="clear-both w-full md:w-2/3 my-8 mx-auto">
                 <%= image_tag img.image_url, alt: resource.title, class: "w-full" %>
                 <% if img.caption.present? %>
-                  <p class="text-sm text-gray-500 mt-2"><%= img.caption %></p>
+                  <p class="text-xs text-gray-500 mt-2"><%= img.caption %></p>
                 <% end %>
               </div>
             <% end %>

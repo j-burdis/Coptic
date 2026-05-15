@@ -6,7 +6,7 @@
       
       <div class="lg:w-1/3">
         <!-- breadcrumbs -->
-        <nav class="text-base text-gray-600 mb-4">
+        <nav class="text-sm text-gray-600 mb-3">
           <ul class="flex items-center space-x-2">
             <li><%= link_to "Resources", resources_root_path, class: "text-gray-500 hover:text-blue-800" %></li>
             <li class="text-gray-500">></li>
@@ -16,57 +16,57 @@
 
         <!-- exhibition details -->
         <% if @exhibition.venue.present? %>
-          <h1 class="text-2xl md:text-3xl font-semibold mb-2"><%= @exhibition.venue %></h1>
+          <h1 class="text-2xl font-semibold mb-2"><%= @exhibition.venue %></h1>
         <% end %>
         
         <% if @exhibition.location.present? %>
-          <p class="text-lg md:text-xl mb-2"><%= @exhibition.location %></p>
+          <p class="text-base font-semibold"><%= @exhibition.location %></p>
         <% end %>
         
         <% if @exhibition.start_date.present? %>
-          <p class="text-lg md:text-xl text-gray-500 mb-6">
+          <p class="text-base font-semibold text-gray-500 mb-6">
             <%= @exhibition.year_display %>
           </p>
         <% end %>
 
         <% if @exhibition.title.present? %>
-          <h2 class="text-lg md:text-xl font-semibold mt-6 mb-4"><%= @exhibition.title %></h2>
+          <h2 class="text-base font-semibold mt-6 mb-3"><%= @exhibition.title %></h2>
         <% end %>
 
         <!-- description -->
         <% if @exhibition.description.present? %>
-          <div class="text-base md:text-lg leading-relaxed max-w-none">
-            <%= simple_format(@exhibition.description, { class: 'mb-6' }, sanitize: false ) %>
+          <div class="text-sm text-pretty max-w-none">
+            <%= simple_format(@exhibition.description, { class: 'mb-3' }, sanitize: false ) %>
           </div>
         <% end %>
 
         <!-- external URL -->
         <% if @exhibition.external_url.present? %>
-          <%= link_to @exhibition.external_url, target: "_blank", class: "inline-block group py-2" do %>
-            <span class="underline group-hover:text-blue-800">More information</span>
-            <span class="group-hover:text-blue-800"> <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+          <%= link_to @exhibition.external_url, target: "_blank", class: "inline-block group" do %>
+            <span class="text-sm underline group-hover:text-blue-800">More information</span>
+            <span class="text-sm group-hover:text-blue-800"> <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
           <% end %>
         <% end %>
 
 
         <!-- related resources -->
         <% if @exhibition.resources.published.any? %>
-          <div class="bg-gray-100 px-4 md:px-6 pt-4 md:pt-6 pb-6 md:pb-10 mt-6 md:mt-8">
-            <h2 class="text-base font-semibold text-gray-500 underline mb-3 md:mb-4">Resources</h2>
+          <div class="bg-gray-100 px-4 pt-4 pb-8 mb-4 mt-6 md:mt-8">
+            <h2 class="text-sm text-gray-600 underline mb-3 md:mb-4">Resources</h2>
             <ul class="space-y-2 md:space-y-3">
               <% @exhibition.resources.published.order(year: :desc).each do |resource| %>
                 <li>
                   <%= link_to resource.path, class: "block group" do %>
                     <% if resource.category.present? && resource.subcategory.present? %>
-                      <span class="text-sm text-gray-500 group-hover:text-blue-400">
+                      <span class="text-xs text-gray-600 group-hover:text-blue-400">
                         <%= resource.category.titleize %> > <%= Resource::TEXT_SUBCATEGORIES.find { |slug, name| slug == resource.subcategory }&.last || Resource::PUBLICATION_SUBCATEGORIES.find { |slug, name| slug == resource.subcategory }&.last || resource.subcategory.titleize %>
                       </span>
                       <br>
                     <% end %>
-                    <span class="text-base font-semibold group-hover:text-blue-800">
+                    <span class="text-sm group-hover:text-blue-800">
                       <%= resource.title %>
                     </span>
-                    <span class="text-sm text-gray-500 group-hover:text-blue-400">
+                    <span class="text-xs text-gray-500 group-hover:text-blue-400">
                       <% if resource.year.present? || resource.date.present? %>
                         <%= resource.date_display %><% if resource.publisher.present? %>, <% end %>
                       <% end %>
@@ -82,7 +82,7 @@
         <% end %>
       </div>
 
-      <div class="lg:w-1/2">
+      <div class="lg:w-2/3">
         <% if @exhibition.exhibition_images.any? %>
           <div class="sticky top-24">
             <% if @exhibition.exhibition_images.count > 1 %>
@@ -92,7 +92,7 @@
                   <div class="swiper-button-prev !static flex-shrink-0">
                     <i class="fa-solid fa-chevron-left"></i>
                   </div>
-                  
+
                   <div class="swiper flex-1">
                     <div class="swiper-wrapper">
                       <% @exhibition.exhibition_images.each do |img| %>
@@ -107,12 +107,12 @@
                       <% end %>
                     </div>
                   </div>
-                  
+
                   <div class="swiper-button-next !static flex-shrink-0">
                     <i class="fa-solid fa-chevron-right"></i>
                   </div>
                 </div>
-                
+
                 <div class="swiper-pagination"></div>
               </div>
             <% else %>
@@ -134,7 +134,7 @@
 
     <% if @exhibition.artworks.published.any? %>
       <section class="pt-8">
-        <h2 class="text-2xl md:text-3xl font-semibold text-center mb-8">
+        <h2 class="text-2xl font-semibold text-center mb-8 md:mb-10">
           <span class="border-b-2 border-black pb-1 inline-block">Works Shown</span>
         </h2>
 
@@ -142,7 +142,7 @@
           <% @exhibition.artworks.published.order(year: :desc, title: :asc).each do |artwork| %>
             <div class="w-[calc(50%-1rem)] sm:w-[calc(33.333%-1.334rem)] md:w-[calc(25%-1.5rem)] lg:w-[calc(16.666%-1.667rem)]">
               <%= link_to artwork.path, class: "group block" do %>
-                <div class="relative mb-3 bg-white overflow-hidden">
+                <div class="relative mb-1 md:mb-2 bg-white overflow-hidden">
                   <% if artwork.cloudinary_public_id.present? %>
                     <%= image_tag artwork.large_url, 
                         alt: artwork.title,
@@ -153,12 +153,12 @@
                     </div>
                   <% end %>
                 </div>
-                
-                <div class="space-y-1">
-                  <h3 class="font-semibold text-sm md:text-base group-hover:text-blue-800"><%= artwork.title %></h3>
+
+                <div>
+                  <h3 class="font-semibold text-sm group-hover:text-blue-800 pb-1"><%= artwork.title %></h3>
                   
                   <% if artwork.year.present? %>
-                    <p class="text-xs md:text-sm text-gray-500 group-hover:text-blue-400"><%= artwork.year_range %></p>
+                    <p class="text-xs text-gray-500 group-hover:text-blue-400"><%= artwork.year_range %></p>
                   <% end %>
                 </div>
               <% end %>

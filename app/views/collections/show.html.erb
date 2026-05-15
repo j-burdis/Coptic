@@ -1,9 +1,9 @@
 <% content_for :title, @collection.name %>
 
 <div class="bg-white">
-  <div class="container mx-auto px-4 lg:px-0 pt-4 pb-16">
+  <div class="container mx-auto px-4 lg:px-0 pt-2 pb-12">
     
-    <nav class="text-base text-gray-600 mb-4">
+    <nav class="text-sm text-gray-600 mb-3">
       <ul class="flex items-center space-x-2">
         <li><%= link_to "Resources", resources_root_path, class: "hover:text-blue-800" %></li>
         <li>></li>
@@ -11,11 +11,11 @@
       </ul>
     </nav>
 
-    <h1 class="text-2xl md:text-3xl font-semibold pb-8"><%= @collection.name %></h1>
+    <h1 class="text-2xl font-semibold pb-6"><%= @collection.name %></h1>
 
     <% if @artworks.any? %>
-      <section class="pt-12">
-        <h2 class="text-2xl md:text-3xl font-semibold text-center mb-8">
+      <section class="pt-2 md:pt-12">
+        <h2 class="text-2xl font-semibold text-center mb-6">
           <span class="border-b-2 border-black pb-1 inline-block">Works Held</span>
         </h2>
 

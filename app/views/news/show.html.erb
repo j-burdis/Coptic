@@ -4,29 +4,29 @@
   <div class="lg:w-3/5 lg:mx-auto">
 
     <% if @news_item.date.present? %>
-      <p class="text-base md:text-lg text-gray-500 mb-2">
+      <p class="text-base text-gray-500">
         <%= @news_item.date.strftime("%-d %B %Y") %>
       </p>
     <% end %>
 
-    <h1 class="text-xl md:text-3xl font-semibold mb-6">
+    <h1 class="text-2xl font-semibold mb-3">
       <%= @news_item.title %>
     </h1>
 
     <% if @news_item.content.present? %>
-      <div class="text-pretty text-base md:text-lg leading-relaxed max-w-none">
+      <div class="text-pretty text-base max-w-none">
         <% if @news_item.cloudinary_public_id.present? %>
           <div class="float-left w-full md:w-1/2 mr-0 md:mr-6 mb-4">
             <%= image_tag @news_item.large_url,
                 alt: @news_item.title,
                 class: "w-full h-auto" %>
             <% if @news_item.image_caption.present? %>
-              <p class="text-sm text-gray-500 italic mt-2"><%= @news_item.image_caption %></p>
+              <p class="text-xs text-gray-500 italic mt-2"><%= @news_item.image_caption %></p>
             <% end %>
           </div>
         <% end %>
 
-        <%= simple_format(@news_item.content, { class: 'mb-4' }, sanitize: false ) %>
+        <%= simple_format(@news_item.content, { class: '' }, sanitize: false ) %>
       </div>
     <% end %>
 

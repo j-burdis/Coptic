@@ -1,28 +1,28 @@
 <% content_for :title, "Contact" %>
 
-<div class="container mx-auto px-4 lg:px-0 py-8">
+<div class="container mx-auto px-4 lg:px-0 py-2">
   <div class="lg:mx-auto">
 
-    <h1 class="text-3xl font-semibold mb-8 text-center">Contact</h1>
+    <h1 class="text-2xl font-semibold mb-8 text-center">Contact</h1>
 
     <div class="text-center mb-12 space-y-2">
       <div>
         <%= link_to "Image Rights and Requests", "mailto:licensing@dacs.org.uk",
-            class: "text-xl font-semibold hover:text-blue-800" %>
+            class: "text-base font-semibold hover:text-blue-800" %>
       </div>
       <div>
         <%= link_to "Email Us", "mailto:admin@howard-hodgkin.com",
-            class: "text-xl font-semibold hover:text-blue-800" %>
+            class: "text-base font-semibold hover:text-blue-800" %>
       </div>
       <div>
         <%= link_to "Facebook", "https://www.facebook.com/Howard.Hodgkin",
             target: "_blank", rel: "noopener noreferrer",
-            class: "text-xl font-semibold hover:text-blue-800" %>
+            class: "text-base font-semibold hover:text-blue-800" %>
       </div>
       <div>
         <%= link_to "Twitter", "https://twitter.com/howardhodgkin",
             target: "_blank", rel: "noopener noreferrer",
-            class: "text-xl font-semibold hover:text-blue-800" %>
+            class: "text-base font-semibold hover:text-blue-800" %>
       </div>
     </div>
 
@@ -30,17 +30,17 @@
       <% contacts = @contacts_by_category[category] %>
       <% next if contacts.blank? %>
 
-      <div class="mb-12">
-        <h2 class="text-3xl font-semibold py-1 mb-6 text-center bg-gray-200 rounded">
+      <div class="mb-16">
+        <h2 class="text-2xl font-semibold py-1 mb-6 text-center bg-gray-200 rounded">
           <%= category.titleize %>
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
           <% contacts.each do |contact| %>
             <div>
-              <h3 class="font-semibold mb-2 text-xl"><%= contact.name %></h3>
+              <h3 class="font-semibold mb-2 text-lg"><%= contact.name %></h3>
 
-              <div class="space-y-2 text-base">
+              <div class="space-y-2 text-sm">
                 <% if contact.address.present? %>
                   <p class="text-gray-600">
                     <i class="fa-solid fa-location-dot mr-1"></i>

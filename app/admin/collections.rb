@@ -1,4 +1,6 @@
 ActiveAdmin.register Collection do
+  menu priority: 8, parent: "Artworks / Resources"
+
   permit_params :name, :slug, :location, :region, :description, :website, :published,
                 :image, :cloudinary_public_id, :original_filename
 

@@ -1,5 +1,5 @@
 ActiveAdmin.register CategoryPage do
-  menu priority: 3, label: "Category Pages"
+  menu priority: 4
 
   permit_params :slug, :title, :description, :page_type, :position, :published, :year,
                 :image, :cloudinary_public_id, :original_filename

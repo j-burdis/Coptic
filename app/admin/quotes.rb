@@ -1,5 +1,5 @@
 ActiveAdmin.register Quote do
-  menu priority: 4, label: "Quotes"
+  menu priority: 13
 
   permit_params :title, :text, :author, :source, :page_location, :position, :published
 

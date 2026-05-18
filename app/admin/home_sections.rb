@@ -1,4 +1,6 @@
 ActiveAdmin.register HomeSection do
+  menu priority: 3
+
   permit_params :title, :description, :image, :image_cloudinary_public_id,
                 :image_original_filename, :image_caption, :video_url,
                 :layout, :position, :published

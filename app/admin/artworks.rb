@@ -1,6 +1,5 @@
 ActiveAdmin.register Artwork do
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
+  menu priority: 5, parent: "Artworks / Resources"
 
   permit_params :title, :slug, :year, :year_end, :date_display, :medium, :description, :dimensions,
                 :category, :subcategory, :status, :published, :is_indian_collection,

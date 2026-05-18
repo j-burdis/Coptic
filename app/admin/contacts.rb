@@ -1,4 +1,6 @@
 ActiveAdmin.register Contact do
+  menu priority: 11
+
   permit_params :name, :category, :address, :phone, :fax, :email, 
                 :website, :secondary_websites, :position, :published
 

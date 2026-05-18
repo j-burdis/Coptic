@@ -1,5 +1,5 @@
 ActiveAdmin.register IndianCollectionExhibitionList do
-  menu priority: 8, label: "IC Exhibition List", parent: "Indian Collection"
+  menu priority: 9, label: "IC Exhibition List", parent: "Artworks / Resources"
 
   permit_params :content, :published
 

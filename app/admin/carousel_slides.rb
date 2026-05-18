@@ -1,4 +1,6 @@
 ActiveAdmin.register CarouselSlide do
+  menu priority: 2
+
   permit_params :artwork_id, :image, :cloudinary_public_id, :original_filename,
                 :quote_text, :quote_attribution_name, :quote_attribution_date,
                 :position, :published

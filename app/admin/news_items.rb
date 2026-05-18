@@ -1,4 +1,6 @@
 ActiveAdmin.register NewsItem do
+  menu priority: 10
+
   permit_params :title, :slug, :content, :excerpt, :published,
                 :cloudinary_public_id, :original_filename, :image_caption,
                 :external_url, :date, :image

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_10_142445) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_18_195345) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -108,7 +108,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_10_142445) do
     t.string "original_filename"
     t.text "quote_text"
     t.integer "position"
-    t.boolean "published"
+    t.boolean "published", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "quote_attribution_name"
@@ -141,7 +141,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_10_142445) do
     t.string "region"
     t.text "description"
     t.string "website"
-    t.boolean "published"
+    t.boolean "published", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "cloudinary_public_id"
@@ -161,7 +161,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_10_142445) do
     t.string "email"
     t.string "website"
     t.integer "position"
-    t.boolean "published"
+    t.boolean "published", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "secondary_websites"
@@ -220,14 +220,14 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_10_142445) do
     t.string "video_url"
     t.string "layout"
     t.integer "position"
-    t.boolean "published"
+    t.boolean "published", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "indian_collection_exhibition_lists", force: :cascade do |t|
     t.text "content"
-    t.boolean "published", default: false, null: false
+    t.boolean "published", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["published"], name: "index_indian_collection_exhibition_lists_on_published"
@@ -272,7 +272,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_10_142445) do
     t.text "source"
     t.string "page_location"
     t.integer "position"
-    t.boolean "published"
+    t.boolean "published", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

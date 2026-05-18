@@ -1,12 +1,12 @@
 <% content_for :title, "Copyright & Permissions" %>
 
-<div class="container mx-auto px-4 lg:px-0 py-8">
+<div class="container mx-auto px-4 lg:px-0 py-2">
   <div class="lg:w-3/5 lg:mx-auto">
 
-    <h1 class="text-3xl font-semibold mb-8">Copyright & Permissions</h1>
+    <h1 class="text-2xl font-medium mb-8">Copyright & Permissions</h1>
 
     <% if @page&.content.present? %>
-      <div class="text-base md:text-lg leading-relaxed max-w-none">
+      <div class="text-base leading-relaxed max-w-none">
         <%
           paragraphs = @page.content.gsub(/\r\n/, "\n").split(/\n\n+/).map(&:strip).reject(&:blank?)
         %>

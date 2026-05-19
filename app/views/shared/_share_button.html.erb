@@ -1,6 +1,10 @@
 <%
   indian_collection ||= false
+  image_url ||= nil
   text_color = indian_collection ? 'text-yellow-700' : 'text-gray-500'
+
+  pinterest_url = "https://pinterest.com/pin/create/button/?url=#{CGI.escape(request.original_url)}"
+  pinterest_url += "&media=#{CGI.escape(image_url)}" if image_url.present?
 %>
 
 <div data-controller="share">
@@ -27,6 +31,11 @@
          target="_blank"
          class="text-sm  hover:text-blue-800">
         <i class="fa-brands fa-facebook"></i> Facebook
+      </a>
+      <a href="<%= pinterest_url %>"
+         target="_blank"
+         class="text-sm hover:text-blue-800">
+        <i class="fa-brands fa-pinterest"></i> Pinterest
       </a>
     </div>
   </div>

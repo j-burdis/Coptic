@@ -130,7 +130,7 @@
 
     </div>
 
-    <%= render "shared/share_button" %>
+    <%= render "shared/share_button", image_url: @exhibition.image_url %>
 
     <% if @exhibition.artworks.published.any? %>
       <section class="pt-8">

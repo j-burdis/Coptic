@@ -77,7 +77,7 @@
 
           <%= render 'artwork_collections', artwork: @artwork if @artwork.collections.any? %>
 
-          <%= render "shared/share_button" %>
+          <%= render "shared/share_button", image_url: @artwork.large_url %>
         </div>
       </div>
     </div>

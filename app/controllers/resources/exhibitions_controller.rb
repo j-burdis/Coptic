@@ -79,10 +79,6 @@ class Resources::ExhibitionsController < ApplicationController
   end
 
   def decade_ranges
-    if @resources&.total_count == 0 || @exhibitions&.total_count == 0
-      return []
-    end
-
     earliest_year = @earliest_year || Date.current.year
     latest_year = @latest_year || Date.current.year
 

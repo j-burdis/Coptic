@@ -168,8 +168,6 @@ module IndianCollection
       end
 
       def decade_ranges
-        return [] if @artworks.blank?
-
         earliest_year = @earliest_year || 1500
         latest_year = [@latest_year, @fuzzy_latest_year].compact.max || 1900
 

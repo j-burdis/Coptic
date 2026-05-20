@@ -281,10 +281,9 @@ module Gallery
     def apply_search_and_date_filters
       # keyword search
       if params[:s].present?
-        search_term = "%#{params[:s]}%"
         @artworks = @artworks.where(
-          "title ILIKE ? OR description ILIKE ? OR medium ILIKE ?", 
-          search_term, search_term, search_term
+          "title ILIKE ? OR description ILIKE ? OR medium ILIKE ?",
+          "#{params[:s]}%", "%#{params[:s]}%", "%#{params[:s]}%"
         )
       end
 

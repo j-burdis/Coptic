@@ -17,10 +17,9 @@ class Resources::CollectionsController < ApplicationController
 
     # keyword search
     if params[:s].present?
-      search_term = "%#{params[:s]}%"
       @collections = @collections.where(
         "name ILIKE ? OR location ILIKE ? OR description ILIKE ?",
-        search_term, search_term, search_term
+        "#{params[:s]}%", "#{params[:s]}%", "%#{params[:s]}%"
       )
     end
 

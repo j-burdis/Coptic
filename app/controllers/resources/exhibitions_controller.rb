@@ -45,10 +45,9 @@ class Resources::ExhibitionsController < ApplicationController
   def apply_search_and_date_filters
     # keyword search
     if params[:s].present?
-      search_term = "%#{params[:s]}%"
       @exhibitions = @exhibitions.where(
         "title ILIKE ? OR description ILIKE ? OR venue ILIKE ? OR location ILIKE ?",
-        search_term, search_term, search_term, search_term
+        "#{params[:s]}%", "%#{params[:s]}%", "#{params[:s]}%", "#{params[:s]}%"
       )
     end
 

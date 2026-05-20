@@ -150,10 +150,9 @@ class Resources::ResourcesController < ApplicationController
   def apply_search_filters
     # keyword search only (for films & audio)
     if params[:s].present?
-      search_term = "%#{params[:s]}%"
       @resources = @resources.where(
         "title ILIKE ? OR description ILIKE ? OR author ILIKE ? OR summary ILIKE ?",
-        search_term, search_term, search_term, search_term
+        "#{params[:s]}%", "%#{params[:s]}%", "#{params[:s]}%", "%#{params[:s]}%"
       )
     end
   end
@@ -161,10 +160,9 @@ class Resources::ResourcesController < ApplicationController
   def apply_search_and_date_filters
     # keyword search
     if params[:s].present?
-      search_term = "%#{params[:s]}%"
       @resources = @resources.where(
         "title ILIKE ? OR description ILIKE ? OR author ILIKE ? OR summary ILIKE ?",
-        search_term, search_term, search_term, search_term
+        "#{params[:s]}%", "%#{params[:s]}%", "#{params[:s]}%", "%#{params[:s]}%"
       )
     end
 

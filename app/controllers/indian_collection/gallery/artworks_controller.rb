@@ -102,10 +102,9 @@ module IndianCollection
 
       def apply_search_and_date_filters
         if params[:s].present?
-          search_term = "%#{params[:s]}%"
           @artworks = @artworks.where(
             "title ILIKE ? OR description ILIKE ? OR medium ILIKE ?",
-            search_term, search_term, search_term
+            "#{params[:s]}%", "%#{params[:s]}%", "%#{params[:s]}%"
           )
         end
 

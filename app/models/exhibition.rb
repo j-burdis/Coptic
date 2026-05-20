@@ -30,7 +30,7 @@ class Exhibition < ApplicationRecord
   scope :main_collection, -> { where(is_indian_collection: false) }
   scope :indian_collection, -> { where(is_indian_collection: true) }
 
-  validates :title, :slug, presence: true
+  validates :title, :slug, :exhibition_type, presence: true
   validates :slug, uniqueness: true
 
   # helper method for getting the exhibition URL path

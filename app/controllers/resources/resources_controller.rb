@@ -40,8 +40,8 @@ class Resources::ResourcesController < ApplicationController
     @show_date_filter = false
     @show_grid_view = true
 
-    @earliest_year = @resources.minimum(:year) || 
-                @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @earliest_year = @resources.minimum(:year) ||
+                     @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
     @latest_year = @resources.maximum(:year)
 
     apply_search_filters
@@ -57,8 +57,8 @@ class Resources::ResourcesController < ApplicationController
     @show_subcategory_filter = true
     @text_subcategories = Resource::TEXT_SUBCATEGORIES
 
-    @earliest_year = @resources.minimum(:year) || 
-                   @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @earliest_year = @resources.minimum(:year) ||
+                     @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
     @latest_year = @resources.maximum(:year)
 
     apply_search_and_date_filters
@@ -75,8 +75,8 @@ class Resources::ResourcesController < ApplicationController
     @text_subcategories = Resource::TEXT_SUBCATEGORIES
     @active_subcategory = params[:subcategory]
 
-    @earliest_year = @resources.minimum(:year) || 
-                @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @earliest_year = @resources.minimum(:year) ||
+                     @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
     @latest_year = @resources.maximum(:year)
 
     apply_search_and_date_filters
@@ -92,8 +92,8 @@ class Resources::ResourcesController < ApplicationController
     @show_subcategory_filter = true
     @publication_subcategories = Resource::PUBLICATION_SUBCATEGORIES
 
-    @earliest_year = @resources.minimum(:year) || 
-                   @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @earliest_year = @resources.minimum(:year) ||
+                     @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
     @latest_year = @resources.maximum(:year)
 
     apply_search_and_date_filters
@@ -110,8 +110,8 @@ class Resources::ResourcesController < ApplicationController
     @publication_subcategories = Resource::PUBLICATION_SUBCATEGORIES
     @active_subcategory = params[:subcategory]
 
-    @earliest_year = @resources.minimum(:year) || 
-                   @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @earliest_year = @resources.minimum(:year) ||
+                     @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
     @latest_year = @resources.maximum(:year)
 
     apply_search_and_date_filters
@@ -126,8 +126,8 @@ class Resources::ResourcesController < ApplicationController
     @show_date_filter = true
     @show_decade_list = true
 
-    @earliest_year = @resources.minimum(:year) || 
-                   @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
+    @earliest_year = @resources.minimum(:year) ||
+                     @resources.where.not(date: nil).minimum("EXTRACT(YEAR FROM date)::integer")
     @latest_year = @resources.maximum(:year)
 
     apply_search_and_date_filters

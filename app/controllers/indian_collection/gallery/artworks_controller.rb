@@ -104,7 +104,7 @@ module IndianCollection
         if params[:s].present?
           search_term = "%#{params[:s]}%"
           @artworks = @artworks.where(
-            "title ILIKE ? OR description ILIKE ? OR medium ILIKE ?", 
+            "title ILIKE ? OR description ILIKE ? OR medium ILIKE ?",
             search_term, search_term, search_term
           )
         end
@@ -146,22 +146,22 @@ module IndianCollection
 
         # map century phrases to approximate midpoints
         century_map = {
-          'early'  => 15,
-          'mid'    => 50,
+          'early' => 15,
+          'mid' => 50,
           'middle' => 50,
-          'late'   => 85
+          'late' => 85
         }
 
         if text =~ /(early|mid|middle|late)[\s\-]*(\d{1,2})(?:st|nd|rd|th)\s+century/i
           modifier = $1.downcase
           century  = $2.to_i
           offset   = century_map[modifier] || 50
-          return (century - 1) * 100 + offset
+          return ((century - 1) * 100) + offset
         end
 
         if text =~ /(\d{1,2})(?:st|nd|rd|th)\s+century/i
           century = $1.to_i
-          return (century - 1) * 100 + 50
+          return ((century - 1) * 100) + 50
         end
 
         nil

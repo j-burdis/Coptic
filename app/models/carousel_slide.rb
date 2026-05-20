@@ -3,6 +3,8 @@ class CarouselSlide < ApplicationRecord
 
   belongs_to :artwork
 
+  validates :artwork, presence: true
+
   scope :published, -> { where(published: true) }
   scope :ordered, -> { order(position: :asc) }
 

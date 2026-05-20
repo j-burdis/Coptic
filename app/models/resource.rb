@@ -3,6 +3,22 @@ class Resource < ApplicationRecord
   before_validation :clear_slug_for_chronology, if: :chronology?
   before_validation :generate_slug, if: -> { slug.blank? && title.present? && !chronology? }
 
+  include PgSearch::Model
+
+  pg_search_scope :pg_search,
+                  against: {
+                    title: 'A',
+                    author: 'B',
+                    summary: 'C',
+                    description: 'D'
+                  },
+                  using: {
+                    tsearch: {
+                      prefix: true,
+                      dictionary: 'english'
+                    }
+                  }
+
   has_many :resource_exhibitions, dependent: :destroy
   has_many :exhibitions, through: :resource_exhibitions
 

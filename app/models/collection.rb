@@ -1,6 +1,21 @@
 class Collection < ApplicationRecord
   attr_accessor :image
 
+  include PgSearch::Model
+
+  pg_search_scope :pg_search,
+                  against: {
+                    name: 'A',
+                    location: 'C',
+                    description: 'D'
+                  },
+                  using: {
+                    tsearch: {
+                      prefix: true,
+                      dictionary: 'english'
+                    }
+                  }
+
   has_many :artwork_collections, dependent: :destroy
   has_many :artworks, through: :artwork_collections
 

@@ -6,62 +6,49 @@ class SearchController < ApplicationController
     @page = (params[:page] || 1).to_i
 
     if @query.length >= 3
-      search_term = "%#{@query}%"
-
       all_artworks = prioritised_results(
         Artwork.published,
-        title_fields: ["title ILIKE ?"],
+        scope: Artwork,
         date_fields: [
           "CAST(year AS TEXT) ILIKE ?",
           "CAST(year_end AS TEXT) ILIKE ?",
           "date_display ILIKE ?"
-        ],
-        body_fields: ["description ILIKE ?", "medium ILIKE ?"],
-        term: search_term
+        ]
       )
 
       all_resources = prioritised_results(
         Resource.published.where.not(category: :chronology),
-        title_fields: ["title ILIKE ?"],
+        scope: Resource,
         date_fields: [
           "CAST(year AS TEXT) ILIKE ?",
           "CAST(year_end AS TEXT) ILIKE ?",
           "CAST(EXTRACT(YEAR FROM date) AS TEXT) ILIKE ?"
-        ],
-        body_fields: ["description ILIKE ?", "summary ILIKE ?", "author ILIKE ?"],
-        term: search_term
+        ]
       )
 
       all_news_items = prioritised_results(
         NewsItem.published,
-        title_fields: ["title ILIKE ?"],
+        scope: NewsItem,
         date_fields: [
           "CAST(EXTRACT(YEAR FROM date) AS TEXT) ILIKE ?"
-        ],
-        body_fields: ["content ILIKE ?", "excerpt ILIKE ?"],
-        term: search_term
+        ]
       )
 
       all_exhibitions = prioritised_results(
         Exhibition.published,
-        title_fields: ["title ILIKE ?"],
+        scope: Exhibition,
         date_fields: [
           "CAST(EXTRACT(YEAR FROM start_date) AS TEXT) ILIKE ?",
           "CAST(EXTRACT(YEAR FROM end_date) AS TEXT) ILIKE ?"
-        ],
-        body_fields: ["description ILIKE ?", "venue ILIKE ?", "location ILIKE ?"],
-        term: search_term
+        ]
       )
 
       all_collections = prioritised_results(
         Collection.published,
-        title_fields: ["name ILIKE ?"],
-        date_fields: [],
-        body_fields: ["description ILIKE ?", "location ILIKE ?"],
-        term: search_term
+        scope: Collection,
+        date_fields: []
       )
 
-      # combine all results maintaining priority order
       all_results = all_artworks + all_resources + all_news_items + all_exhibitions + all_collections
 
       @total_count = all_results.length
@@ -92,26 +79,32 @@ class SearchController < ApplicationController
 
   private
 
-  def prioritised_results(scope, title_fields:, date_fields:, body_fields:, term:)
-    title_matches = query_fields(scope, title_fields, term)
+  def prioritised_results(base_scope, scope:, date_fields:)
+    search_term = "%#{@query}%"
 
-    date_matches = if date_fields.any?
-      date_only_ids = query_fields(scope, date_fields, term).pluck(:id) - title_matches.pluck(:id)
-      scope.where(id: date_only_ids)
+    # pg_search ranked results (title weight + frequency handled by postgres)
+    text_matches = scope.pg_search(@query).merge(base_scope)
+    text_ids = text_matches.pluck(:id)
+
+    # date matching as raw SQL, tsearch doesn't handle numbers well
+    if date_fields.any?
+      date_only_ids = base_scope
+                      .where(
+                        date_fields.map { |f| "(#{f})" }.join(" OR "),
+                        *Array.new(date_fields.length, search_term)
+                      )
+                      .pluck(:id) - text_ids
+      date_matches = base_scope.where(id: date_only_ids)
     else
-      scope.none
+      date_matches = base_scope.none
     end
 
-    all_fields = title_fields + date_fields + body_fields
-    all_match_ids = query_fields(scope, all_fields, term).pluck(:id)
-    body_only_ids = all_match_ids - title_matches.pluck(:id) - date_matches.pluck(:id)
-    body_matches = scope.where(id: body_only_ids)
-
-    title_matches.to_a + date_matches.to_a + body_matches.to_a
+    text_matches.to_a + date_matches.to_a
   end
 
   def query_fields(scope, fields, term)
     return scope.none if fields.empty?
+
     scope.where(
       fields.map { |f| "(#{f})" }.join(" OR "),
       *Array.new(fields.length, term)

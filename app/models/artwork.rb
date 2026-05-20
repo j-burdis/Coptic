@@ -1,6 +1,23 @@
 class Artwork < ApplicationRecord
   attr_accessor :image
 
+  include PgSearch::Model
+
+  pg_search_scope :pg_search,
+                  against: {
+                    title: 'A',
+                    description: 'C',
+                    medium: 'D'
+                  },
+                  using: {
+                    tsearch: {
+                      prefix: true,
+                      dictionary: 'english',
+                      tsvector_column: nil,
+                      any_word: false
+                    }
+                  }
+
   before_validation :generate_slug, if: -> { slug.blank? && title.present? }
 
   has_many :artwork_collections, dependent: :destroy

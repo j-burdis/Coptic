@@ -1,6 +1,21 @@
 class NewsItem < ApplicationRecord
   attr_accessor :image
 
+  include PgSearch::Model
+
+  pg_search_scope :pg_search,
+                  against: {
+                    title: 'A',
+                    excerpt: 'C',
+                    content: 'D'
+                  },
+                  using: {
+                    tsearch: {
+                      prefix: true,
+                      dictionary: 'english'
+                    }
+                  }
+
   validates :title, :slug, presence: true
   validates :slug, uniqueness: true
 

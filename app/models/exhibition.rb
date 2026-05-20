@@ -1,6 +1,22 @@
 class Exhibition < ApplicationRecord
   before_validation :generate_slug, if: -> { slug.blank? && title.present? }
 
+  include PgSearch::Model
+
+  pg_search_scope :pg_search,
+                  against: {
+                    title: 'A',
+                    venue: 'B',
+                    location: 'C',
+                    description: 'D'
+                  },
+                  using: {
+                    tsearch: {
+                      prefix: true,
+                      dictionary: 'english'
+                    }
+                  }
+
   has_many :artwork_exhibitions, dependent: :destroy
   has_many :artworks, through: :artwork_exhibitions
 

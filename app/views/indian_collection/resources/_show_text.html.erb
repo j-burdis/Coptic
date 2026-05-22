@@ -10,7 +10,7 @@
       parts = content.split(/(\[image:\d+\])/)
     %>
 
-    <div class="text-pretty text-base max-w-none">
+    <div class="text-pretty text-base leading-relaxed max-w-none">
       <% parts.each_with_index do |part, i| %>
         <% if part.match?(/\[image:(\d+)\]/) %>
           <%

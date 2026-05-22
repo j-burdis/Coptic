@@ -61,7 +61,7 @@
           </div>
 
           <% if @artwork.description.present? %>
-            <div class="mb-6 text-base text-pretty">
+            <div class="mb-6 text-base leading-relaxed text-pretty">
               <%= simple_format(@artwork.description, {}, sanitize: false ) %>
             </div>
           <% end %>

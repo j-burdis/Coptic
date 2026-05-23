@@ -58,7 +58,7 @@
       <% else %>
         <%= image_tag resource.resource_images.first.image_url, alt: resource.title, class: "w-full h-auto" %>
         <% if resource.resource_images.first.caption.present? %>
-          <p class="text-sm text-gray-500 mt-2 italic"><%= render_caption(resource.resource_images.first.caption) %></p>
+          <p class="caption text-sm text-gray-500 mt-2 italic"><%= render_caption(resource.resource_images.first.caption) %></p>
         <% end %>
       <% end %>
     </div>

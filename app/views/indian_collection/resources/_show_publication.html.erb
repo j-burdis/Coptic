@@ -40,7 +40,7 @@
             <div class="clear-both w-full md:w-2/3 my-8 mx-auto">
               <%= image_tag img.image_url, alt: resource.title, class: "w-full" %>
               <% if img.caption.present? %>
-                <p class="text-sm mt-1"><%= img.caption %></p>
+                <p class="caption text-sm mt-1"><%= render_caption(img.caption) %></p>
               <% end %>
             </div>
           <% end %>

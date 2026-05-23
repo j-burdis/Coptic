@@ -42,6 +42,14 @@
   }
 }
 
+.caption a {
+  text-decoration: underline;
+}
+
+.caption a:hover {
+  color: #1e40af;
+}
+
 .swiper-button-prev::after,
 .swiper-button-next::after {
   content: '' !important;

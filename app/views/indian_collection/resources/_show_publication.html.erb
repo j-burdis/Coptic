@@ -6,7 +6,7 @@
           alt: resource.title,
           class: "w-full h-auto" %>
       <% if resource.resource_images.first.caption.present? %>
-        <p class="text-sm text-yellow-700 mt-2"><%= resource.resource_images.first.caption %></p>
+        <p class="caption text-sm text-yellow-700 mt-2"><%= render_caption(resource.resource_images.first.caption) %></p>
       <% end %>
     </div>
   <% end %>

@@ -100,6 +100,10 @@ module ApplicationHelper
     end
   end
 
+  def render_caption(caption)
+    sanitize(caption.to_s, tags: %w[a strong em], attributes: %w[href target rel])
+  end
+
   private
 
   def truncate_words(text, word_count, options = {})

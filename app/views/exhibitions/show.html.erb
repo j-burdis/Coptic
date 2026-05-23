@@ -99,7 +99,7 @@
                               alt: @exhibition.title,
                               class: "w-full h-auto" %>
                           <% if img.caption.present? %>
-                            <p class="text-sm text-gray-500 mt-2 italic"><%= img.caption %></p>
+                            <p class="caption text-sm text-gray-500 mt-2 italic"><%= render_caption(img.caption) %></p>
                           <% end %>
                         </div>
                       <% end %>
@@ -119,7 +119,7 @@
                   alt: @exhibition.title,
                   class: "w-full h-auto" %>
               <% if @exhibition.exhibition_images.first.caption.present? %>
-                <p class="text-sm text-gray-500 mt-2 italic"><%= @exhibition.exhibition_images.first.caption %></p>
+                <p class="caption text-sm text-gray-500 mt-2 italic"><%= render_caption(@exhibition.exhibition_images.first.caption) %></p>
               <% end %>
             <% end %>
           </div>

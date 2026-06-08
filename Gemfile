@@ -51,6 +51,14 @@ gem "pg_search", "~> 2.3"
 
 gem "cloudinary", "~> 2.4"
 
+gem 'google-analytics-data', '~> 0.7.2'
+
+gem 'google-analytics-data-v1beta'
+
+gem 'google-analytics-admin', '~> 0.6.3'
+
+gem 'googleauth', '~> 1.3'
+
 group :development, :test do
   gem "dotenv-rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

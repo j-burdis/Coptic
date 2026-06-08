@@ -3,32 +3,39 @@
 ActiveAdmin.register_page "Dashboard" do
   menu priority: 1, label: proc { I18n.t("active_admin.dashboard") }
 
-  content title: proc { I18n.t("active_admin.dashboard") } do
-    div class: "blank_slate_container", id: "dashboard_default_message" do
-      span class: "blank_slate" do
-        span I18n.t("active_admin.dashboard_welcome.welcome")
-        small I18n.t("active_admin.dashboard_welcome.call_to_action")
+  content title: proc { I18n.t("active_admin_dashboard") } do
+    analytics = AnalyticsService.new
+
+    columns do
+      column do
+        panel "Analytics (Last 30 Days)" do
+          attributes_table_for OpenStruct.new(
+            page_views: analytics.page_view_last_30_days,
+            active_users: analytics.active_users_last_30_days,
+            sessions: analytics.sessions_last_30_days
+          ) do
+            row("Page Views") { |a| a.page_views }
+            row("Active Users") { |a| a.active_users }
+            row("Sessions") { |a| a.sessions }
+          end
+        end
       end
     end
 
-    # Here is an example of a simple dashboard with columns and panels.
-    #
-    # columns do
-    #   column do
-    #     panel "Recent Posts" do
-    #       ul do
-    #         Post.recent(5).map do |post|
-    #           li link_to(post.title, admin_post_path(post))
-    #         end
-    #       end
-    #     end
-    #   end
-
-    #   column do
-    #     panel "Info" do
-    #       para "Welcome to ActiveAdmin."
-    #     end
-    #   end
-    # end
-  end # content
+    columns do
+      column do
+        panel "Daily Sessions (Last 30 Days)" do
+          daily = analytics.daily_sessions(days: 30)
+          if daily.any?
+            table_for daily do
+              column("Date") { |row| row[:date] }
+              column("Sessions") { |row| row[:sessions] }
+            end
+          else
+            para "No date available"
+          end
+        end
+      end
+    end
+  end
 end

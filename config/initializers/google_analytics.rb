@@ -1,0 +1,1 @@
+require "google/analytics/data/v1beta"

@@ -124,7 +124,7 @@ class AnalyticsService
     response.rows.map do |row|
       date = row.dimension_values.first.value
       # GA4 returns dates as YYYYMMDD — convert to readable format for charts
-      formatted_date = Date.strptime(date, "%Y%m%d").strftime("%d %b")
+      formatted_date = Date.strptime(date, "%Y%m%d").strftime("%d %b %Y")
       {
         date: formatted_date,
         sessions: row.metric_values[0].value.to_i,

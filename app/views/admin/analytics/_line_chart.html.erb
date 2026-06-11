@@ -1,0 +1,14 @@
+<%= line_chart(
+  [
+    { name: "Sessions",   data: sessions_data },
+    { name: "Page Views", data: page_views_data },
+    { name: "Users",      data: users_data }
+  ],
+  height: "300px",
+  colors: ["#5E6469", "#e74c3c", "#3498db"],
+  points: false,
+  curve: true,
+  legend: true,
+  prefix: "",
+  thousands: ","
+) %>

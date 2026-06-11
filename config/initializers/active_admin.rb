@@ -187,6 +187,9 @@ ActiveAdmin.setup do |config|
   #
   config.localize_format = :long
 
+  config.register_javascript 'chartkick.js'
+  config.register_javascript 'Chart.bundle.js'
+
   # == Setting a Favicon
   #
   # config.favicon = 'favicon.ico'
